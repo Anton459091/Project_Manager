@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Diplom1.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,10 +25,20 @@ namespace Diplom1
         public MainWindow()
         {
             InitializeComponent();
-;
+            MainContent.Content = new BoardControl();
+            ;
         }
+        private void ProfileBtn_Click(object sender, RoutedEventArgs e)
 
-        private void ExitBtn(object sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new ProfileControl();
+        }
+        private void MyBoardsBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            MainContent.Content = new MyBoardsControl();
+        }
+            private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
             Close(); 
         }

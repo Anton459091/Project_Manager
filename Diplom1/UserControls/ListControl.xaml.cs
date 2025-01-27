@@ -19,14 +19,14 @@ namespace Diplom1.UserControls
 {
     public partial class ListControl : UserControl
     {
-        private MenuManager _menuManager = new MenuManager();
+        private ContextMenuManager _menuManager = new ContextMenuManager();
         private bool _enterKeyPressed = false;
 
         public ListControl()
         {
             InitializeComponent();
             _menuManager.AttachMenu(MenuButton, this,
-            ("Удалить", MenuManager.RemoveElement)
+            ("Удалить", ContextMenuManager.RemoveElement)
             );
         }
 

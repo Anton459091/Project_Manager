@@ -18,12 +18,12 @@
         <Grid Grid.Column="0" Background="#2e2c2b">
             <!-- Меню -->
             <StackPanel Margin="5">
-                <Button Height="40" Width="auto" Content="Профиль"/>
-                <Button Height="40" Width="auto" Content="Мои доски"/>
+                <Button Height="40" Width="auto" Content="Профиль" Click="ProfileBtn_Click"/>
+                <Button Height="40" Width="auto" Content="Мои доски" Click="MyBoardsBtn_Click"/>
 
             </StackPanel>
 
-            <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn"/>
+            <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn_Click"/>
 
         </Grid>
 
@@ -52,7 +52,7 @@
 
             <Grid Grid.Row="1" Background="#f9f6f2">
                 <!-- Доска -->
-                <usercontrols:BoardControl/>
+                <ContentControl x:Name="MainContent" />
             </Grid>
 
         </Grid>

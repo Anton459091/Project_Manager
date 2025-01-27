@@ -96,9 +96,15 @@
     <Compile Include="UserControls\CardControl.xaml.cs">
       <DependentUpon>CardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Controls\MenuManager.cs" />
+    <Compile Include="UserControls\Controls\ContextMenuManager.cs" />
     <Compile Include="UserControls\ListControl.xaml.cs">
       <DependentUpon>ListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MyBoardsControl.xaml.cs">
+      <DependentUpon>MyBoardsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ProfileControl.xaml.cs">
+      <DependentUpon>ProfileControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -121,6 +127,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MyBoardsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ProfileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

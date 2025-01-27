@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace Diplom1.UserControls.Controls
 {
-    public class MenuManager
+    public class ContextMenuManager
     {
         private ContextMenu _contextMenu;
         private Button _menuButton;
