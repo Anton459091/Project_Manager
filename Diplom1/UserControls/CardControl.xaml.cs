@@ -6,10 +6,6 @@ namespace Project_Manager.UserControls
 {
     public partial class CardControl : UserControl
     {
-        private bool _titleTextBoxFocused = false;
-        private bool _descriptionTextBoxFocused = false;
-
-
         public string Title
         {
             get { return TitleTextBox.Text; }

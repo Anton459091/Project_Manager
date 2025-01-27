@@ -88,7 +88,7 @@
     </ApplicationDefinition>
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\List.cs" />
+    <Compile Include="Models\Сatalog.cs" />
     <Compile Include="Services\JsonDataService.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
@@ -97,8 +97,8 @@
       <DependentUpon>CardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Controls\ContextMenuManager.cs" />
-    <Compile Include="UserControls\ListControl.xaml.cs">
-      <DependentUpon>ListControl.xaml</DependentUpon>
+    <Compile Include="UserControls\СatalogControl.xaml.cs">
+      <DependentUpon>СatalogControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MyBoardsControl.xaml.cs">
       <DependentUpon>MyBoardsControl.xaml</DependentUpon>
@@ -126,7 +126,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ListControl.xaml">
+    <Page Include="UserControls\СatalogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

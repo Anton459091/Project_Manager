@@ -10,13 +10,13 @@
     <Grid Background="#f9f6f2">
        
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            
-            <StackPanel Name="AddListsStackPanel" Orientation="Horizontal">
-                
-                <StackPanel x:Name="ListsStackPanel" Orientation="Horizontal" Margin="10" Width="auto" Height="auto" VerticalAlignment="Top"/>
+
+            <StackPanel Name="AddСatalogStackPanel" Orientation="Horizontal">
+
+                <StackPanel x:Name="СatalogStackPanel" Orientation="Horizontal" Margin="10" Width="auto" Height="auto" VerticalAlignment="Top"/>
                 
                 <Border BorderBrush="Black" BorderThickness="1"  CornerRadius="15" Margin="15" Background="White" Width="auto" Height="auto" VerticalAlignment="Top">
-                    <Button x:Name="AddListButton" Content=" + Добавить Список" Margin="15" FontSize="15" HorizontalAlignment="Left" Foreground="#646f77" Click="AddListButton_Click"/>
+                    <Button x:Name="AddСatalogButton" Content=" + Добавить Список" Margin="15" FontSize="15" HorizontalAlignment="Left" Foreground="#646f77" Click="AddСatalogButton_Click"/>
                 </Border>
                 
             </StackPanel>

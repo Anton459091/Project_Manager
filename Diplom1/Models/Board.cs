@@ -9,11 +9,11 @@ namespace Project_Manager.Models
     public class Board
     {
         public string Name { get; set; }
-        public List<List> Lists { get; set; }
+        public List<Сatalog> Lists { get; set; }
 
         public Board()
         {
-            Lists = new List<List>();
+            Lists = new List<Сatalog>();
         }
     }
 }

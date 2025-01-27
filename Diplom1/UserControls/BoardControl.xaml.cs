@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Project_Manager.Models;
 using Project_Manager.UserControls;
 
 namespace Project_Manager.UserControls
@@ -28,14 +29,14 @@ namespace Project_Manager.UserControls
             InitializeComponent();
 
         }
-        private void AddListButton_Click(object sender, RoutedEventArgs e)
+        private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
-            AddListButton.Visibility = Visibility.Collapsed;
+            AddСatalogButton.Visibility = Visibility.Collapsed;
             TextBox textBox = new TextBox();
             textBox.Width = 250;
             textBox.LostFocus += TextBox_LostFocus;
             textBox.KeyDown += TextBox_KeyDown;
-            AddListsStackPanel.Children.Add(textBox);
+            AddСatalogStackPanel.Children.Add(textBox);
             textBox.Focus();
         }
 
@@ -47,10 +48,10 @@ namespace Project_Manager.UserControls
                 TextBox textBox = (TextBox)sender;
                 if (!string.IsNullOrWhiteSpace(textBox.Text))
                 {
-                    AddListControl(textBox.Text);
+                    AddСatalogControl(textBox.Text);
                 }
-                AddListsStackPanel.Children.Remove(textBox);
-                AddListButton.Visibility = Visibility.Visible;
+                AddСatalogStackPanel.Children.Remove(textBox);
+                AddСatalogButton.Visibility = Visibility.Visible;
                 e.Handled = true;
             }
         }
@@ -59,18 +60,20 @@ namespace Project_Manager.UserControls
             TextBox textBox = (TextBox)sender;
             if (!string.IsNullOrWhiteSpace(textBox.Text) && !_enterKeyPressed)
             {
-                AddListControl(textBox.Text);
+                AddСatalogControl(textBox.Text);
             }
             _enterKeyPressed = false;
-            AddListsStackPanel.Children.Remove(textBox);
-            AddListButton.Visibility = Visibility.Visible;
+            AddСatalogStackPanel.Children.Remove(textBox);
+            AddСatalogButton.Visibility = Visibility.Visible;
         }
-        private void AddListControl(string listName)
+        private void AddСatalogControl(string СatalogName)
         {
-            ListControl listControl = new ListControl();
-            listControl.ListName = listName;
-            ListsStackPanel.Children.Add(listControl);
+            СatalogControl СatalogControl = new СatalogControl();
+            СatalogControl.СatalogName = СatalogName;
+            СatalogStackPanel.Children.Add(СatalogControl);
         }
+
+
 
     }
 }

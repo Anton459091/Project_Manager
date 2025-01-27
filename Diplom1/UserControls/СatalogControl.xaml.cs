@@ -17,12 +17,12 @@ using Project_Manager.UserControls.Controls;
 
 namespace Project_Manager.UserControls
 {
-    public partial class ListControl : UserControl
+    public partial class СatalogControl : UserControl
     {
         private ContextMenuManager _menuManager = new ContextMenuManager();
         private bool _enterKeyPressed = false;
 
-        public ListControl()
+        public СatalogControl()
         {
             InitializeComponent();
             _menuManager.AttachMenu(MenuButton, this,
@@ -30,13 +30,13 @@ namespace Project_Manager.UserControls
             );
         }
 
-        public string ListName
+        public string СatalogName
         {
-            get { return ListNameTextBox.Text; }
-            set { ListNameTextBox.Text = value; }
+            get { return СatalogNameTextBox.Text; }
+            set { СatalogNameTextBox.Text = value; }
         }
 
-        private void ListBorder_Drop(object sender, DragEventArgs e)
+        private void СatalogBorder_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetData(typeof(CardControl)) is CardControl cardControl)
             {
