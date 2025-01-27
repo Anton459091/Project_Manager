@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Diplom1.UserControls;
+using Project_Manager.UserControls;
 
-namespace Diplom1.UserControls
+namespace Project_Manager.UserControls
 {
     /// <summary>
     /// Логика взаимодействия для BoardControl.xaml

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Text.Json;
-using Diplom1.Models;
+using Project_Manager.Models;
 
-namespace Diplom1.Services
+namespace Project_Manager.Services
 {
 
 }

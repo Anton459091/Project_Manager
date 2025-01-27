@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Diplom1.UserControls
+namespace Project_Manager.UserControls
 {
     /// <summary>
     /// Логика взаимодействия для MyBoardsControl.xaml

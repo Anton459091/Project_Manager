@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Diplom1
+namespace Project_Manager
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Diplom1.UserControls;
-using Diplom1.UserControls.Controls;
+using Project_Manager.UserControls;
+using Project_Manager.UserControls.Controls;
 
-namespace Diplom1.UserControls
+namespace Project_Manager.UserControls
 {
     public partial class ListControl : UserControl
     {

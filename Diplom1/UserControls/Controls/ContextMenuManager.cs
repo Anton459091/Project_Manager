@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Diplom1.UserControls.Controls
+namespace Project_Manager.UserControls.Controls
 {
     public class ContextMenuManager
     {

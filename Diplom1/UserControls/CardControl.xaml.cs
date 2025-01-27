@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Diplom1.UserControls
+namespace Project_Manager.UserControls
 {
     public partial class CardControl : UserControl
     {

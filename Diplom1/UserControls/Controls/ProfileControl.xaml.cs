@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Project_Manager.UserControls
+namespace Diplom1.UserControls.Controls
 {
     /// <summary>
     /// Логика взаимодействия для ProfileControl.xaml
