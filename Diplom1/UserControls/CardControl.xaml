@@ -9,10 +9,10 @@
     <Grid >
         
         <Border BorderBrush="Black" BorderThickness="1"  CornerRadius="10" Margin="5" Background="White" Padding="10">
-            <StackPanel>
-                <TextBox Name="TitleTextBox" Text="Название карточки" FontSize="15" Margin="5 10 15 5"/>
-
-                <TextBox Name="DescriptionTextBox" Text="Описание карточки" FontSize="15" Margin="5"/>
+            <StackPanel Name="CardStackPanel">
+                
+                <TextBox Name="TitleTextBox" Text="Название карточки" FontSize="15" Margin="5 10"/>
+                <TextBox Name="DescriptionTextBox" Text="Описание карточки" FontSize="15" Margin="5 10"/>
 
             </StackPanel>
             

@@ -17,11 +17,17 @@ using Project_Manager.UserControls.Controls;
 
 namespace Project_Manager.UserControls
 {
+    //  <!-- Назван каталогам что, не было проблем с класом List-->
     public partial class СatalogControl : UserControl
     {
         private ContextMenuManager _menuManager = new ContextMenuManager();
         private bool _enterKeyPressed = false;
 
+        public string СatalogName
+        {
+            get { return СatalogNameTextBox.Text; }
+            set { СatalogNameTextBox.Text = value; }
+        }
         public СatalogControl()
         {
             InitializeComponent();
@@ -30,36 +36,33 @@ namespace Project_Manager.UserControls
             );
         }
 
-        public string СatalogName
-        {
-            get { return СatalogNameTextBox.Text; }
-            set { СatalogNameTextBox.Text = value; }
-        }
-
-        private void СatalogBorder_Drop(object sender, DragEventArgs e)
+        //Drag and Drop
+        private void CatalogBorder_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetData(typeof(CardControl)) is CardControl cardControl)
             {
                 int index = cardControl.GetDropIndex(e);
-                if (index == -1)
-                {
-                    if (cardControl.Parent is StackPanel oldPanel)
-                    {
-                        oldPanel.Children.Remove(cardControl);
-                    }
-                    CardsStackPanel.Children.Add(cardControl);
-                }
-                else
-                {
-                    if (cardControl.Parent is StackPanel oldPanel)
-                    {
-                        oldPanel.Children.Remove(cardControl);
-                    }
-                    CardsStackPanel.Children.Insert(index, cardControl);
-                }
+                MoveCardToNewParent(cardControl, index);
             }
         }
 
+        private void MoveCardToNewParent(CardControl cardControl, int index)
+        {
+            if (cardControl.Parent is StackPanel oldPanel)
+            {
+                oldPanel.Children.Remove(cardControl);
+            }
+
+            if (index == -1)
+            {
+                CardsStackPanel.Children.Add(cardControl);
+            }
+            else
+            {
+                CardsStackPanel.Children.Insert(index, cardControl);
+            }
+        }
+        //Drag and Drop
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
         {
@@ -67,7 +70,7 @@ namespace Project_Manager.UserControls
             TextBox textBox = new TextBox();
             textBox.LostFocus += TextBox_LostFocus;
             textBox.KeyDown += TextBox_KeyDown;
-            AddCardsStackPanel.Children.Insert(1, textBox);
+            CatalogStackPanel.Children.Insert(1, textBox);
             textBox.Focus();
         }
 
@@ -81,7 +84,7 @@ namespace Project_Manager.UserControls
                 {
                     AddCardsControl(textBox.Text);
                 }
-                AddCardsStackPanel.Children.Remove(textBox);
+                CatalogStackPanel.Children.Remove(textBox);
                 AddCardButton.Visibility = Visibility.Visible;
                 e.Handled = true;
             }
@@ -95,7 +98,7 @@ namespace Project_Manager.UserControls
                 AddCardsControl(textBox.Text);
             }
             _enterKeyPressed = false;
-            AddCardsStackPanel.Children.Remove(textBox);
+            CatalogStackPanel.Children.Remove(textBox);
             AddCardButton.Visibility = Visibility.Visible;
         }
 
@@ -108,3 +111,4 @@ namespace Project_Manager.UserControls
 
     }
 }
+

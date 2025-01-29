@@ -1,4 +1,7 @@
-﻿using Project_Manager.UserControls;
+﻿using Project_Manager.Models;
+using Project_Manager;
+using Project_Manager.UserControls;
+using Project_Manager.UserControls.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +29,7 @@ namespace Project_Manager
         {
             InitializeComponent();
             MainContent.Content = new BoardControl();
-            ;
+            
         }
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)
 
@@ -42,5 +45,32 @@ namespace Project_Manager
         {
             Close(); 
         }
+
+        private void BoardBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            MainContent.Content = new BoardControl();
+        }
+
     }
 }
+
+/*
+Project Manager /
+├── App.xaml
+├── App.xaml.cs
+├── MainWindow.xaml
+├── MainWindow.xaml.cs
+├── Models /
+│   ├── Board.cs
+│   ├── Card.cs
+│   ├── List.cs
+└── UserControls /
+    ├── BoardControl.xaml
+    ├── CardControl.xaml
+    ├── СatalogControl.xaml
+    ├── ProfileControl.xaml
+    ├── MyBoardsControl.xaml
+    └── Controls /
+        └── ContextMenuManager.cs
+    */

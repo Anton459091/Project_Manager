@@ -24,10 +24,10 @@ namespace Project_Manager.UserControls
     {
         private bool _enterKeyPressed = false;
 
+
         public BoardControl()
         {
             InitializeComponent();
-
         }
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
@@ -36,7 +36,7 @@ namespace Project_Manager.UserControls
             textBox.Width = 250;
             textBox.LostFocus += TextBox_LostFocus;
             textBox.KeyDown += TextBox_KeyDown;
-            AddСatalogStackPanel.Children.Add(textBox);
+            BoardStackPanel.Children.Add(textBox);
             textBox.Focus();
         }
 
@@ -50,7 +50,7 @@ namespace Project_Manager.UserControls
                 {
                     AddСatalogControl(textBox.Text);
                 }
-                AddСatalogStackPanel.Children.Remove(textBox);
+                BoardStackPanel.Children.Remove(textBox);
                 AddСatalogButton.Visibility = Visibility.Visible;
                 e.Handled = true;
             }
@@ -63,7 +63,7 @@ namespace Project_Manager.UserControls
                 AddСatalogControl(textBox.Text);
             }
             _enterKeyPressed = false;
-            AddСatalogStackPanel.Children.Remove(textBox);
+            BoardStackPanel.Children.Remove(textBox);
             AddСatalogButton.Visibility = Visibility.Visible;
         }
         private void AddСatalogControl(string СatalogName)
@@ -72,8 +72,6 @@ namespace Project_Manager.UserControls
             СatalogControl.СatalogName = СatalogName;
             СatalogStackPanel.Children.Add(СatalogControl);
         }
-
-
 
     }
 }

@@ -6,11 +6,42 @@
              xmlns:local="clr-namespace:Project_Manager.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid Background="#f9f6f2" Margin="10">
 
-        <TextBlock Text="Это ваш профиль" FontSize="24" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <!-- Добавьте здесь элементы профиля -->
+            <StackPanel Grid.Column="0">
+                <Border BorderBrush="#646f77" BorderThickness="2"  CornerRadius="15" Width="auto" Height="auto">
+                    <Image Height="150" Width="150" />
+                </Border>
+                
+                <Button Content="Загрузить фото" Foreground="#476f95" FontSize="15" Margin="10"/>
+                
+            </StackPanel>
+     
+        <StackPanel Grid.Column="1" Grid.Row="0">
 
+            <Label x:Name="Login" Content="Логин" Foreground="#646f77"/>
+            <Label x:Name="Description" Content="Описание" Foreground="#646f77"/>
+
+            <Border BorderBrush="#646f77" BorderThickness="2"  CornerRadius="15" Margin="15"  Width="auto" Height="auto" VerticalAlignment="Top">
+                <StackPanel>
+                    <Label Content="Мои доски" Foreground="#646f77" HorizontalAlignment="Center"/>
+                    
+                    <StackPanel x:Name="MyBoards" Height="auto">
+
+                        <!-- Тут все созданные доски -->
+
+                    </StackPanel>
+
+                </StackPanel>
+                
+            </Border>
+
+        </StackPanel>
+        
     </Grid>
 </UserControl>

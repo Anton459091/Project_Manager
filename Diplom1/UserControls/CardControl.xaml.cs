@@ -1,11 +1,15 @@
-﻿using System.Windows;
+﻿using Project_Manager.UserControls.Controls;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Project_Manager.UserControls
 {
     public partial class CardControl : UserControl
     {
+        private ContextMenuManager _menuManager = new ContextMenuManager();
+
         public string Title
         {
             get { return TitleTextBox.Text; }
@@ -21,6 +25,9 @@ namespace Project_Manager.UserControls
         {
             InitializeComponent();
             MouseDown += CardControl_MouseDown;
+            _menuManager.AttachMenu(MenuButton, this,
+            ("Удалить", ContextMenuManager.RemoveElement)
+            );
         }
 
         private void CardControl_MouseDown(object sender, MouseButtonEventArgs e)
@@ -33,21 +40,23 @@ namespace Project_Manager.UserControls
         internal int GetDropIndex(DragEventArgs e)
         {
             var target = e.OriginalSource as DependencyObject;
+
             while (target != null && !(target is CardControl || target is StackPanel))
             {
-                target = System.Windows.Media.VisualTreeHelper.GetParent(target);
+                target = VisualTreeHelper.GetParent(target);
             }
             if (target is StackPanel)
                 return -1;
-            int index = 0;
-            if (target is CardControl targetCard)
+            if (target is CardControl targetCard && this != targetCard)
+
             {
-                if (this == targetCard)
-                    return -1;
                 if (targetCard.Parent is StackPanel cardStack)
-                    index = cardStack.Children.IndexOf(targetCard);
+
+                {
+                    return cardStack.Children.IndexOf(targetCard);
+                }
             }
-            return index;
+            return -1; // Возвращаем -1, если не нашли подходящий индекс
         }
     }
 }

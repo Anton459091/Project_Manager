@@ -11,7 +11,7 @@
        
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 
-            <StackPanel Name="AddСatalogStackPanel" Orientation="Horizontal">
+            <StackPanel Name="BoardStackPanel" Orientation="Horizontal">
 
                 <StackPanel x:Name="СatalogStackPanel" Orientation="Horizontal" Margin="10" Width="auto" Height="auto" VerticalAlignment="Top"/>
                 

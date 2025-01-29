@@ -20,6 +20,7 @@
             <StackPanel Margin="5">
                 <Button Height="40" Width="auto" Content="Профиль" Click="ProfileBtn_Click"/>
                 <Button Height="40" Width="auto" Content="Мои доски" Click="MyBoardsBtn_Click"/>
+                <Button Height="40" Width="auto" Content="Доска" Click="MyBoardsBtn_Click"/>
 
             </StackPanel>
 

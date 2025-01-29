@@ -9,12 +9,14 @@
 
     <Grid MaxWidth="250">
 
+        <!-- Назван каталогам (список), чтоб не было проблем с класом List -->
+        
         <ScrollViewer VerticalScrollBarVisibility="Auto" >
 
             <Border BorderBrush="Black" BorderThickness="1"  CornerRadius="10" Margin="5" Background="White" AllowDrop="True"
-                Drop="СatalogBorder_Drop">
+                Drop="CatalogBorder_Drop">
                 
-                <StackPanel Name="AddCardsStackPanel">
+                <StackPanel Name="CatalogStackPanel">
 
                     <TextBox  Name="СatalogNameTextBox" Text="Название списка" FontSize="20" Margin="5 10 15 5" TextWrapping="Wrap" />
 
