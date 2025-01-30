@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Project_Manager.Models;
 using Project_Manager.UserControls;
+using Project_Manager.UserControls.Controls;
 
 namespace Project_Manager.UserControls
 {
@@ -24,10 +25,10 @@ namespace Project_Manager.UserControls
     {
         private bool _enterKeyPressed = false;
 
-
         public BoardControl()
         {
             InitializeComponent();
+
         }
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
@@ -68,10 +69,9 @@ namespace Project_Manager.UserControls
         }
         private void AddСatalogControl(string СatalogName)
         {
-            СatalogControl СatalogControl = new СatalogControl();
-            СatalogControl.СatalogName = СatalogName;
-            СatalogStackPanel.Children.Add(СatalogControl);
+            СatalogControl catalogcontrol = new СatalogControl();
+            catalogcontrol.СatalogName = СatalogName;
+            CatalogItemsControl.Items.Add(catalogcontrol);
         }
-
     }
 }

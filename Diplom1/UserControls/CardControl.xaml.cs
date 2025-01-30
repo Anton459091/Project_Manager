@@ -1,4 +1,6 @@
-﻿using Project_Manager.UserControls.Controls;
+﻿using Project_Manager.Models;
+using Project_Manager.UserControls.Controls;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,24 +12,13 @@ namespace Project_Manager.UserControls
     {
         private ContextMenuManager _menuManager = new ContextMenuManager();
 
-        public string Title
-        {
-            get { return TitleTextBox.Text; }
-            set { TitleTextBox.Text = value; }
-        }
+        public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
 
-        public string Description
-        {
-            get { return DescriptionTextBox.Text; }
-            set { DescriptionTextBox.Text = value; }
-        }
         public CardControl()
         {
             InitializeComponent();
             MouseDown += CardControl_MouseDown;
-            _menuManager.AttachMenu(MenuButton, this,
-            ("Удалить", ContextMenuManager.RemoveElement)
-            );
+            _menuManager.AttachMenu(MenuButton, this, ("Удалить", ContextMenuManager.RemoveElement));
         }
 
         private void CardControl_MouseDown(object sender, MouseButtonEventArgs e)
@@ -37,26 +28,33 @@ namespace Project_Manager.UserControls
                 DragDrop.DoDragDrop(this, this, DragDropEffects.Move);
             }
         }
+
         internal int GetDropIndex(DragEventArgs e)
         {
             var target = e.OriginalSource as DependencyObject;
 
-            while (target != null && !(target is CardControl || target is StackPanel))
+            while (target != null && !(target is CardControl || target is ItemsControl))
             {
                 target = VisualTreeHelper.GetParent(target);
             }
-            if (target is StackPanel)
+
+            if (target is ItemsControl)
                 return -1;
+
             if (target is CardControl targetCard && this != targetCard)
-
             {
-                if (targetCard.Parent is StackPanel cardStack)
-
+                if (targetCard.Parent is ItemsControl cardItemsControl)
                 {
-                    return cardStack.Children.IndexOf(targetCard);
+                    return cardItemsControl.Items.IndexOf(targetCard.DataContext);
                 }
             }
+
             return -1; // Возвращаем -1, если не нашли подходящий индекс
+        }
+
+        public void AddCard(string title, string description)
+        {
+            Cards.Add(new Card { Title = title, Description = description });
         }
     }
 }

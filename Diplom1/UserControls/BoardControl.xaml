@@ -12,11 +12,22 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 
             <StackPanel Name="BoardStackPanel" Orientation="Horizontal">
+                <ItemsControl x:Name="CatalogItemsControl" ItemsSource="{Binding Catalogs}" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <local:СatalogControl/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
 
-                <StackPanel x:Name="СatalogStackPanel" Orientation="Horizontal" Margin="10" Width="auto" Height="auto" VerticalAlignment="Top"/>
-                
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+
                 <Border BorderBrush="Black" BorderThickness="1"  CornerRadius="15" Margin="15" Background="White" Width="auto" Height="auto" VerticalAlignment="Top">
-                    <Button x:Name="AddСatalogButton" Content=" + Добавить Список" Margin="15" FontSize="15" HorizontalAlignment="Left" Foreground="#646f77" Click="AddСatalogButton_Click"/>
+                    <Button x:Name="AddСatalogButton" Content=" + Добавить Список" Margin="15" FontSize="15" HorizontalAlignment="Left" Click="AddСatalogButton_Click" Style="{StaticResource BtnMain}"/>
                 </Border>
                 
             </StackPanel>

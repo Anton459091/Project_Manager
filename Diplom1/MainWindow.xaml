@@ -12,23 +12,32 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0" Background="#2e2c2b">
             <!-- Меню -->
-            <StackPanel Margin="5">
-                <Button Height="40" Width="auto" Content="Профиль" Click="ProfileBtn_Click"/>
-                <Button Height="40" Width="auto" Content="Мои доски" Click="MyBoardsBtn_Click"/>
-                <Button Height="40" Width="auto" Content="Доска" Click="MyBoardsBtn_Click"/>
+            <Border x:Name="SidePanel" Width="auto" HorizontalAlignment="Left">
+                <Grid>
+                    <StackPanel Margin="10 0">
 
-            </StackPanel>
+                        <Button Height="40" Width="auto" Content="Профиль"  Style="{StaticResource BtnMenu}" />
+                        <Button Height="40" Width="auto" Content="Мои доски"  Style="{StaticResource BtnMenu}"/>
+                        <Button Height="40" Width="auto" Content="Доска"  Style="{StaticResource BtnMenu}"/>
+                    </StackPanel>
+                    <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn_Click" Style="{StaticResource BtnMenu}"/>
 
-            <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn_Click"/>
-
+                </Grid>
+            </Border>
         </Grid>
 
-        <Grid Grid.Column="1" Background="#e1dbd6">
+        <Grid Grid.Column="1" Background="#2e2c2b">
+            <Button x:Name="ToggleButton" Click="ToggleButton_Click" HorizontalAlignment="Left" Margin="0" Width="10" Style="{StaticResource BtnMenu}" />
+        </Grid>
+
+
+        <Grid Grid.Column="2" Background="#e1dbd6">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>

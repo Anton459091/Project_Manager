@@ -20,6 +20,7 @@ namespace Project_Manager.UserControls.Controls
         private ContextMenu CreateContextMenu(FrameworkElement element, params (string header, Action<FrameworkElement> action)[] items)
         {
             var contextMenu = new ContextMenu();
+
             foreach (var (header, action) in items)
             {
                 var menuItem = new MenuItem { Header = header, DataContext = element };
