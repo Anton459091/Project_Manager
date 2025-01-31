@@ -1,4 +1,5 @@
 ﻿using Project_Manager.Models;
+using Project_Manager.UserControls.Controls;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,6 +12,7 @@ namespace Project_Manager.UserControls
         private bool _enterKeyPressed = false;
 
         public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
+        private ContextMenuManager _menuManager = new ContextMenuManager();
 
         public string СatalogName
         {
@@ -21,6 +23,7 @@ namespace Project_Manager.UserControls
         public СatalogControl()
         {
             InitializeComponent();
+            _menuManager.AttachMenu(MenuButton, this, ("Удалить", ContextMenuManager.RemoveElement));
             DataContext = this; // Устанавливаем DataContext для привязки
         }
 
@@ -28,6 +31,7 @@ namespace Project_Manager.UserControls
         {
             AddCardButton.Visibility = Visibility.Collapsed;
             TextBox textBox = new TextBox();
+            textBox.MinWidth = 170;
             textBox.LostFocus += TextBox_LostFocus;
             textBox.KeyDown += TextBox_KeyDown;
             CatalogStackPanel.Children.Add(textBox);

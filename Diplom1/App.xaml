@@ -7,7 +7,7 @@
 
         <Style TargetType="Button" x:Key="BtnMenu">
 
-            <Setter Property="Foreground" Value="#e2e2e4"/>
+            <Setter Property="Foreground" Value="#fefdfc"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="FontFamily" Value="Lucida Sans Unicode"/>
             <Setter Property="FontSize" Value="20"/>
@@ -19,14 +19,13 @@
 
         <Style TargetType="Button" x:Key="BtnMain">
 
-            <Setter Property="Foreground" Value="#e2e2e4"/>
+            <Setter Property="Foreground" Value="#030303"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="FontFamily" Value="Lucida Sans Unicode"/>
             <Setter Property="FontSize" Value="15"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Padding" Value="5"/>
-            <Setter Property="Foreground" Value="#646f77"/>
         </Style>
 
         <Style TargetType="Label">
@@ -43,7 +42,7 @@
 
         <Style TargetType="TextBox">
 
-            <Setter Property="Foreground" Value="#646f77"/>
+            <Setter Property="Foreground" Value="#030303"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="FontFamily" Value="Lucida Sans Unicode"/>
             <Setter Property="FontSize" Value="20"/>

@@ -16,15 +16,15 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="#2e2c2b">
+        <Grid Grid.Column="0" Background="#151514">
             <!-- Меню -->
             <Border x:Name="SidePanel" Width="auto" HorizontalAlignment="Left">
                 <Grid>
                     <StackPanel Margin="10 0">
 
-                        <Button Height="40" Width="auto" Content="Профиль"  Style="{StaticResource BtnMenu}" />
-                        <Button Height="40" Width="auto" Content="Мои доски"  Style="{StaticResource BtnMenu}"/>
-                        <Button Height="40" Width="auto" Content="Доска"  Style="{StaticResource BtnMenu}"/>
+                        <Button Height="40" Width="auto" Content="Профиль"  Style="{StaticResource BtnMenu}" Click="ProfileBtn_Click" />
+                        <Button Height="40" Width="auto" Content="Мои доски"  Style="{StaticResource BtnMenu}" Click="MyBoardsBtn_Click"/>
+                        <Button Height="40" Width="auto" Content="Доска"  Style="{StaticResource BtnMenu}" Click="BoardBtn_Click"/>
                     </StackPanel>
                     <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn_Click" Style="{StaticResource BtnMenu}"/>
 
@@ -32,7 +32,7 @@
             </Border>
         </Grid>
 
-        <Grid Grid.Column="1" Background="#2e2c2b">
+        <Grid Grid.Column="1" Background="#151514">
             <Button x:Name="ToggleButton" Click="ToggleButton_Click" HorizontalAlignment="Left" Margin="0" Width="10" Style="{StaticResource BtnMenu}" />
         </Grid>
 
@@ -44,12 +44,12 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Background="#5c595c">
+            <Grid Grid.Row="0" Background="#2c2c2b">
                 <!-- Верхняя панель -->
                 <StackPanel Orientation="Horizontal" >
                     <Label Name="TitleLab" Content="Название проекта" Width="auto" Margin="10 10 40 10"/>
 
-                    <Border Background="#2e2c2b" CornerRadius="25" Padding="5" Height="50" >
+                    <Border Background="#464543" CornerRadius="25" Padding="5" Height="50" >
                         <StackPanel Orientation="Horizontal" Height="auto" >
                             <TextBlock Text="🔍" Foreground="#e2e2e4" VerticalAlignment="Center"  Margin="5" FontSize="15" />
                             <TextBox Text="Поиск..." Background="Transparent" BorderThickness="0" Foreground="#e2e2e4" VerticalAlignment="Center" Width="200" FontSize="15" Padding="0" />

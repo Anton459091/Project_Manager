@@ -13,11 +13,11 @@
         
         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-            <Border BorderBrush="Black" BorderThickness="1"  CornerRadius="10" Margin="5" Background="White" AllowDrop="True">
+            <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="5" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" >
 
                 <StackPanel Name="CatalogStackPanel">
-                    <TextBox x:Name="CatalogNameTextBox" IsReadOnly="True" />
-                    <Button x:Name="AddCardButton" Content="+ Добавить карточку" Click="AddCardButton_Click" Style="{StaticResource BtnMain}" />
+                    <TextBox x:Name="CatalogNameTextBox" IsReadOnly="True" Margin="0 15" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+
                     <ItemsControl x:Name="CardsItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -25,6 +25,7 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <Button x:Name="AddCardButton" Content="+ Добавить карточку" Click="AddCardButton_Click" Style="{StaticResource BtnMain}" />
                 </StackPanel>
             </Border>
             

@@ -60,12 +60,12 @@ namespace Project_Manager
             if (isPanelOpen)
             {
                 // Закрыть панель
-                AnimatePanel(200, 0);
+                AnimatePanel(165, 0);
             }
             else
             {
                 // Открыть панель
-                AnimatePanel(0, 200);
+                AnimatePanel(0, 165);
             }
             isPanelOpen = !isPanelOpen;
         }
