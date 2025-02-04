@@ -86,8 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\BoardData.cs" />
+    <Compile Include="Data\BoardManager.cs" />
     <Compile Include="Models\Board.cs" />
-    <Compile Include="Models\BoardManager.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Catalog.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">

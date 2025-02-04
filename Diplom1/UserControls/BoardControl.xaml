@@ -15,7 +15,7 @@
                 <ItemsControl x:Name="CatalogItemsControl" ItemsSource="{Binding Catalogs}" VerticalAlignment="Top" HorizontalAlignment="Left">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:СatalogControl/>
+                            <local:СatalogControl />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 

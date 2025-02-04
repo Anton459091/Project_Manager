@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,12 @@ namespace Project_Manager.UserControls
     public partial class BoardControl : UserControl
     {
         private bool _enterKeyPressed = false;
+        public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>(); // Коллекция Catalog
 
         public BoardControl()
         {
             InitializeComponent();
+            DataContext = this;
 
         }
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
@@ -67,11 +70,9 @@ namespace Project_Manager.UserControls
             BoardStackPanel.Children.Remove(textBox);
             AddСatalogButton.Visibility = Visibility.Visible;
         }
-        private void AddСatalogControl(string СatalogName)
+        private void AddСatalogControl(string catalogName)
         {
-            СatalogControl catalogcontrol = new СatalogControl();
-            catalogcontrol.СatalogName = СatalogName;
-            CatalogItemsControl.Items.Add(catalogcontrol);
+            Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
         }
     }
 }

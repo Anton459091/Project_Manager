@@ -14,17 +14,10 @@ namespace Project_Manager.UserControls
         public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
         private ContextMenuManager _menuManager = new ContextMenuManager();
 
-        public string СatalogName
-        {
-            get { return CatalogNameTextBox.Text; }
-            set { CatalogNameTextBox.Text = value; }
-        }
-
         public СatalogControl()
         {
             InitializeComponent();
             _menuManager.AttachMenu(MenuButton, this, ("Удалить", ContextMenuManager.RemoveElement));
-            DataContext = this; // Устанавливаем DataContext для привязки
         }
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
@@ -68,12 +61,12 @@ namespace Project_Manager.UserControls
 
         private void AddCardsControl(string cardsName)
         {
-            // Создаем объект Card и добавляем его в коллекцию
-            Cards.Add(new Card { Title = cardsName, Description = "Описание карточки" });
+            // Получаем Catalog из DataContext
+            Catalog catalog = (Catalog)DataContext;
 
+            // Создаем объект Card и добавляем его в коллекцию Cards объекта Catalog
+            Card card = new Card { Title = cardsName, Description = "Описание карточки" };
+            catalog.Cards.Add(card);
         }
-
-
-
     }
 }
