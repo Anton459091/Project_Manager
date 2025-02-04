@@ -13,10 +13,10 @@
         
         <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-            <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="5" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" >
+            <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" >
 
                 <StackPanel Name="CatalogStackPanel">
-                    <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="0 15" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
 
                     <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <ItemsControl.ItemTemplate>

@@ -11,6 +11,9 @@ namespace Project_Manager.Data
 {
     public class BoardData
     {
+        [JsonProperty("BoardName")]
+        public string BoardName { get; set; }
+
         [JsonProperty("Catalogs")] // Указываем имя свойства в JSON
         public ObservableCollection<Catalog> Catalogs { get; set; }
 

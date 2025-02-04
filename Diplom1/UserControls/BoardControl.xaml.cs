@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using Project_Manager.Data;
 using Project_Manager.Models;
 using Project_Manager.UserControls;
 using Project_Manager.UserControls.Controls;
@@ -74,5 +76,39 @@ namespace Project_Manager.UserControls
         {
             Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
         }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                DataManager.SaveData(this, saveFileDialog.FileName);
+                MessageBox.Show("Данные сохранены!");
+            }
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                BoardData loadedData = DataManager.LoadData(openFileDialog.FileName);
+                if (loadedData != null)
+                {
+                    Catalogs.Clear(); // Очищаем текущую коллекцию
+                    if (loadedData.Catalogs != null)
+                    {
+                        foreach (var catalog in loadedData.Catalogs)
+                        {
+                            Catalogs.Add(catalog); // Заполняем коллекцию загруженными данными
+                        }
+                    }
+                    MessageBox.Show("Данные загружены!");
+                }
+            }
+        }
+
+
     }
 }

@@ -53,6 +53,21 @@
 
         </Style>
 
+        <Style TargetType="ContextMenu">
+
+            <Setter Property="Background" Value="#d9d6d2"/>
+
+        </Style>
+
+        <Style TargetType="MenuItem">
+
+            <Setter Property="Background" Value="#d9d6d2"/>
+            <Setter Property="FontFamily" Value="Lucida Sans Unicode"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+
 
 
     </Application.Resources>

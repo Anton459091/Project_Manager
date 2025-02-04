@@ -98,5 +98,15 @@ namespace Project_Manager.UserControls.Controls
             }
             return null;
         }
+        public static void MakeEditable(FrameworkElement element)
+        {
+            if (element is СatalogControl catalogControl)
+            {
+                catalogControl.CatalogNameTextBox.IsReadOnly = false;
+                catalogControl.CatalogNameTextBox.Focus();
+                catalogControl.CatalogNameTextBox.SelectAll(); // Выделяем весь текст для удобства редактирования
+            }
+        }
+
     }
 }

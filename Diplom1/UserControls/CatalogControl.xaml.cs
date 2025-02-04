@@ -17,7 +17,20 @@ namespace Project_Manager.UserControls
         public СatalogControl()
         {
             InitializeComponent();
-            _menuManager.AttachMenu(MenuButton, this, ("Удалить", ContextMenuManager.RemoveElement));
+            Loaded += СatalogControl_Loaded;
+        }
+        private void СatalogControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            _menuManager.AttachMenu(MenuButton, this,
+               ("Изменить", ContextMenuManager.MakeEditable), // Добавляем пункт "Изменить"
+               ("Удалить", ContextMenuManager.RemoveElement)
+           );
+
+            CatalogNameTextBox.LostFocus += CatalogNameTextBox_LostFocus; // Подписываемся на событие LostFocus
+        }
+        private void CatalogNameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            CatalogNameTextBox.IsReadOnly = true; // Делаем TextBox снова ReadOnly
         }
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
