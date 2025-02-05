@@ -12,7 +12,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 
             <StackPanel Name="BoardStackPanel" Orientation="Horizontal">
-                <ItemsControl x:Name="CatalogItemsControl" ItemsSource="{Binding Catalogs}" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <ItemsControl x:Name="CatalogItemsControl" ItemsSource="{Binding Catalogs}" VerticalAlignment="Top" HorizontalAlignment="Left" AllowDrop="True"  DragEnter="CatalogItemsControl_DragEnter" DragOver="CatalogItemsControl_DragOver" Drop="CatalogItemsControl_Drop">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <local:СatalogControl />

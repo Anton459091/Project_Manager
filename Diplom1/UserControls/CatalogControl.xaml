@@ -7,31 +7,36 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid MaxWidth="250">
+    <Grid MaxWidth="250" MinWidth="200">
 
         <!-- Назван каталогам (список), чтоб не было проблем с класом List -->
         
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
-
             <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" >
-
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Name="CatalogStackPanel">
-                    <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Left"/>
+                    <Border Name="CatalogTextBoxBorder" Background="Transparent"
+                            AllowDrop="True"
+                            PreviewMouseLeftButtonDown="TransparentBorder_PreviewMouseLeftButtonDown"
+                            PreviewMouseMove="TransparentBorder_PreviewMouseMove" >
+                        <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
 
                     <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <local:CardControl />
+                                <local:CardControl/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    
                     <Button x:Name="AddCardButton" Content="+ Добавить карточку" Click="AddCardButton_Click" Style="{StaticResource BtnMain}" />
+                    
                 </StackPanel>
-            </Border>
-            
-        </ScrollViewer>
+            </ScrollViewer>
 
-        <Button Name="MenuButton" Content="⋮" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#646f77"  FontSize="20" Style="{StaticResource BtnMain}"/>
+        </Border>
+            
+        <Button Name="MenuButton" Content="⋮" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#646f77"  FontSize="20" Style="{StaticResource BtnMain}" Margin="15"/>
 
     </Grid>
 </UserControl>

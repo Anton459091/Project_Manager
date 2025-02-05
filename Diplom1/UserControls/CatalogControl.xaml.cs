@@ -1,5 +1,6 @@
 ﻿using Project_Manager.Models;
 using Project_Manager.UserControls.Controls;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,8 @@ namespace Project_Manager.UserControls
 {
     public partial class СatalogControl : UserControl
     {
+        private Point startPoint;
+        private bool isDragging = false;
         private bool _enterKeyPressed = false;
 
         public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
@@ -81,5 +84,42 @@ namespace Project_Manager.UserControls
             Card card = new Card { Title = cardsName, Description = "Описание карточки" };
             catalog.Cards.Add(card);
         }
+
+
+        private void TransparentBorder_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            startPoint = e.GetPosition((UIElement)sender);
+            isDragging = true;
+        }
+
+        private void TransparentBorder_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed && isDragging)
+            {
+                Point mousePos = e.GetPosition((UIElement)sender);
+                Vector diff = startPoint - mousePos;
+
+                // Вычисляем абсолютное значение смещения по X и Y
+                double deltaX = Math.Abs(diff.X);
+                double deltaY = Math.Abs(diff.Y);
+
+                // Проверяем, достаточно ли большое смещение для начала перетаскивания
+                if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
+                {
+                    isDragging = false; // Сбрасываем флаг, чтобы не начинать перетаскивание несколько раз
+
+                    // Получаем Catalog из DataContext
+                    Catalog catalog = (Catalog)DataContext;
+
+                    // Создаем DataObject
+                    DataObject dragData = new DataObject(typeof(Catalog), catalog);
+
+                    // Начинаем операцию Drag and Drop
+                    DragDrop.DoDragDrop(CatalogTextBoxBorder, dragData, DragDropEffects.Move);
+                }
+            }
+        }
+
+
     }
 }

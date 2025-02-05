@@ -109,6 +109,54 @@ namespace Project_Manager.UserControls
             }
         }
 
+        private void CatalogItemsControl_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Catalog)))
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+        private void CatalogItemsControl_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Catalog)))
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+        private void CatalogItemsControl_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Catalog)))
+            {
+                Catalog catalog = (Catalog)e.Data.GetData(typeof(Catalog));
+                ObservableCollection<Catalog> catalogs = Catalogs;
+                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl));
+
+                if (catalog != null && catalogs != null)
+                {
+                    catalogs.Remove(catalog);
+                    catalogs.Insert(index, catalog);
+                }
+            }
+        }
+
+        private int GetDropIndex(ItemsControl target, Point dropPoint)
+        {
+            for (int i = 0; i < target.Items.Count; i++)
+            {
+                UIElement element = target.ItemContainerGenerator.ContainerFromIndex(i) as UIElement;
+                if (element == null) continue;
+
+                Rect rect = new Rect(element.TranslatePoint(new Point(0, 0), target), element.RenderSize);
+                if (rect.Contains(dropPoint))
+                {
+                    return i;
+                }
+            }
+
+            return target.Items.Count;
+        }
 
     }
 }
