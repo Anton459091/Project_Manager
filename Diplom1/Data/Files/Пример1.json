@@ -1,0 +1,52 @@
+{
+  "BoardName": null,
+  "Catalogs": [
+    {
+      "Name": "Печка",
+      "Cards": [
+        {
+          "Title": "в почке боль",
+          "Description": "Описание карточки"
+        }
+      ]
+    },
+    {
+      "Name": "Не печка",
+      "Cards": [
+        {
+          "Title": "в не печка не детка",
+          "Description": "Описание карточки"
+        }
+      ]
+    },
+    {
+      "Name": "Дно ",
+      "Cards": [
+        {
+          "Title": "1",
+          "Description": "Описание карточки"
+        },
+        {
+          "Title": "2",
+          "Description": "Описание карточки"
+        },
+        {
+          "Title": "3",
+          "Description": "Описание карточки"
+        },
+        {
+          "Title": "4",
+          "Description": "Описание карточки"
+        },
+        {
+          "Title": "5 - утонул",
+          "Description": "Описание карточки"
+        },
+        {
+          "Title": "6",
+          "Description": "Описание карточки"
+        }
+      ]
+    }
+  ]
+}

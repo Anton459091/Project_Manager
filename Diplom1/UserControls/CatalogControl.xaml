@@ -10,8 +10,11 @@
     <Grid MaxWidth="250" MinWidth="200">
 
         <!-- Назван каталогам (список), чтоб не было проблем с класом List -->
-        
-            <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" >
+
+        <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" 
+                DragEnter="CatalogBorder_DragEnter"
+                DragOver="CatalogBorder_DragOver"
+                Drop="CatalogBorder_Drop" >
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Name="CatalogStackPanel">
                     <Border Name="CatalogTextBoxBorder" Background="Transparent"

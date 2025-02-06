@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Project_Manager.UserControls
 {
@@ -13,6 +14,7 @@ namespace Project_Manager.UserControls
         private Point startPoint;
         private bool isDragging = false;
         private bool _enterKeyPressed = false;
+        private Card draggedCard;
 
         public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
         private ContextMenuManager _menuManager = new ContextMenuManager();
@@ -117,6 +119,124 @@ namespace Project_Manager.UserControls
                     // Начинаем операцию Drag and Drop
                     DragDrop.DoDragDrop(CatalogTextBoxBorder, dragData, DragDropEffects.Move);
                 }
+            }
+        }
+        private void CatalogBorder_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Card)))
+            {
+                e.Effects = DragDropEffects.Move;
+            }
+        }
+
+        private void CatalogBorder_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Card)))
+            {
+                // Проверяем, что перетаскиваемая карточка не является текущей карточкой
+                draggedCard = (Card)e.Data.GetData(typeof(Card));
+                if (draggedCard != null && ((Catalog)DataContext).Cards.Contains(draggedCard))
+                {
+                    e.Effects = DragDropEffects.Move; // Разрешаем перемещение
+                }
+                else
+                {
+                    e.Effects = DragDropEffects.Move;  // Разрешаем перемещение
+                }
+            }
+        }
+        private void CatalogBorder_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(typeof(Card)))
+            {
+                Card card = (Card)e.Data.GetData(typeof(Card));
+                Catalog targetCatalog = (Catalog)DataContext; // Текущий Catalog
+                ObservableCollection<Card> cards = targetCatalog.Cards; // Получаем ссылку на ObservableCollection
+
+                // Удаляем Card из старого Catalog
+                // Находим CatalogControl в визуальном дереве
+                var boardControl = FindVisualParent<BoardControl>(this);
+
+                if (boardControl != null)
+                {
+                    foreach (Catalog catalog in boardControl.Catalogs)
+                    {
+                        if (catalog != targetCatalog && catalog.Cards.Contains(card))
+                        {
+                            catalog.Cards.Remove(card);
+                            break;
+                        }
+                    }
+                }
+
+                // Получаем индекс для вставки
+                int dropIndex = GetDropIndex(CardItemsControl, e.GetPosition(CardItemsControl));
+
+                // Добавляем Card в новый Catalog
+                if (dropIndex >= 0 && dropIndex <= cards.Count)
+                {
+                    if (dropIndex == cards.Count)
+                    {
+                        // Вставляем в конец списка
+                        cards.Add(card);
+                    }
+                    else
+                    {
+                        if (!cards.Contains(card))
+                        {
+                            cards.Insert(dropIndex, card); // Вставляем по индексу
+                        }
+                        else
+                        {
+                            // Если карточка переносится внутри одного каталога, сначала удаляем ее, а потом вставляем по индексу
+                            cards.Remove(card);
+                            cards.Insert(dropIndex, card);
+                        }
+                    }
+                }
+            }
+        }
+
+            // Получение индекса для вставки карточки
+            private int GetDropIndex(ItemsControl itemsControl, Point dropPosition)
+        {
+            int index = 0;
+            for (int i = 0; i < itemsControl.Items.Count; i++)
+            {
+                if (itemsControl.ItemContainerGenerator.ContainerFromIndex(i) is UIElement itemContainer && itemContainer is FrameworkElement item)
+                {
+                    Point position = dropPosition;
+                    double itemCenter = item.TranslatePoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2), itemsControl).Y;
+                    if (position.Y < itemCenter)
+                    {
+                        index = i;
+                        break;
+                    }
+                    else
+                    {
+                        index = i + 1;
+                    }
+                }
+            }
+            return index;
+        }
+
+        // Вспомогательный метод для поиска родительского элемента определенного типа в визуальном дереве
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindVisualParent<T>(parentObject);
             }
         }
 

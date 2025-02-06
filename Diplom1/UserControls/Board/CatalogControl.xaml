@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Project_Manager.UserControls.СatalogControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Project_Manager.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid MaxWidth="250" MinWidth="200">
+
+        <!-- Назван каталогам (список), чтоб не было проблем с класом List -->
+        
+            <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" >
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <Grid>
+                    <Border x:Name="MarkerBorder" BorderBrush="#151514" Background="Transparent" CornerRadius="5" AllowDrop="True" VerticalAlignment="Top" Height="5" Margin="3 0"/>
+
+                    <StackPanel Name="CatalogStackPanel" Margin="5">
+
+                        <Border Name="CatalogTextBoxBorder" Background="Transparent"
+                            AllowDrop="True"
+                            PreviewMouseLeftButtonDown="TransparentBorder_PreviewMouseLeftButtonDown"
+                            PreviewMouseMove="TransparentBorder_PreviewMouseMove" >
+                            <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:CardControl/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Button x:Name="AddCardButton" Content="+ Добавить карточку" Click="AddCardButton_Click" Style="{StaticResource BtnMain}" />
+
+                    </StackPanel>
+
+                </Grid>
+
+            </ScrollViewer>
+
+        </Border>
+            
+        <Button Name="MenuButton" Content="⋮" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#646f77"  FontSize="20" Style="{StaticResource BtnMain}" Margin="15"/>
+
+    </Grid>
+</UserControl>
