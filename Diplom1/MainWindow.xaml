@@ -47,7 +47,7 @@
             <Grid Grid.Row="0" Background="#2c2c2b">
                 <!-- Верхняя панель -->
                 <StackPanel Orientation="Horizontal" >
-                    <Label Name="TitleLab" Content="Название проекта" Width="auto" Margin="10 10 40 10"/>
+                    <Label Name="TitleLab" Content="{Binding ProjectTitle}" Width="auto" Margin="10 10 40 10" />
 
                     <Border Background="#464543" CornerRadius="25" Padding="5" Height="50" >
                         <StackPanel Orientation="Horizontal" Height="auto" >

@@ -11,11 +11,11 @@
 
         <!-- Назван каталогам (список), чтоб не было проблем с класом List -->
 
-        <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" 
+        <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" 
                 DragEnter="CatalogBorder_DragEnter"
                 DragOver="CatalogBorder_DragOver"
                 Drop="CatalogBorder_Drop" >
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
                 <StackPanel Name="CatalogStackPanel">
                     <Border Name="CatalogTextBoxBorder" Background="Transparent"
                             AllowDrop="True"

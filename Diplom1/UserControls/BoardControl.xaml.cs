@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +28,8 @@ namespace Project_Manager.UserControls
     /// </summary>
     public partial class BoardControl : UserControl
     {
+        public string CurrentFilePath { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
         private bool _enterKeyPressed = false;
         public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>(); // Коллекция Catalog
 
@@ -76,17 +80,50 @@ namespace Project_Manager.UserControls
         {
             Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
         }
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
-            if (saveFileDialog.ShowDialog() == true)
+            if (string.IsNullOrEmpty(CurrentFilePath))
             {
-                DataManager.SaveData(this, saveFileDialog.FileName);
-                MessageBox.Show("Данные сохранены!");
+                SaveAs();
+            }
+            else
+            {
+                Save(CurrentFilePath);
             }
         }
 
+        private void SaveAs()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                Save(saveFileDialog.FileName);
+            }
+        }
+
+        private void Save(string filePath)
+        {
+            try
+            {
+                DataManager.SaveData(this, filePath);
+                CurrentFilePath = filePath;
+                Console.WriteLine($"Data saved to {filePath}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}");
+            }
+        }
+
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

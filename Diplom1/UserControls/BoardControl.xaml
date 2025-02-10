@@ -34,8 +34,7 @@
         </ScrollViewer>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button x:Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" Style="{StaticResource BtnMain}" />
-            <Button x:Name="LoadButton" Content="Загрузить" Click="LoadButton_Click" Style="{StaticResource BtnMain}"/>
+            <Button x:Name="SaveButton" Content="Сохранить" Click="Save_Click" Style="{StaticResource BtnMain}" />
         </StackPanel>
         
 

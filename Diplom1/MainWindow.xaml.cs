@@ -26,11 +26,13 @@ namespace Project_Manager
     public partial class MainWindow : Window
     {
         private bool isPanelOpen = true;
+        public string ProjectTitle { get; set; } = "Название проекта";
 
         public MainWindow()
         {
             InitializeComponent();
             MainContent.Content = new BoardControl();
+            DataContext = this;
 
         }
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)

@@ -178,6 +178,7 @@ namespace Project_Manager.UserControls
                     if (dropIndex == cards.Count)
                     {
                         // Вставляем в конец списка
+                        cards.Remove(card);
                         cards.Add(card);
                     }
                     else
