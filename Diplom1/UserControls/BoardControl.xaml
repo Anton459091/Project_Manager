@@ -26,7 +26,7 @@
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
 
-                <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="15" Margin="15" Background="#d9d6d2" Width="auto" Height="auto" VerticalAlignment="Top">
+                <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="15" Margin="15" Background="#d9d6d2" Width="auto" Height="auto" VerticalAlignment="Top">
                     <Button x:Name="AddСatalogButton" Content=" + Добавить Список" Margin="15" FontSize="15" HorizontalAlignment="Left" Click="AddСatalogButton_Click" Style="{StaticResource BtnMain}"/>
                 </Border>
                 

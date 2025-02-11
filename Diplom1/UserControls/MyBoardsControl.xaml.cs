@@ -7,21 +7,28 @@ using Project_Manager.Data;
 using System.Collections.ObjectModel;
 using Project_Manager.Models;
 using System.Windows.Media;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Project_Manager.UserControls
 {
     public partial class MyBoardsControl : UserControl
     {
         private string boardsFolderPath;
+        private HashSet<string> _favoriteBoards = new HashSet<string>(); // Хранит избранные доски
+        private string _favoritesFilePath; // Путь к файлу с избранными досками
+
 
         public MyBoardsControl()
         {
             InitializeComponent();
 
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            boardsFolderPath = System.IO.Path.Combine(baseDirectory, "Data", "Files");
+            boardsFolderPath = Path.Combine(baseDirectory, "Data", "Files");
+            _favoritesFilePath = Path.Combine(boardsFolderPath, "favorites.json");
 
-            LoadSavedBoards();
+            LoadFavorites(); // Загружаем избранные доски
+            LoadSavedBoards(); // Загружаем все доски
         }
 
         private void LoadSavedBoards()
@@ -31,13 +38,37 @@ namespace Project_Manager.UserControls
                 Directory.CreateDirectory(boardsFolderPath);
             }
 
-            string[] boardFiles = Directory.GetFiles(boardsFolderPath, "*.json");
+            // Получаем все файлы досок, исключая favorites.json
+            string[] boardFiles = Directory.GetFiles(boardsFolderPath, "*.json")
+                                           .Where(file => !file.EndsWith("favorites.json", StringComparison.OrdinalIgnoreCase))
+                                           .ToArray();
+
             MyBoards.Children.Clear(); // Очищаем перед загрузкой
 
-            foreach (string boardFile in boardFiles)
+            // Сортируем доски: избранные вверху
+            var sortedBoardFiles = boardFiles.OrderByDescending(file => _favoriteBoards.Contains(file));
+
+            foreach (string boardFile in sortedBoardFiles)
             {
                 AddBoardUI(boardFile);
             }
+        }
+
+
+        private void LoadFavorites()
+        {
+            if (File.Exists(_favoritesFilePath))
+            {
+                string json = File.ReadAllText(_favoritesFilePath);
+                _favoriteBoards = JsonConvert.DeserializeObject<HashSet<string>>(json) ?? new HashSet<string>();
+            }
+        }
+
+        // Сохраняет избранные доски в файл
+        private void SaveFavorites()
+        {
+            string json = JsonConvert.SerializeObject(_favoriteBoards, Formatting.Indented);
+            File.WriteAllText(_favoritesFilePath, json);
         }
 
         private void AddBoardUI(string boardFile)
@@ -46,34 +77,55 @@ namespace Project_Manager.UserControls
             Border boardBorder = new Border
             {
                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#f9f6f2")),
-                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#646f77")), // Обводка
+                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#646f77")),
                 BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(10), // Скругление углов
-                Margin = new Thickness(5) // Margin для всего элемента
+                CornerRadius = new CornerRadius(10),
+                Margin = new Thickness(5)
             };
 
             // Создаем Grid для размещения элементов управления
             Grid boardGrid = new Grid();
 
             // Определяем колонки
-            ColumnDefinition col1 = new ColumnDefinition { Width = GridLength.Auto }; // Для TextBox
-            ColumnDefinition col2 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }; // Для пустого пространства
-            ColumnDefinition col3 = new ColumnDefinition { Width = GridLength.Auto }; // Для кнопок
+            ColumnDefinition col1 = new ColumnDefinition { Width = GridLength.Auto }; // Для звездочки
+            ColumnDefinition col2 = new ColumnDefinition { Width = GridLength.Auto }; // Для TextBox
+            ColumnDefinition col3 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }; // Для пустого пространства
+            ColumnDefinition col4 = new ColumnDefinition { Width = GridLength.Auto }; // Для кнопок
 
             boardGrid.ColumnDefinitions.Add(col1);
             boardGrid.ColumnDefinitions.Add(col2);
             boardGrid.ColumnDefinitions.Add(col3);
+            boardGrid.ColumnDefinitions.Add(col4);
 
-            // Создаем StackPanel для кнопок (размещаем их горизонтально)
-            StackPanel buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal };
+            // Создаем кнопку "Избранное" (звездочка)
+            Button favoriteButton = new Button
+            {
+                Content = new TextBlock { Text = "⭐", FontSize = 16 },
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                Padding = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = Brushes.Gray // По умолчанию звездочка серая
+            };
+
+            // Обновляем состояние кнопки
+            UpdateFavoriteButton(favoriteButton, boardFile);
+
+            // Привязываем обработчик события
+            favoriteButton.Click += (sender, e) => FavoriteButton_Click(sender, e, boardFile);
 
             // Создаем TextBox для названия доски
             TextBox boardNameTextBox = new TextBox
             {
-                Text = System.IO.Path.GetFileNameWithoutExtension(boardFile),
-                Width = 500,
-                Margin = new Thickness(5)
+                Text = Path.GetFileNameWithoutExtension(boardFile),
+                Width = Double.NaN,
+                Margin = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Center,
+                MaxLength = 100
             };
+
+            // Создаем StackPanel для кнопок (размещаем их горизонтально)
+            StackPanel buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal };
 
             // Создаем кнопку "Открыть"
             Button boardButton = new Button
@@ -82,7 +134,6 @@ namespace Project_Manager.UserControls
                 Style = (Style)FindResource("BtnMain"),
                 Width = 100,
                 Margin = new Thickness(5)
-
             };
 
             // Создаем кнопку "Сохранить"
@@ -114,9 +165,11 @@ namespace Project_Manager.UserControls
             buttonsPanel.Children.Add(deleteButton);
 
             // Размещаем элементы в Grid
-            Grid.SetColumn(boardNameTextBox, 0);
-            Grid.SetColumn(buttonsPanel, 2);
+            Grid.SetColumn(favoriteButton, 0);
+            Grid.SetColumn(boardNameTextBox, 1);
+            Grid.SetColumn(buttonsPanel, 3);
 
+            boardGrid.Children.Add(favoriteButton);
             boardGrid.Children.Add(boardNameTextBox);
             boardGrid.Children.Add(buttonsPanel);
 
@@ -178,7 +231,7 @@ namespace Project_Manager.UserControls
                 // 4. Устанавливаем заголовок и контент
                 if (mainWindow != null)
                 {
-                    mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(boardFile);
+                     mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(boardFile);
                 }
                 if (contentControl != null)
                 {
@@ -238,6 +291,45 @@ namespace Project_Manager.UserControls
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при удалении файла: {ex.Message}");
+            }
+        }
+
+        private void FavoriteButton_Click(object sender, RoutedEventArgs e, string boardFile)
+        {
+            Button favoriteButton = (Button)sender;
+
+            if (_favoriteBoards.Contains(boardFile))
+            {
+                // Если доска уже в избранном, удаляем её
+                _favoriteBoards.Remove(boardFile);
+            }
+            else
+            {
+                // Если доска не в избранном, добавляем её
+                _favoriteBoards.Add(boardFile);
+            }
+
+            // Обновляем состояние кнопки
+            UpdateFavoriteButton(favoriteButton, boardFile);
+
+            // Сохраняем изменения в файл
+            SaveFavorites();
+
+            // Перезагружаем список досок
+            LoadSavedBoards();
+        }
+
+        private void UpdateFavoriteButton(Button favoriteButton, string boardFile)
+        {
+            if (_favoriteBoards.Contains(boardFile))
+            {
+                // Если доска в избранном, меняем цвет звездочки
+                favoriteButton.Foreground = Brushes.Gold;
+            }
+            else
+            {
+                // Если доска не в избранном, возвращаем серый цвет
+                favoriteButton.Foreground = Brushes.Gray;
             }
         }
 

@@ -91,9 +91,28 @@ namespace Project_Manager.UserControls
                 Save(CurrentFilePath);
             }
         }
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            DependencyObject parentObject = System.Windows.Media.VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
+            {
+                return parent;
+            }
+            else
+            {
+                return FindVisualParent<T>(parentObject);
+            }
+        }
 
         private void SaveAs()
         {
+            MainWindow mainWindow = FindVisualParent<MainWindow>(this);
+
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
@@ -102,7 +121,9 @@ namespace Project_Manager.UserControls
             if (saveFileDialog.ShowDialog() == true)
             {
                 Save(saveFileDialog.FileName);
+                mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
             }
+
         }
 
         private void Save(string filePath)

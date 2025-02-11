@@ -17,17 +17,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Media.Animation;
+using System.ComponentModel;
+using Newtonsoft.Json.Linq;
 
 namespace Project_Manager
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private bool isPanelOpen = true;
-        public string ProjectTitle { get; set; } = "Название проекта";
+        private string _projectTitle = "Название проекта";
 
+        public string ProjectTitle
+        {
+            get => _projectTitle;
+            set
+            {
+                _projectTitle = value;
+                OnPropertyChanged(nameof(ProjectTitle));
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
@@ -35,15 +46,42 @@ namespace Project_Manager
             DataContext = this;
 
         }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private void UpdateTitleBasedOnContent()
+        {
+            if (MainContent.Content is ProfileControl)
+            {
+                ProjectTitle = "Профиль";
+            }
+            else if (MainContent.Content is MyBoardsControl)
+            {
+                ProjectTitle = "Мои доски";
+            }
+            else if (MainContent.Content is BoardControl)
+            {
+                ProjectTitle = "Название проекта"; // Или другое значение по умолчанию
+            }
+            else
+            {
+                ProjectTitle = "Название проекта"; // Значение по умолчанию для других случаев
+            }
+        }
+
         private void ProfileBtn_Click(object sender, RoutedEventArgs e)
 
         {
             MainContent.Content = new ProfileControl();
+            UpdateTitleBasedOnContent();
         }
         private void MyBoardsBtn_Click(object sender, RoutedEventArgs e)
         {
 
             MainContent.Content = new MyBoardsControl();
+            UpdateTitleBasedOnContent();
         }
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -54,7 +92,7 @@ namespace Project_Manager
         {
 
             MainContent.Content = new BoardControl();
-
+            UpdateTitleBasedOnContent();
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
