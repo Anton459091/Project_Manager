@@ -14,9 +14,12 @@ namespace Project_Manager.UserControls
         private Point startPoint;
         private bool isDragging = false;
         private bool _enterKeyPressed = false;
-        private Card draggedCard;
 
+
+        private Card draggedCard;
+     
         public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
+
         private ContextMenuManager _menuManager = new ContextMenuManager();
 
         public СatalogControl()
@@ -27,15 +30,15 @@ namespace Project_Manager.UserControls
         private void СatalogControl_Loaded(object sender, RoutedEventArgs e)
         {
             _menuManager.AttachMenu(MenuButton, this,
-               ("Изменить", ContextMenuManager.MakeEditable), // Добавляем пункт "Изменить"
+               ("Изменить", ContextMenuManager.MakeEditable), 
                ("Удалить", ContextMenuManager.RemoveElement)
            );
 
-            CatalogNameTextBox.LostFocus += CatalogNameTextBox_LostFocus; // Подписываемся на событие LostFocus
+            CatalogNameTextBox.LostFocus += CatalogNameTextBox_LostFocus; 
         }
         private void CatalogNameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            CatalogNameTextBox.IsReadOnly = true; // Делаем TextBox снова ReadOnly
+            CatalogNameTextBox.IsReadOnly = true; 
         }
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
@@ -48,7 +51,14 @@ namespace Project_Manager.UserControls
             CatalogStackPanel.Children.Add(textBox);
             textBox.Focus();
         }
+        private void AddCardsControl(string cardsName)
+        {
+            Catalog catalog = (Catalog)DataContext;
+            Card card = new Card { Title = cardsName, Description = "Описание карточки" };
+            catalog.Cards.Add(card);
+        }
 
+        // Фокусировка
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -77,17 +87,8 @@ namespace Project_Manager.UserControls
             AddCardButton.Visibility = Visibility.Visible;
         }
 
-        private void AddCardsControl(string cardsName)
-        {
-            // Получаем Catalog из DataContext
-            Catalog catalog = (Catalog)DataContext;
 
-            // Создаем объект Card и добавляем его в коллекцию Cards объекта Catalog
-            Card card = new Card { Title = cardsName, Description = "Описание карточки" };
-            catalog.Cards.Add(card);
-        }
-
-
+        //Drag and Drop
         private void TransparentBorder_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition((UIElement)sender);
@@ -108,15 +109,9 @@ namespace Project_Manager.UserControls
                 // Проверяем, достаточно ли большое смещение для начала перетаскивания
                 if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
                 {
-                    isDragging = false; // Сбрасываем флаг, чтобы не начинать перетаскивание несколько раз
-
-                    // Получаем Catalog из DataContext
+                    isDragging = false; 
                     Catalog catalog = (Catalog)DataContext;
-
-                    // Создаем DataObject
                     DataObject dragData = new DataObject(typeof(Catalog), catalog);
-
-                    // Начинаем операцию Drag and Drop
                     DragDrop.DoDragDrop(CatalogTextBoxBorder, dragData, DragDropEffects.Move);
                 }
             }
@@ -145,16 +140,16 @@ namespace Project_Manager.UserControls
                 }
             }
         }
+
         private void CatalogBorder_Drop(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(Card)))
             {
                 Card card = (Card)e.Data.GetData(typeof(Card));
-                Catalog targetCatalog = (Catalog)DataContext; // Текущий Catalog
-                ObservableCollection<Card> cards = targetCatalog.Cards; // Получаем ссылку на ObservableCollection
+                Catalog targetCatalog = (Catalog)DataContext; 
+                ObservableCollection<Card> cards = targetCatalog.Cards; 
 
-                // Удаляем Card из старого Catalog
-                // Находим CatalogControl в визуальном дереве
+
                 var boardControl = FindVisualParent<BoardControl>(this);
 
                 if (boardControl != null)
@@ -169,15 +164,12 @@ namespace Project_Manager.UserControls
                     }
                 }
 
-                // Получаем индекс для вставки
                 int dropIndex = GetDropIndex(CardItemsControl, e.GetPosition(CardItemsControl));
 
-                // Добавляем Card в новый Catalog
                 if (dropIndex >= 0 && dropIndex <= cards.Count)
                 {
                     if (dropIndex == cards.Count)
                     {
-                        // Вставляем в конец списка
                         cards.Remove(card);
                         cards.Add(card);
                     }
@@ -185,11 +177,10 @@ namespace Project_Manager.UserControls
                     {
                         if (!cards.Contains(card))
                         {
-                            cards.Insert(dropIndex, card); // Вставляем по индексу
+                            cards.Insert(dropIndex, card); 
                         }
                         else
                         {
-                            // Если карточка переносится внутри одного каталога, сначала удаляем ее, а потом вставляем по индексу
                             cards.Remove(card);
                             cards.Insert(dropIndex, card);
                         }
@@ -198,7 +189,6 @@ namespace Project_Manager.UserControls
             }
         }
 
-            // Получение индекса для вставки карточки
             private int GetDropIndex(ItemsControl itemsControl, Point dropPosition)
         {
             int index = 0;

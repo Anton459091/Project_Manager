@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using Project_Manager.Data;
 using Project_Manager.Models;
@@ -28,16 +29,17 @@ namespace Project_Manager.UserControls
     /// </summary>
     public partial class BoardControl : UserControl
     {
-        public string CurrentFilePath { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        
         private bool _enterKeyPressed = false;
-        public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>(); // Коллекция Catalog
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>();
+        public string CurrentFilePath { get; set; }
 
         public BoardControl()
         {
             InitializeComponent();
             DataContext = this;
-
         }
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
@@ -49,7 +51,12 @@ namespace Project_Manager.UserControls
             BoardStackPanel.Children.Add(textBox);
             textBox.Focus();
         }
+        private void AddСatalogControl(string catalogName)
+        {
+            Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
+        }
 
+        // Фокусировка
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -76,10 +83,8 @@ namespace Project_Manager.UserControls
             BoardStackPanel.Children.Remove(textBox);
             AddСatalogButton.Visibility = Visibility.Visible;
         }
-        private void AddСatalogControl(string catalogName)
-        {
-            Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
-        }
+
+        //Сохранение
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(CurrentFilePath))
@@ -89,23 +94,6 @@ namespace Project_Manager.UserControls
             else
             {
                 Save(CurrentFilePath);
-            }
-        }
-        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            DependencyObject parentObject = System.Windows.Media.VisualTreeHelper.GetParent(child);
-
-            if (parentObject == null)
-                return null;
-
-            T parent = parentObject as T;
-            if (parent != null)
-            {
-                return parent;
-            }
-            else
-            {
-                return FindVisualParent<T>(parentObject);
             }
         }
 
@@ -141,30 +129,23 @@ namespace Project_Manager.UserControls
         }
 
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        //Drag and Drop
+
+        private int GetDropIndex(ItemsControl target, Point dropPoint)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
+            for (int i = 0; i < target.Items.Count; i++)
             {
-                BoardData loadedData = DataManager.LoadData(openFileDialog.FileName);
-                if (loadedData != null)
+                UIElement element = target.ItemContainerGenerator.ContainerFromIndex(i) as UIElement;
+                if (element == null) continue;
+
+                Rect rect = new Rect(element.TranslatePoint(new Point(0, 0), target), element.RenderSize);
+                if (rect.Contains(dropPoint))
                 {
-                    Catalogs.Clear(); // Очищаем текущую коллекцию
-                    if (loadedData.Catalogs != null)
-                    {
-                        foreach (var catalog in loadedData.Catalogs)
-                        {
-                            Catalogs.Add(catalog); // Заполняем коллекцию загруженными данными
-                        }
-                    }
-                    MessageBox.Show("Данные загружены!");
+                    return i;
                 }
             }
+
+            return target.Items.Count;
         }
 
         private void CatalogItemsControl_DragEnter(object sender, DragEventArgs e)
@@ -199,22 +180,25 @@ namespace Project_Manager.UserControls
             }
         }
 
-        private int GetDropIndex(ItemsControl target, Point dropPoint)
+
+
+        // Вспомогательный метод для поиска родительского элемента определенного типа в визуальном дереве
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
         {
-            for (int i = 0; i < target.Items.Count; i++)
+            DependencyObject parentObject = System.Windows.Media.VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
             {
-                UIElement element = target.ItemContainerGenerator.ContainerFromIndex(i) as UIElement;
-                if (element == null) continue;
-
-                Rect rect = new Rect(element.TranslatePoint(new Point(0, 0), target), element.RenderSize);
-                if (rect.Contains(dropPoint))
-                {
-                    return i;
-                }
+                return parent;
             }
-
-            return target.Items.Count;
+            else
+            {
+                return FindVisualParent<T>(parentObject);
+            }
         }
-
     }
 }

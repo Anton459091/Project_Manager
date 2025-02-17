@@ -26,7 +26,6 @@ namespace Project_Manager.UserControls
             startPoint = e.GetPosition(CardBorder);
             isDragging = true;
         }
-
         private void CardBorder_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && isDragging)
@@ -39,13 +38,13 @@ namespace Project_Manager.UserControls
                 {
                     isDragging = false;
 
-                    // Получаем Card из DataContext
+
                     Card card = (Card)DataContext;
 
-                    // Создаем DataObject
+ 
                     DataObject dragData = new DataObject(typeof(Card), card);
 
-                    // Начинаем Drag and Drop
+
                     DragDrop.DoDragDrop(CardBorder, dragData, DragDropEffects.Move);
                 }
             }

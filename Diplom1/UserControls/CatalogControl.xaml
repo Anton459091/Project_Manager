@@ -15,13 +15,13 @@
                 DragEnter="CatalogBorder_DragEnter"
                 DragOver="CatalogBorder_DragOver"
                 Drop="CatalogBorder_Drop" >
-            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel Name="CatalogStackPanel">
                     <Border Name="CatalogTextBoxBorder" Background="Transparent"
                             AllowDrop="True"
                             PreviewMouseLeftButtonDown="TransparentBorder_PreviewMouseLeftButtonDown"
                             PreviewMouseMove="TransparentBorder_PreviewMouseMove" >
-                        <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                     </Border>
 
                     <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">

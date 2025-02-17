@@ -63,11 +63,11 @@ namespace Project_Manager
             }
             else if (MainContent.Content is BoardControl)
             {
-                ProjectTitle = "Название проекта"; // Или другое значение по умолчанию
+                ProjectTitle = "Название проекта"; 
             }
             else
             {
-                ProjectTitle = "Название проекта"; // Значение по умолчанию для других случаев
+                ProjectTitle = "Название проекта"; 
             }
         }
 
@@ -99,12 +99,10 @@ namespace Project_Manager
         {
             if (isPanelOpen)
             {
-                // Закрыть панель
                 AnimatePanel(165, 0);
             }
             else
             {
-                // Открыть панель
                 AnimatePanel(0, 165);
             }
             isPanelOpen = !isPanelOpen;
@@ -129,23 +127,3 @@ namespace Project_Manager
         }
     }
 }
-
-/*
-Project Manager /
-├── App.xaml
-├── App.xaml.cs
-├── MainWindow.xaml
-├── MainWindow.xaml.cs
-├── Models /
-│   ├── Board.cs
-│   ├── Card.cs
-│   ├── List.cs
-└── UserControls /
-    ├── BoardControl.xaml
-    ├── CardControl.xaml
-    ├── СatalogControl.xaml
-    ├── ProfileControl.xaml
-    ├── MyBoardsControl.xaml
-    └── Controls /
-        └── ContextMenuManager.cs
-    */
