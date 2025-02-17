@@ -30,9 +30,7 @@ namespace Project_Manager.UserControls
     public partial class BoardControl : UserControl
     {
         
-        private bool _enterKeyPressed = false;
-        public event PropertyChangedEventHandler PropertyChanged;
-        
+        private bool _enterKeyPressed = false;    
         public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>();
         public string CurrentFilePath { get; set; }
 
@@ -131,21 +129,33 @@ namespace Project_Manager.UserControls
 
         //Drag and Drop
 
-        private int GetDropIndex(ItemsControl target, Point dropPoint)
+        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition, Catalog catalog)
         {
-            for (int i = 0; i < target.Items.Count; i++)
+            int index = 0;
+            for (int i = 0; i < itemsControl.Items.Count; i++)
             {
-                UIElement element = target.ItemContainerGenerator.ContainerFromIndex(i) as UIElement;
-                if (element == null) continue;
-
-                Rect rect = new Rect(element.TranslatePoint(new Point(0, 0), target), element.RenderSize);
-                if (rect.Contains(dropPoint))
+                if (itemsControl.ItemContainerGenerator.ContainerFromIndex(i) is UIElement itemContainer && itemContainer is FrameworkElement item)
                 {
-                    return i;
+                    Point position = dropPosition;
+                    double itemCenter = item.TranslatePoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2), itemsControl).X;
+
+                    if (position.X < itemCenter)
+                    {
+                        // Проверяем, если индекс совпадает с текущим индексом перетаскиваемого элемента
+                        if (catalog == itemsControl.Items[i])
+                        {
+                            return -1; // Запретить перенос на самого себя
+                        }
+                        index = i;
+                        break;
+                    }
+                    else
+                    {
+                        index = i + 1;
+                    }
                 }
             }
-
-            return target.Items.Count;
+            return index;
         }
 
         private void CatalogItemsControl_DragEnter(object sender, DragEventArgs e)
@@ -170,9 +180,9 @@ namespace Project_Manager.UserControls
             {
                 Catalog catalog = (Catalog)e.Data.GetData(typeof(Catalog));
                 ObservableCollection<Catalog> catalogs = Catalogs;
-                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl));
+                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog); // Передаем catalog
 
-                if (catalog != null && catalogs != null)
+                if (catalog != null && catalogs != null && index != -1) // Проверяем, что индекс не -1
                 {
                     catalogs.Remove(catalog);
                     catalogs.Insert(index, catalog);

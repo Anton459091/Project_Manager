@@ -21,7 +21,7 @@
                             AllowDrop="True"
                             PreviewMouseLeftButtonDown="TransparentBorder_PreviewMouseLeftButtonDown"
                             PreviewMouseMove="TransparentBorder_PreviewMouseMove" >
-                        <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 10 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                        <TextBox x:Name="CatalogNameTextBox" Text="{Binding Name}"  IsReadOnly="True" Margin="10 20 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                     </Border>
 
                     <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">

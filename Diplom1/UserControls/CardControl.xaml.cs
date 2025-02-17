@@ -20,12 +20,12 @@ namespace Project_Manager.UserControls
             InitializeComponent();
             _menuManager.AttachMenu(MenuButton, this, ("Удалить", ContextMenuManager.RemoveElement));
         }
-
         private void CardBorder_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(CardBorder);
             isDragging = true;
         }
+
         private void CardBorder_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && isDragging)
@@ -38,12 +38,8 @@ namespace Project_Manager.UserControls
                 {
                     isDragging = false;
 
-
                     Card card = (Card)DataContext;
-
- 
                     DataObject dragData = new DataObject(typeof(Card), card);
-
 
                     DragDrop.DoDragDrop(CardBorder, dragData, DragDropEffects.Move);
                 }

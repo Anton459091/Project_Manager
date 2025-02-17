@@ -122,22 +122,30 @@ namespace Project_Manager.UserControls
             {
                 e.Effects = DragDropEffects.Move;
             }
+            else if (e.Data.GetDataPresent(typeof(Catalog)))
+            {
+                e.Effects = DragDropEffects.Move; // Для колонок
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
         }
 
         private void CatalogBorder_DragOver(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(Card)))
             {
-                // Проверяем, что перетаскиваемая карточка не является текущей карточкой
                 draggedCard = (Card)e.Data.GetData(typeof(Card));
-                if (draggedCard != null && ((Catalog)DataContext).Cards.Contains(draggedCard))
-                {
-                    e.Effects = DragDropEffects.Move; // Разрешаем перемещение
-                }
-                else
-                {
-                    e.Effects = DragDropEffects.Move;  // Разрешаем перемещение
-                }
+                e.Effects = DragDropEffects.Move; // Разрешаем перемещение карточек
+            }
+            else if (e.Data.GetDataPresent(typeof(Catalog)))
+            {
+                e.Effects = DragDropEffects.Move; // Разрешаем перемещение колонок
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None; // Запрещаем перемещение
             }
         }
 
