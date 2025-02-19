@@ -11,9 +11,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel >
 
-                <Label Content="Мои доски" Foreground="#030303" HorizontalAlignment="Center" VerticalAlignment="Top" />
-
-                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Margin="5"  Width="auto" Height="auto" VerticalAlignment="Top" Grid.Row="1" Background="#d9d6d2">
+                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="10" Margin="15"  Width="auto" Height="auto" VerticalAlignment="Top" Grid.Row="1" Background="#d9d6d2">
                     <StackPanel Height="auto" Width="auto">
 
                         <StackPanel x:Name="MyBoards" Height="auto" Width="auto" Margin="10" VerticalAlignment="Top" >
