@@ -125,6 +125,15 @@ namespace Project_Manager
             SidePanel.BeginAnimation(WidthProperty, animation);
         }
 
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Проверяем, что текущий контент - это BoardControl
+            if (MainContent.Content is BoardControl boardControl)
+            {
+                // Вызываем метод сохранения из BoardControl
+                boardControl.SaveProject();
+            }
+        }
 
     }
 }

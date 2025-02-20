@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800" KeyDown="UserControl_KeyDown">
 
     <Grid>
-       
+
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
 
             <StackPanel Name="BoardStackPanel" Orientation="Horizontal">
@@ -29,14 +29,9 @@
                 <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="15" Margin="15" Background="#d9d6d2" Width="auto" Height="auto" VerticalAlignment="Top">
                     <Button x:Name="AddСatalogButton" Content=" + Добавить Список" Margin="15" FontSize="15" HorizontalAlignment="Left" Click="AddСatalogButton_Click" Style="{StaticResource BtnMain}"/>
                 </Border>
-                
+
             </StackPanel>
         </ScrollViewer>
-
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button x:Name="SaveButton" Content="Сохранить" Click="Save_Click" Style="{StaticResource BtnMain}" />
-        </StackPanel>
-        
 
     </Grid>
 </UserControl>

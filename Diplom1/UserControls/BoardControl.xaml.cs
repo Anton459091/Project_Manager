@@ -83,7 +83,7 @@ namespace Project_Manager.UserControls
         }
 
         //Сохранение
-        private void Save_Click(object sender, RoutedEventArgs e)
+        public void SaveProject()
         {
             if (string.IsNullOrEmpty(CurrentFilePath))
             {
@@ -131,7 +131,7 @@ namespace Project_Manager.UserControls
         {
             if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S) // Ctrl + S
             {
-                Save_Click(sender, null); 
+                SaveProject(); 
                 e.Handled = true; 
             }
         }
@@ -150,7 +150,7 @@ namespace Project_Manager.UserControls
 
                     if (position.X < itemCenter)
                     {
-                        // Проверяем, если индекс совпадает с текущим индексом перетаскиваемого элемента
+                        
                         if (catalog == itemsControl.Items[i])
                         {
                             return -1; // Запретить перенос на самого себя
@@ -189,17 +189,15 @@ namespace Project_Manager.UserControls
             {
                 Catalog catalog = (Catalog)e.Data.GetData(typeof(Catalog));
                 ObservableCollection<Catalog> catalogs = Catalogs;
-                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog); // Передаем catalog
+                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog); 
 
-                if (catalog != null && catalogs != null && index != -1) // Проверяем, что индекс не -1
+                if (catalog != null && catalogs != null && index != -1)
                 {
                     catalogs.Remove(catalog);
                     catalogs.Insert(index, catalog);
                 }
             }
         }
-
-
 
         // Вспомогательный метод для поиска родительского элемента определенного типа в визуальном дереве
         private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject

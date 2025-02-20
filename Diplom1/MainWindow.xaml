@@ -25,6 +25,7 @@
                         <Button Height="40" Width="auto" Content="Профиль"  Style="{StaticResource BtnMenu}" Click="ProfileBtn_Click" />
                         <Button Height="40" Width="auto" Content="Мои доски"  Style="{StaticResource BtnMenu}" Click="MyBoardsBtn_Click"/>
                         <Button Height="40" Width="auto" Content="Доска"  Style="{StaticResource BtnMenu}" Click="BoardBtn_Click"/>
+                        
                     </StackPanel>
                     <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn_Click" Style="{StaticResource BtnMenu}"/>
 
@@ -46,12 +47,12 @@
 
             <Grid Grid.Row="0" Background="#2c2c2b">
                 <!-- Верхняя панель -->
-                <StackPanel Orientation="Horizontal" >
-                    
-                    <Label Name="TitleLab" Content="{Binding ProjectTitle}" Width="auto" Margin="10 10 40 10"/>
-                    
+                <StackPanel Orientation="Horizontal">
+                    <Label Name="TitleLab" Content="{Binding ProjectTitle}" Width="auto" Margin="20 10" />
                 </StackPanel>
 
+                <Button x:Name="SaveButton" Content="Сохранить" Margin="20" Click="SaveButton_Click" Style="{StaticResource BtnMain}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#f9f6f2"/>
+                
             </Grid>
 
             <Grid Grid.Row="1" Background="#f9f6f2">
