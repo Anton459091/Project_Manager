@@ -1,0 +1,38 @@
+﻿<Window x:Class="Project_Manager.UserControls.EditProfileWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование" MinHeight="480" MinWidth="320" Height="700" Width="350"
+        WindowStartupLocation="CenterOwner" Icon="\Resources\icon.ico">
+    <Grid Margin="10" Height="auto" Width="auto">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="auto" Width="auto">
+            <Border BorderBrush="#646f77" BorderThickness="1" CornerRadius="15" Width="150" Height="150" Margin="5">
+                <Image x:Name="ProfileImage" Source="{Binding PhotoPath}" Stretch="UniformToFill" />
+            </Border>
+            <Button Content="Загрузить фото" Width="auto" Margin="5" Click="UploadPhotoButton_Click" Style="{StaticResource BtnMain}" />
+
+            <Label Content="Логин:"  Foreground="#030303" HorizontalAlignment="Center" />
+            
+            <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Width="300" Height="auto" Margin="5" HorizontalAlignment="Center">
+                <TextBox x:Name="LoginTextBox" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Foreground="#646f77"/>
+            </Border>
+            
+            <Label Content="Описание:" Margin="0 10 0 0" Foreground="#030303" HorizontalAlignment="Center"/>
+            <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Width="300" Height="auto" Margin="5" HorizontalAlignment="Center">
+                <TextBox x:Name="DescriptionTextBox" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="100" TextWrapping="Wrap" HorizontalAlignment="Center" Foreground="#646f77"/>
+            </Border>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 20 0 0">
+                
+                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Width="auto" Height="auto" Margin="5" HorizontalAlignment="Center">
+                    <Button Content="Сохранить" Width="100" Margin="5" Click="SaveButton_Click" Style="{StaticResource BtnMain}" Foreground="#476f95"/>
+                </Border>
+                
+                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Width="auto" Height="auto" Margin="5" HorizontalAlignment="Center">
+                    <Button Content="Отмена" Width="100" Margin="5" Click="CancelButton_Click" Style="{StaticResource BtnMain}" Foreground="#79021c"/>
+                </Border>
+                
+            </StackPanel>
+            
+        </StackPanel>
+    </Grid>
+</Window>

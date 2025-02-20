@@ -101,7 +101,8 @@ namespace Project_Manager.UserControls
 
             SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+                InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Files") // Устанавливаем начальную директорию
             };
 
             if (saveFileDialog.ShowDialog() == true)
@@ -126,6 +127,14 @@ namespace Project_Manager.UserControls
             }
         }
 
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S) // Ctrl + S
+            {
+                Save_Click(sender, null); 
+                e.Handled = true; 
+            }
+        }
 
         //Drag and Drop
 

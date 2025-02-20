@@ -29,7 +29,6 @@ namespace Project_Manager
     {
         private bool isPanelOpen = true;
         private string _projectTitle = "Название проекта";
-
         public string ProjectTitle
         {
             get => _projectTitle;
@@ -125,5 +124,7 @@ namespace Project_Manager
 
             SidePanel.BeginAnimation(WidthProperty, animation);
         }
+
+
     }
 }

@@ -15,11 +15,19 @@ namespace Project_Manager.UserControls
     {
         private readonly string boardsFolderPath;
 
+        private User _currentUser;
+        private readonly string _userDataPath;
+
+
         public ProfileControl()
         {
             InitializeComponent();
             boardsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Files");
-            LoadBoards();
+            _userDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "user.json");
+
+            LoadUserData(); // Загружаем данные пользователя
+            LoadBoards();  // Загружаем доски
+            DataContext = _currentUser; // Устанавливаем контекст данных
         }
 
         private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -27,6 +35,35 @@ namespace Project_Manager.UserControls
             if (sender is TextBlock textBlock && textBlock.DataContext is BoardItem boardItem)
             {
                 OnBoardTextBlockClick(boardItem.Path);
+            }
+        }
+        private void LoadUserData()
+        {
+            if (File.Exists(_userDataPath))
+            {
+                try
+                {
+                    var json = File.ReadAllText(_userDataPath);
+                    _currentUser = JsonConvert.DeserializeObject<User>(json) ?? new User();
+                }
+                catch
+                {
+                    _currentUser = new User
+                    {
+                        Login = "Гость",
+                        Description = "Нет описания",
+                        PhotoPath = null
+                    };
+                }
+            }
+            else
+            {
+                _currentUser = new User
+                {
+                    Login = "Гость",
+                    Description = "Нет описания",
+                    PhotoPath = null
+                };
             }
         }
 
@@ -94,6 +131,12 @@ namespace Project_Manager.UserControls
                 return JsonConvert.DeserializeObject<BoardData>(jsonString);
             }
         }
+        private void SaveUserData()
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(_userDataPath));
+            var json = JsonConvert.SerializeObject(_currentUser, Formatting.Indented);
+            File.WriteAllText(_userDataPath, json);
+        }
 
         private void OpenBoardControl(string boardFile, BoardData boardData)
         {
@@ -132,6 +175,22 @@ namespace Project_Manager.UserControls
             if (parentObject == null) return null;
 
             return parentObject is T parent ? parent : FindVisualParent<T>(parentObject);
+        }
+
+        private void EditProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            var editWindow = new EditProfileWindow(_currentUser)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (editWindow.ShowDialog() == true)
+            {
+                _currentUser.Login = editWindow.EditedUser.Login;
+                _currentUser.Description = editWindow.EditedUser.Description;
+                _currentUser.PhotoPath = editWindow.EditedUser.PhotoPath;
+                SaveUserData();
+            }
         }
     }
 

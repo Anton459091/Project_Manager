@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Project_Manager"
         xmlns:usercontrols="clr-namespace:Project_Manager.UserControls"
         mc:Ignorable="d"
-        Title="Project Manager" MinHeight="720" MinWidth="1280"
+        Title="Проектный менеджер" MinHeight="720" MinWidth="1280"
         WindowState="Maximized" Icon="Resources\icon.ico">
     <Grid>
 

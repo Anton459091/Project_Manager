@@ -92,6 +92,7 @@
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Catalog.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="UserControls\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
@@ -101,6 +102,9 @@
     <Compile Include="Controls\ContextMenuManager.cs" />
     <Compile Include="UserControls\CatalogControl.xaml.cs">
       <DependentUpon>CatalogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\EditProfileWindow.xaml.cs">
+      <DependentUpon>EditProfileWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MyBoardsControl.xaml.cs">
       <DependentUpon>MyBoardsControl.xaml</DependentUpon>
@@ -129,6 +133,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\CatalogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\EditProfileWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
