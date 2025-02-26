@@ -229,6 +229,7 @@ namespace Project_Manager.UserControls
                 if (contentControl != null)
                 {
                     contentControl.Content = boardControl;
+                    mainWindow.SaveButton.Visibility = Visibility.Visible;
                 }
                 else
                 {

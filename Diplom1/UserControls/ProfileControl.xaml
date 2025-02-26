@@ -18,8 +18,13 @@
                     <Image Source="{Binding PhotoPath}" Height="200" Width="200" Stretch="UniformToFill" />
                 </Border>
 
-                <Label x:Name="Login" Content="{Binding Login}" Foreground="#151514" Margin="5" HorizontalAlignment="Center"/>
-                <Label x:Name="Description" Content="{Binding Description}" Foreground="#151514" Margin="5" HorizontalAlignment="Center"/>
+            <Label x:Name="Login" Foreground="#151514" Margin="5" HorizontalAlignment="Center" MaxWidth="175">
+                <TextBlock Text="{Binding Login}" TextWrapping="Wrap" FontSize="20"/>
+            </Label>
+                
+            <Label x:Name="Description" Foreground="#151514" Margin="5" HorizontalAlignment="Center" MaxWidth="175">
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="20"/>
+            </Label>
 
                 <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Width="auto" Height="auto" Margin="5" HorizontalAlignment="Center">
                     <Button Content="Редактировать профиль" Foreground="#476f95" FontSize="15" Margin="5" Style="{StaticResource BtnMain}" Click="EditProfileButton_Click"/>
@@ -32,7 +37,7 @@
                 <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Margin="5 10"  Width="auto" Height="auto" VerticalAlignment="Top" Background="#d9d6d2" >
                     <StackPanel x:Name="MyBoards" Height="auto">
                     
-                        <Label Content="Мои Доски" Foreground="#030303" HorizontalAlignment="Center"/>
+                        <Label Content="Мои Доски" Foreground="#030303" HorizontalAlignment="Center" FontSize="20"/>
                     
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <ItemsControl x:Name="BoardsItemsControl">

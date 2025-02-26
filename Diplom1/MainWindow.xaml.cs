@@ -55,18 +55,22 @@ namespace Project_Manager
             if (MainContent.Content is ProfileControl)
             {
                 ProjectTitle = "Профиль";
+                SaveButton.Visibility = Visibility.Collapsed; // Скрыть кнопку
             }
             else if (MainContent.Content is MyBoardsControl)
             {
                 ProjectTitle = "Мои доски";
+                SaveButton.Visibility = Visibility.Collapsed; // Скрыть кнопку
             }
             else if (MainContent.Content is BoardControl)
             {
-                ProjectTitle = "Название проекта"; 
+                ProjectTitle = "Название проекта";
+                SaveButton.Visibility = Visibility.Visible; // Показать кнопку
             }
             else
             {
-                ProjectTitle = "Название проекта"; 
+                ProjectTitle = "Название проекта";
+                SaveButton.Visibility = Visibility.Collapsed; // Скрыть кнопку
             }
         }
 

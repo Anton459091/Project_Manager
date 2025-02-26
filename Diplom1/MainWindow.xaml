@@ -51,7 +51,7 @@
                     <Label Name="TitleLab" Content="{Binding ProjectTitle}" Width="auto" Margin="20 10" />
                 </StackPanel>
 
-                <Button x:Name="SaveButton" Content="Сохранить" Margin="20" Click="SaveButton_Click" Style="{StaticResource BtnMain}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#f9f6f2"/>
+                <Button x:Name="SaveButton" Content="Сохранить" Margin="20" Click="SaveButton_Click" Style="{StaticResource BtnMain}" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="#f9f6f2" Visibility="Collapsed"/>
                 
             </Grid>
 
