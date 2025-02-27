@@ -189,11 +189,28 @@ namespace Project_Manager.UserControls
             {
                 Catalog catalog = (Catalog)e.Data.GetData(typeof(Catalog));
                 ObservableCollection<Catalog> catalogs = Catalogs;
-                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog); 
+                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog);
 
                 if (catalog != null && catalogs != null && index != -1)
                 {
+                    int oldIndex = catalogs.IndexOf(catalog);
+
+                    if (oldIndex == -1) return; // Элемент не найден
+
                     catalogs.Remove(catalog);
+
+                    // Корректируем индекс после удаления элемента
+                    if (index > oldIndex)
+                    {
+                        index--;
+                    }
+
+                    // Убедимся, что индекс не превышает текущее количество элементов
+                    if (index > catalogs.Count)
+                    {
+                        index = catalogs.Count;
+                    }
+
                     catalogs.Insert(index, catalog);
                 }
             }
