@@ -138,7 +138,7 @@ namespace Project_Manager.UserControls
 
         //Drag and Drop
 
-        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition, Catalog catalog)
+        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition, Catalog catalog) // index-1 < item > index+1
         {
             int index = 0;
             for (int i = 0; i < itemsControl.Items.Count; i++)
@@ -195,17 +195,15 @@ namespace Project_Manager.UserControls
                 {
                     int oldIndex = catalogs.IndexOf(catalog);
 
-                    if (oldIndex == -1) return; // Элемент не найден
+                    if (oldIndex == -1) return;
 
                     catalogs.Remove(catalog);
 
-                    // Корректируем индекс после удаления элемента
                     if (index > oldIndex)
                     {
                         index--;
                     }
 
-                    // Убедимся, что индекс не превышает текущее количество элементов
                     if (index > catalogs.Count)
                     {
                         index = catalogs.Count;

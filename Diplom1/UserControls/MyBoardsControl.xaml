@@ -9,9 +9,11 @@
     <Grid >
 
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            
             <StackPanel >
 
                 <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="10" Margin="15"  Width="auto" Height="auto" VerticalAlignment="Top" Grid.Row="1" Background="#d9d6d2">
+                    
                     <StackPanel Height="auto" Width="auto">
 
                         <StackPanel x:Name="MyBoards" Height="auto" Width="auto" Margin="10" VerticalAlignment="Top"/>
@@ -21,6 +23,7 @@
                                 <Button Content=" + Добавить Доску" Margin="15" FontSize="15" HorizontalAlignment="Left" Style="{StaticResource BtnMain}" Click="AddBoardButton_Click"/>
                             </StackPanel>
                         </Border>
+                        
                     </StackPanel>
 
                 </Border>
@@ -28,7 +31,6 @@
             </StackPanel>
 
         </ScrollViewer>
-
 
     </Grid>
 </UserControl>

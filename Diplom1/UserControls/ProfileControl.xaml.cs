@@ -11,13 +11,18 @@ using Project_Manager.Models;
 
 namespace Project_Manager.UserControls
 {
+    public class BoardItem
+    {
+        public string Path { get; set; }
+        public string Name { get; set; }
+    }
+
     public partial class ProfileControl : UserControl
     {
-        private readonly string boardsFolderPath;
 
         private User _currentUser;
         private readonly string _userDataPath;
-
+        private readonly string boardsFolderPath;
 
         public ProfileControl()
         {
@@ -25,9 +30,9 @@ namespace Project_Manager.UserControls
             boardsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Files");
             _userDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "user.json");
 
-            LoadUserData(); // Загружаем данные пользователя
-            LoadBoards();  // Загружаем доски
-            DataContext = _currentUser; // Устанавливаем контекст данных
+            LoadUserData();
+            LoadBoards();
+            DataContext = _currentUser;
         }
 
         private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -37,6 +42,7 @@ namespace Project_Manager.UserControls
                 OnBoardTextBlockClick(boardItem.Path);
             }
         }
+
         private void LoadUserData()
         {
             if (File.Exists(_userDataPath))
@@ -46,6 +52,7 @@ namespace Project_Manager.UserControls
                     var json = File.ReadAllText(_userDataPath);
                     _currentUser = JsonConvert.DeserializeObject<User>(json) ?? new User();
                 }
+
                 catch
                 {
                     _currentUser = new User
@@ -56,6 +63,7 @@ namespace Project_Manager.UserControls
                     };
                 }
             }
+
             else
             {
                 _currentUser = new User
@@ -109,18 +117,22 @@ namespace Project_Manager.UserControls
 
                 OpenBoardControl(boardFile, boardData);
             }
+
             catch (FileNotFoundException)
             {
                 ShowErrorMessage($"Файл {boardFile} не найден.");
             }
+
             catch (JsonException ex)
             {
                 ShowErrorMessage($"Ошибка при чтении JSON из файла {boardFile}: {ex.Message}");
             }
+
             catch (Exception ex)
             {
                 ShowErrorMessage($"Неизвестная ошибка при открытии файла: {ex.Message}");
             }
+
         }
 
         private BoardData LoadBoardData(string boardFile)
@@ -131,6 +143,7 @@ namespace Project_Manager.UserControls
                 return JsonConvert.DeserializeObject<BoardData>(jsonString);
             }
         }
+
         private void SaveUserData()
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_userDataPath));
@@ -158,6 +171,7 @@ namespace Project_Manager.UserControls
             {
                 contentControl.Content = boardControl;
             }
+
             else
             {
                 ShowErrorMessage("Не удалось найти ContentControl.");
@@ -167,14 +181,6 @@ namespace Project_Manager.UserControls
         private void ShowErrorMessage(string message)
         {
             MessageBox.Show(message);
-        }
-
-        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            var parentObject = VisualTreeHelper.GetParent(child);
-            if (parentObject == null) return null;
-
-            return parentObject is T parent ? parent : FindVisualParent<T>(parentObject);
         }
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
@@ -189,16 +195,18 @@ namespace Project_Manager.UserControls
                 _currentUser.Login = editWindow.EditedUser.Login;
                 _currentUser.Description = editWindow.EditedUser.Description;
                 _currentUser.PhotoPath = editWindow.EditedUser.PhotoPath;
+
                 SaveUserData();
             }
         }
-    }
 
-    public class BoardItem
-    {
-        public string Path { get; set; }
-        public string Name { get; set; }
-    }
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            var parentObject = VisualTreeHelper.GetParent(child);
+            if (parentObject == null) return null;
 
+            return parentObject is T parent ? parent : FindVisualParent<T>(parentObject);
+        }
+    }
 
 }

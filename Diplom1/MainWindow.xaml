@@ -20,6 +20,7 @@
             <!-- Меню -->
             <Border x:Name="SidePanel" Width="auto" HorizontalAlignment="Left">
                 <Grid>
+                    
                     <StackPanel Margin="10 0">
 
                         <Button Height="40" Width="auto" Content="Профиль"  Style="{StaticResource BtnMenu}" Click="ProfileBtn_Click" />
@@ -27,10 +28,12 @@
                         <Button Height="40" Width="auto" Content="Доска"  Style="{StaticResource BtnMenu}" Click="BoardBtn_Click"/>
                         
                     </StackPanel>
+                    
                     <Button Height="40" Width="auto" Content="Выход" VerticalAlignment="Bottom" Click="ExitBtn_Click" Style="{StaticResource BtnMenu}"/>
 
                 </Grid>
             </Border>
+            
         </Grid>
 
         <Grid Grid.Column="1" Background="#151514">
@@ -57,11 +60,10 @@
 
             <Grid Grid.Row="1" Background="#f9f6f2">
                 <!-- Доска -->
-                <ContentControl x:Name="MainContent" />
+                <ContentControl x:Name="MainContent"/>
             </Grid>
 
         </Grid>
-
 
     </Grid>
 </Window>

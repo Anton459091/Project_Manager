@@ -116,6 +116,7 @@ namespace Project_Manager.UserControls
                 }
             }
         }
+
         private void CatalogBorder_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(typeof(Card)))
@@ -157,7 +158,6 @@ namespace Project_Manager.UserControls
                 Catalog targetCatalog = (Catalog)DataContext; 
                 ObservableCollection<Card> cards = targetCatalog.Cards; 
 
-
                 var boardControl = FindVisualParent<BoardControl>(this);
 
                 if (boardControl != null)
@@ -197,7 +197,7 @@ namespace Project_Manager.UserControls
             }
         }
 
-            private int GetDropIndex(ItemsControl itemsControl, Point dropPosition)
+        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition)
         {
             int index = 0;
             for (int i = 0; i < itemsControl.Items.Count; i++)
@@ -238,7 +238,6 @@ namespace Project_Manager.UserControls
                 return FindVisualParent<T>(parentObject);
             }
         }
-
 
     }
 }

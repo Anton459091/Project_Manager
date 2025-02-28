@@ -29,6 +29,7 @@ namespace Project_Manager.UserControls
                 Description = user.Description,
                 PhotoPath = user.PhotoPath
             };
+
             DataContext = EditedUser;
         }
 
@@ -43,6 +44,7 @@ namespace Project_Manager.UserControls
             DialogResult = false;
             Close();
         }
+
         private void UploadPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog
@@ -53,10 +55,7 @@ namespace Project_Manager.UserControls
 
             if (openFileDialog.ShowDialog() == true)
             {
-                // Сохраняем путь к выбранному файлу
                 EditedUser.PhotoPath = openFileDialog.FileName;
-
-                // Обновляем изображение в интерфейсе
                 ProfileImage.Source = new BitmapImage(new Uri(openFileDialog.FileName));
             }
         }

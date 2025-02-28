@@ -27,8 +27,10 @@ namespace Project_Manager
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         private bool isPanelOpen = true;
         private string _projectTitle = "Название проекта";
+
         public string ProjectTitle
         {
             get => _projectTitle;
@@ -45,7 +47,6 @@ namespace Project_Manager
             DataContext = this;
 
         }
-        public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -80,12 +81,14 @@ namespace Project_Manager
             MainContent.Content = new ProfileControl();
             UpdateTitleBasedOnContent();
         }
+
         private void MyBoardsBtn_Click(object sender, RoutedEventArgs e)
         {
 
             MainContent.Content = new MyBoardsControl();
             UpdateTitleBasedOnContent();
         }
+
         private void ExitBtn_Click(object sender, RoutedEventArgs e)
         {
             Close();
@@ -104,10 +107,12 @@ namespace Project_Manager
             {
                 AnimatePanel(165, 0);
             }
+
             else
             {
                 AnimatePanel(0, 165);
             }
+
             isPanelOpen = !isPanelOpen;
         }
 
@@ -131,10 +136,8 @@ namespace Project_Manager
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            // Проверяем, что текущий контент - это BoardControl
             if (MainContent.Content is BoardControl boardControl)
             {
-                // Вызываем метод сохранения из BoardControl
                 boardControl.SaveProject();
             }
         }
