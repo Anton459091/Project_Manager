@@ -54,7 +54,7 @@ namespace Project_Manager.UserControls
         private void AddCardsControl(string cardsName)
         {
             Catalog catalog = (Catalog)DataContext;
-            Card card = new Card { Title = cardsName, Description = "Описание карточки" };
+            Card card = new Card { Title = cardsName, Description = "" };
             catalog.Cards.Add(card);
         }
 
