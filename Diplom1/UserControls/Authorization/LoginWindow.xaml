@@ -1,0 +1,82 @@
+﻿<Window x:Class="Project_Manager.UserControls.Authorization.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Авторизация" MinHeight="450" MinWidth="800" Height="450" Width="800">
+    <Grid Margin="20">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Заголовок -->
+            <TextBlock Text="Вход в систему" 
+                    FontSize="32" 
+                    FontWeight="Bold" 
+                    Foreground="#476f95"
+                    Margin="0,0,0,20"
+                    HorizontalAlignment="Center"/>
+
+            <!-- Поля для ввода -->
+            <Border BorderBrush="#646f77" BorderThickness="1" CornerRadius="10" Margin="10">
+                <TextBox x:Name="UsernameTextBox" 
+                        Width="250" 
+                        Height="30" 
+                        Padding="5"
+                        FontSize="18"
+                        Foreground="#141e26"
+                        VerticalContentAlignment="Center"
+                        Tag="Логин"/>
+            </Border>
+
+            <Border BorderBrush="#646f77" BorderThickness="1" CornerRadius="10" Margin="10">
+                <PasswordBox x:Name="PasswordBox" 
+                            Width="250" 
+                            Height="30" 
+                            Padding="5"
+                            Margin="10"
+                            FontSize="18"
+                            BorderThickness="0"
+                            VerticalContentAlignment="Center"
+                            Tag="Пароль"/>
+            </Border>
+
+            <!-- Кнопка входа -->
+            <Button x:Name="LoginButton"
+                
+                FontSize="18"
+                Content="Войти" 
+                Width="170" 
+                Height="35" 
+                Margin="0,10,0,10"
+                Style="{StaticResource BtnMain}"
+                Foreground="#476f95"
+                Click="LoginButton_Click"/>
+
+            <!-- Разделитель -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                <Line X1="0" X2="80" Y1="10" Y2="10" Stroke="#646f77" StrokeThickness="1"/>
+                <TextBlock Text="или" Margin="5,0" Foreground="#646f77" FontSize="14"/>
+                <Line X1="0" X2="80" Y1="10" Y2="10" Stroke="#646f77" StrokeThickness="1"/>
+            </StackPanel>
+
+            <!-- Кнопка регистрации -->
+            <Button x:Name="RegisterButton" 
+                    
+                FontSize="18"
+                Content="Зарегистрироваться" 
+                Width="170" 
+                Height="35" 
+                Margin="0,10,0,0"
+                Style="{StaticResource BtnMain}"
+                Foreground="#476f95"
+                Click="RegisterButton_Click"/>
+
+            <!-- Сообщение об ошибке -->
+            <TextBlock x:Name="ErrorMessage" 
+                    Foreground="#79021c" 
+                    Margin="0,15,0,0"
+                    TextWrapping="Wrap"
+                    HorizontalAlignment="Center"
+                    Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</Window>

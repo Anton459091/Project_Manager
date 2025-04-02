@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Project_Manager.Data;
 using System.Collections.ObjectModel;
 using Project_Manager.Models;
+using Project_Manager.UserControls.Authorization;
 
 namespace Project_Manager.UserControls
 {
@@ -45,34 +46,8 @@ namespace Project_Manager.UserControls
 
         private void LoadUserData()
         {
-            if (File.Exists(_userDataPath))
-            {
-                try
-                {
-                    var json = File.ReadAllText(_userDataPath);
-                    _currentUser = JsonConvert.DeserializeObject<User>(json) ?? new User();
-                }
-
-                catch
-                {
-                    _currentUser = new User
-                    {
-                        Login = "Гость",
-                        Description = "Нет описания",
-                        PhotoPath = null
-                    };
-                }
-            }
-
-            else
-            {
-                _currentUser = new User
-                {
-                    Login = "Гость",
-                    Description = "Нет описания",
-                    PhotoPath = null
-                };
-            }
+            _currentUser = UserRepository.LoadUser();
+            DataContext = _currentUser;
         }
 
         private void LoadBoards()
@@ -143,12 +118,9 @@ namespace Project_Manager.UserControls
                 return JsonConvert.DeserializeObject<BoardData>(jsonString);
             }
         }
-
         private void SaveUserData()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(_userDataPath));
-            var json = JsonConvert.SerializeObject(_currentUser, Formatting.Indented);
-            File.WriteAllText(_userDataPath, json);
+            UserRepository.SaveUser(_currentUser);
         }
 
         private void OpenBoardControl(string boardFile, BoardData boardData)
@@ -185,18 +157,18 @@ namespace Project_Manager.UserControls
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            var editWindow = new EditProfileWindow(_currentUser)
+            var loginWindow = new LoginWindow
             {
-                Owner = Window.GetWindow(this)
+                Owner = Window.GetWindow(this),
+                IsEditMode = true,
+                CurrentUser = _currentUser
             };
 
-            if (editWindow.ShowDialog() == true)
+            if (loginWindow.ShowDialog() == true)
             {
-                _currentUser.Login = editWindow.EditedUser.Login;
-                _currentUser.Description = editWindow.EditedUser.Description;
-                _currentUser.PhotoPath = editWindow.EditedUser.PhotoPath;
-
-                SaveUserData();
+                _currentUser = loginWindow.CurrentUser;
+                UserRepository.SaveUser(_currentUser);
+                DataContext = _currentUser;
             }
         }
 
