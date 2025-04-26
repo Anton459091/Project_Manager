@@ -18,7 +18,6 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using Project_Manager.Data;
-using Project_Manager.Models;
 using Project_Manager.UserControls;
 using Project_Manager.UserControls.Controls;
 
@@ -51,7 +50,7 @@ namespace Project_Manager.UserControls
         }
         private void AddСatalogControl(string catalogName)
         {
-            Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
+            Catalogs.Add(new Catalog { Title = catalogName, Cards = new ObservableCollection<Card>() });
         }
 
         // Фокусировка

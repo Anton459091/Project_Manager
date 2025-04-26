@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-
+using Project_Manager.Data;
 public static class UserRepository
 {
     private static readonly string UserFilePath = Path.Combine(
@@ -16,7 +16,6 @@ public static class UserRepository
             return new User
             {
                 Login = "Гость",
-                Description = "Нет описания",
                 PhotoPath = null
             };
         }
@@ -31,7 +30,6 @@ public static class UserRepository
             return new User
             {
                 Login = "Гость",
-                Description = "Нет описания",
                 PhotoPath = null
             };
         }

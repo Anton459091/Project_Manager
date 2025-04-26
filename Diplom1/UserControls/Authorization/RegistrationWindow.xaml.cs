@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
+using Project_Manager.Data;
 
 namespace Project_Manager.UserControls.Authorization
 {

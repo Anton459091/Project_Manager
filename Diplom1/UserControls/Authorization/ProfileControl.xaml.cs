@@ -7,7 +7,6 @@ using System.Windows.Media;
 using Newtonsoft.Json;
 using Project_Manager.Data;
 using System.Collections.ObjectModel;
-using Project_Manager.Models;
 using Project_Manager.UserControls.Authorization;
 
 namespace Project_Manager.UserControls

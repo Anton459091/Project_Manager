@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using Newtonsoft.Json;
 using Project_Manager.Data;
 using System.Collections.ObjectModel;
-using Project_Manager.Models;
 using System.Windows.Media;
 using System.Linq;
 using System.Collections.Generic;
