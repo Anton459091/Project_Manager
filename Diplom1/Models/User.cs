@@ -1,49 +1,51 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security;
 
 public class User : INotifyPropertyChanged
 {
-    private string _login;
-    private string _description;
-    private string _photoPath;
-    private string _passwordHash; // Хэш пароля для безопасности
+    [Column("Users_ID")]
+    public int User_Id { get; set; }
+
+    [Column("Login")]
+    public string User_login { get; set; }
+
+    [Column("PhotoPath")]
+    public string User_photoPath { get; set; }
+
+    [Column("PasswordHash")]
+    public string User_passwordHash; // Хэш пароля для безопасности
+
+    [Column("Role")]
+    public string User_role { get; set; }
+
 
     public string Login
     {
-        get => _login;
+        get => User_login;
         set
         {
-            _login = value;
+            User_login = value;
             OnPropertyChanged(nameof(Login));
-        }
-    }
-
-    public string Description
-    {
-        get => _description;
-        set
-        {
-            _description = value;
-            OnPropertyChanged(nameof(Description));
         }
     }
 
     public string PhotoPath
     {
-        get => _photoPath;
+        get => User_photoPath;
         set
         {
-            _photoPath = value;
+            User_photoPath = value;
             OnPropertyChanged(nameof(PhotoPath));
         }
     }
 
     public string PasswordHash
     {
-        get => _passwordHash;
+        get => User_passwordHash;
         set
         {
-            _passwordHash = value;
+            User_passwordHash = value;
             OnPropertyChanged(nameof(PasswordHash));
         }
     }

@@ -51,7 +51,7 @@ namespace Project_Manager.UserControls
         }
         private void AddСatalogControl(string catalogName)
         {
-            Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
+            Catalogs.Add(new Catalog { Catalog_Title = catalogName, Cards = new ObservableCollection<Card>() });
         }
 
         // Фокусировка

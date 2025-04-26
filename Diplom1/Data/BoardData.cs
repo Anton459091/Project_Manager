@@ -11,7 +11,7 @@ namespace Project_Manager.Data
 {
     public class BoardData
     {
-        [JsonProperty("BoardName")]
+        [JsonProperty("Board_Title")]
         public string BoardName { get; set; }
 
         [JsonProperty("Catalogs")] // Указываем имя свойства в JSON

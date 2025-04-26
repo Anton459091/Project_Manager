@@ -16,7 +16,7 @@ public static class UserRepository
             return new User
             {
                 Login = "Гость",
-                Description = "Нет описания",
+                
                 PhotoPath = null
             };
         }
@@ -31,7 +31,7 @@ public static class UserRepository
             return new User
             {
                 Login = "Гость",
-                Description = "Нет описания",
+                
                 PhotoPath = null
             };
         }
