@@ -11,6 +11,11 @@ using Project_Manager.UserControls.Authorization;
 
 namespace Project_Manager.UserControls
 {
+    public static class UserSession
+    {
+        public static string LoggedInUsername { get; set; }
+    }
+
     public class BoardItem
     {
         public string Path { get; set; }
@@ -45,7 +50,15 @@ namespace Project_Manager.UserControls
 
         private void LoadUserData()
         {
-            _currentUser = UserRepository.LoadUser();
+            if (!string.IsNullOrEmpty(UserSession.LoggedInUsername))
+            {
+                _currentUser = UserRepository.LoadUser(UserSession.LoggedInUsername);
+            }
+            else
+            {
+                _currentUser = new User { Login = "Гость" };
+            }
+
             DataContext = _currentUser;
         }
 
@@ -117,10 +130,6 @@ namespace Project_Manager.UserControls
                 return JsonConvert.DeserializeObject<BoardData>(jsonString);
             }
         }
-        private void SaveUserData()
-        {
-            UserRepository.SaveUser(_currentUser);
-        }
 
         private void OpenBoardControl(string boardFile, BoardData boardData)
         {
@@ -156,20 +165,73 @@ namespace Project_Manager.UserControls
 
         private void EditProfileButton_Click(object sender, RoutedEventArgs e)
         {
-            var loginWindow = new LoginWindow
+            var editWindow = new EditWindow(_currentUser)
             {
-                Owner = Window.GetWindow(this),
-                IsEditMode = true,
-                CurrentUser = _currentUser
+                Owner = Window.GetWindow(this)
             };
 
-            if (loginWindow.ShowDialog() == true)
+            if (editWindow.ShowDialog() == true)
             {
-                _currentUser = loginWindow.CurrentUser;
-                UserRepository.SaveUser(_currentUser);
-                DataContext = _currentUser;
+                try
+                {
+                    _currentUser = editWindow.CurrentUser;
+                    UserRepository.SaveUser(_currentUser);
+
+                    DataContext = null;
+                    DataContext = _currentUser;
+
+                    if (!string.IsNullOrEmpty(_currentUser.PhotoPath))
+                    {
+                        // Ваш код для обновления изображения профиля
+                    }
+
+                    MessageBox.Show("Профиль успешно обновлен!", "Успех",
+                                  MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка",
+                                  MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var confirmResult = MessageBox.Show("Вы уверены, что хотите выйти из аккаунта?",
+                                                "Подтверждение выхода",
+                                                MessageBoxButton.YesNo,
+                                                MessageBoxImage.Question);
+
+            if (confirmResult != MessageBoxResult.Yes)
+                return;
+
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+
+            if (mainWindow != null)
+            {
+                mainWindow.Hide(); // временно скрываем главное окно
+
+                var loginWindow = new LoginWindow();
+                bool? result = loginWindow.ShowDialog(); // показываем как диалог
+
+                if (result == true)
+                {
+                    // Переоткрываем новое главное окно
+                    var newMainWindow = new MainWindow();
+                    newMainWindow.Show();
+                }
+                else
+                {
+                    // Если логин неудачен — вырубаем всё приложение
+                    Application.Current.Shutdown();
+                }
+
+                // Закрываем старое окно (можно позже, если не нужно)
+                mainWindow.Close();
+            }
+        }
+
 
         private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
         {

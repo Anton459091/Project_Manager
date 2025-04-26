@@ -27,6 +27,10 @@
                     <Button Content="Смена пользователя" Foreground="#476f95" FontSize="15" Margin="5" Style="{StaticResource BtnMain}" Click="EditProfileButton_Click"/>
                 </Border>
 
+            <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Width="auto" Height="auto" Margin="5" HorizontalAlignment="Center">
+                <Button Content="Выйти" Foreground="#476f95" FontSize="15" Margin="5" Style="{StaticResource BtnMain}" Click="LogoutButton_Click"/>
+            </Border>
+
 
         </StackPanel>
      

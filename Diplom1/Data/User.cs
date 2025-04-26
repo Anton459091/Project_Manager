@@ -2,7 +2,9 @@ using System.ComponentModel;
 using System.Security;
 using System;
 using System.Collections.Generic;
-    
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
 namespace Project_Manager.Data
 {
     public class User : INotifyPropertyChanged
@@ -20,7 +22,9 @@ namespace Project_Manager.Data
         {
             this.Board = new HashSet<Board>();
         }
-    
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Users_ID { get; set; }
         public string Login
         {
@@ -49,9 +53,10 @@ namespace Project_Manager.Data
                 OnPropertyChanged(nameof(PasswordHash));
             }
         }
-        public int Role { get; set; }
-    
-        public virtual Role Role1 { get; set; }
+        public int Role { get; set; }  // внешний ключ
+        public virtual Role Role1 { get; set; }  // навигация
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Board> Board { get; set; }
 

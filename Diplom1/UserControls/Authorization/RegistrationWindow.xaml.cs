@@ -8,6 +8,8 @@ namespace Project_Manager.UserControls.Authorization
     public partial class RegistrationWindow : Window
     {
         public string AvatarPath { get; private set; }
+        public string RegisteredUsername { get; private set; }
+
 
         public RegistrationWindow()
         {
@@ -45,6 +47,7 @@ namespace Project_Manager.UserControls.Authorization
             newUser.SetPassword(PasswordBox.Password);
 
             UserRepository.SaveUser(newUser);
+            RegisteredUsername = UsernameTxtBx.Text;
             DialogResult = true;
             Close();
         }

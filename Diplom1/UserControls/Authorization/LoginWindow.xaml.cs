@@ -8,6 +8,8 @@ namespace Project_Manager.UserControls.Authorization
     {
         public User CurrentUser { get; set; }
         public bool IsEditMode { get; set; }
+        public string LoggedInUsername { get; private set; }
+
 
         public LoginWindow()
         {
@@ -24,40 +26,42 @@ namespace Project_Manager.UserControls.Authorization
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (UserRepository.UserExists(UsernameTextBox.Text))
-            {
-                var user = UserRepository.LoadUser();
-                if (user.CheckPassword(PasswordBox.Password))
-                {
-                    CurrentUser = user;
-                    DialogResult = true;
-                    Close();
-                    return;
-                }
-            }
+            string username = UsernameTextBox.Text;
+            var user = UserRepository.LoadUser(username);
 
-            MessageBox.Show("Неверный логин или пароль");
+            if (user != null && user.CheckPassword(PasswordBox.Password))
+            {
+                UserSession.LoggedInUsername = username; // 💾 сохраняем логин
+                DialogResult = true;
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("Неверный логин или пароль");
+            }
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             if (IsEditMode)
             {
+                // Редактирование существующего пользователя
                 CurrentUser.Login = UsernameTextBox.Text;
                 if (!string.IsNullOrEmpty(PasswordBox.Password))
-                {
                     CurrentUser.SetPassword(PasswordBox.Password);
-                }
+
                 UserRepository.SaveUser(CurrentUser);
                 DialogResult = true;
                 Close();
             }
             else
             {
+                // Регистрация нового пользователя
                 var regWindow = new RegistrationWindow { Owner = this };
                 if (regWindow.ShowDialog() == true)
                 {
-                    CurrentUser = UserRepository.LoadUser();
+                    // Загружаем ТОЛЬКО что зарегистрированного пользователя
+                    CurrentUser = UserRepository.LoadUser(regWindow.UsernameTxtBx.Text);
                     DialogResult = true;
                     Close();
                 }
