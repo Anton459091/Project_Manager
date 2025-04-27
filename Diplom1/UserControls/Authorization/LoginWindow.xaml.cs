@@ -27,7 +27,7 @@ namespace Project_Manager.UserControls.Authorization
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
             string username = UsernameTextBox.Text;
-            var user = UserRepository.LoadUser(username);
+            var user = ProjectRepository.LoadUser(username);
 
             if (user != null && user.CheckPassword(PasswordBox.Password))
             {
@@ -50,7 +50,7 @@ namespace Project_Manager.UserControls.Authorization
                 if (!string.IsNullOrEmpty(PasswordBox.Password))
                     CurrentUser.SetPassword(PasswordBox.Password);
 
-                UserRepository.SaveUser(CurrentUser);
+                ProjectRepository.SaveUser(CurrentUser);
                 DialogResult = true;
                 Close();
             }
@@ -61,7 +61,7 @@ namespace Project_Manager.UserControls.Authorization
                 if (regWindow.ShowDialog() == true)
                 {
                     // Загружаем ТОЛЬКО что зарегистрированного пользователя
-                    CurrentUser = UserRepository.LoadUser(regWindow.UsernameTxtBx.Text);
+                    CurrentUser = ProjectRepository.LoadUser(regWindow.UsernameTxtBx.Text);
                     DialogResult = true;
                     Close();
                 }

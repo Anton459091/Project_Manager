@@ -52,7 +52,7 @@ namespace Project_Manager.UserControls
         {
             if (!string.IsNullOrEmpty(UserSession.LoggedInUsername))
             {
-                _currentUser = UserRepository.LoadUser(UserSession.LoggedInUsername);
+                _currentUser = ProjectRepository.LoadUser(UserSession.LoggedInUsername);
             }
             else
             {
@@ -175,7 +175,7 @@ namespace Project_Manager.UserControls
                 try
                 {
                     _currentUser = editWindow.CurrentUser;
-                    UserRepository.SaveUser(_currentUser);
+                    ProjectRepository.SaveUser(_currentUser);
 
                     DataContext = null;
                     DataContext = _currentUser;

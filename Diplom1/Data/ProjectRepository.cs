@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using Project_Manager.Data;
 
-public static class UserRepository
+public static class ProjectRepository
 {
     private static readonly ProjectManagerEntities _dbContext = new ProjectManagerEntities();
 
