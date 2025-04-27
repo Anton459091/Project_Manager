@@ -102,7 +102,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\BoardData.cs" />
-    <Compile Include="Data\BoardManager.cs" />
     <Compile Include="Data\Card.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -131,6 +130,7 @@
     <Compile Include="Data\User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserBoard.cs" />
     <Compile Include="UserControls\Authorization\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
@@ -235,9 +235,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\icon.ico" />
     <Resource Include="Resources\icon.png" />

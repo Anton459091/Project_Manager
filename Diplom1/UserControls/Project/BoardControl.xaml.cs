@@ -82,56 +82,12 @@ namespace Project_Manager.UserControls
         }
 
         //Сохранение
-        public void SaveProject()
-        {
-            if (string.IsNullOrEmpty(CurrentFilePath))
-            {
-                SaveAs();
-            }
-            else
-            {
-                Save(CurrentFilePath);
-            }
-        }
-
-        private void SaveAs()
-        {
-            MainWindow mainWindow = FindVisualParent<MainWindow>(this);
-
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
-                InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Files") // Устанавливаем начальную директорию
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                Save(saveFileDialog.FileName);
-                mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
-            }
-
-        }
-
-        private void Save(string filePath)
-        {
-            try
-            {
-                DataManager.SaveData(this, filePath);
-                CurrentFilePath = filePath;
-                Console.WriteLine($"Data saved to {filePath}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}");
-            }
-        }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S) // Ctrl + S
             {
-                SaveProject(); 
-                e.Handled = true; 
+
             }
         }
 

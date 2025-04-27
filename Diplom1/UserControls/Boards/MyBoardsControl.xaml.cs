@@ -172,9 +172,7 @@ namespace Project_Manager.UserControls
             
             string newFileName = GenerateUniqueFileName("Доска", ".json");
             string newFilePath = System.IO.Path.Combine(boardsFolderPath, newFileName);
-           
-            DataManager.SaveData(newBoardControl, newFilePath);
-            
+
             AddBoardUI(newFilePath);
         }
 
