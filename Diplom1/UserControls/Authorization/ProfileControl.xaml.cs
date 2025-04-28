@@ -40,13 +40,6 @@ namespace Project_Manager.UserControls
             DataContext = _currentUser;
         }
 
-        private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (sender is TextBlock textBlock && textBlock.DataContext is BoardItem boardItem)
-            {
-                OnBoardTextBlockClick(boardItem.Path);
-            }
-        }
 
         private void LoadUserData()
         {
@@ -91,36 +84,6 @@ namespace Project_Manager.UserControls
                 .ToArray();
         }
 
-        private void OnBoardTextBlockClick(string boardFile)
-        {
-            try
-            {
-                var boardData = LoadBoardData(boardFile);
-                if (boardData == null)
-                {
-                    ShowErrorMessage($"Файл {boardFile} поврежден или содержит неверные данные.");
-                    return;
-                }
-
-                OpenBoardControl(boardFile, boardData);
-            }
-
-            catch (FileNotFoundException)
-            {
-                ShowErrorMessage($"Файл {boardFile} не найден.");
-            }
-
-            catch (JsonException ex)
-            {
-                ShowErrorMessage($"Ошибка при чтении JSON из файла {boardFile}: {ex.Message}");
-            }
-
-            catch (Exception ex)
-            {
-                ShowErrorMessage($"Неизвестная ошибка при открытии файла: {ex.Message}");
-            }
-
-        }
 
         private BoardData LoadBoardData(string boardFile)
         {
@@ -128,33 +91,6 @@ namespace Project_Manager.UserControls
             {
                 string jsonString = sr.ReadToEnd();
                 return JsonConvert.DeserializeObject<BoardData>(jsonString);
-            }
-        }
-
-        private void OpenBoardControl(string boardFile, BoardData boardData)
-        {
-            var boardControl = new BoardControl
-            {
-                CurrentFilePath = boardFile,
-                Catalogs = new ObservableCollection<Catalog>(boardData.Catalogs)
-            };
-
-            var mainWindow = FindVisualParent<MainWindow>(this);
-            var contentControl = FindVisualParent<ContentControl>(this);
-
-            if (mainWindow != null)
-            {
-                mainWindow.ProjectTitle = Path.GetFileNameWithoutExtension(boardFile);
-            }
-
-            if (contentControl != null)
-            {
-                contentControl.Content = boardControl;
-            }
-
-            else
-            {
-                ShowErrorMessage("Не удалось найти ContentControl.");
             }
         }
 

@@ -1,11 +1,8 @@
 ﻿using Project_Manager.Data;
-using Project_Manager.UserControls.Controls;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Project_Manager.UserControls
 {
@@ -13,13 +10,13 @@ namespace Project_Manager.UserControls
     {
         private Point startPoint;
         private bool isDragging = false;
-        private ContextMenuManager _menuManager = new ContextMenuManager();
+        private ProjectManager_Entities _context = new ProjectManager_Entities();
 
         public CardControl()
         {
             InitializeComponent();
-            _menuManager.AttachMenu(MenuButton, this, ("Удалить", ContextMenuManager.RemoveElement));
         }
+
         private void CardBorder_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(CardBorder);

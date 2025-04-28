@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bebac16895894f98bcef18e635508a42" Name="Diagram1">
-        <EntityTypeShape EntityType="ProjectManagerModel.Board" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectManagerModel.Card" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectManagerModel.Catalog" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectManagerModel.Role" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ProjectManagerModel.User" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="4a36597d0d5148fea3c0377f75e91f31" Name="Diagram1">
+        <EntityTypeShape EntityType="ProjectManagerModel.Board" Width="1.5" PointX="5.125" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectManagerModel.Card" Width="1.5" PointX="9.625" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectManagerModel.Catalog" Width="1.5" PointX="7.375" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectManagerModel.Role" Width="1.5" PointX="5.125" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="ProjectManagerModel.User" Width="1.5" PointX="7.375" PointY="1.5" IsExpanded="true" />
         <AssociationConnector Association="ProjectManagerModel.FK_Catalog_Board1" ManuallyRouted="false" />
         <AssociationConnector Association="ProjectManagerModel.FK_Card_Catalog" ManuallyRouted="false" />
         <AssociationConnector Association="ProjectManagerModel.FK_User_Role" ManuallyRouted="false" />

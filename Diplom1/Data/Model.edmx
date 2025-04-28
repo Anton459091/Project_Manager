@@ -16,9 +16,9 @@
         </EntityType>
         <EntityType Name="Card">
           <Key>
-            <PropertyRef Name="Cards_ID" />
+            <PropertyRef Name="Card_ID" />
           </Key>
-          <Property Name="Cards_ID" Type="int" Nullable="false" />
+          <Property Name="Card_ID" Type="int" Nullable="false" />
           <Property Name="Catalog_ID" Type="int" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
@@ -42,9 +42,9 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="Users_ID" />
+            <PropertyRef Name="User_ID" />
           </Key>
-          <Property Name="Users_ID" Type="int" Nullable="false" />
+          <Property Name="User_ID" Type="int" Nullable="false" />
           <Property Name="Role" Type="int" Nullable="false" />
           <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="PhotoPath" Type="nvarchar(max)" />
@@ -111,7 +111,7 @@
           <End Role="UserBoard" Type="Self.UserBoard" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
-              <PropertyRef Name="Users_ID" />
+              <PropertyRef Name="User_ID" />
             </Principal>
             <Dependent Role="UserBoard">
               <PropertyRef Name="ID_User" />
@@ -194,9 +194,9 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="Users_ID" />
+            <PropertyRef Name="User_ID" />
           </Key>
-          <Property Name="Users_ID" Type="Int32" Nullable="false" />
+          <Property Name="User_ID" Type="Int32" Nullable="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
           <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhotoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -286,7 +286,7 @@
           <EntitySetMapping Name="Card">
             <EntityTypeMapping TypeName="ProjectManagerModel.Card">
               <MappingFragment StoreEntitySet="Card">
-                <ScalarProperty Name="Card_ID" ColumnName="Cards_ID" />
+                <ScalarProperty Name="Card_ID" ColumnName="Card_ID" />
                 <ScalarProperty Name="Catalog_ID" ColumnName="Catalog_ID" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -315,7 +315,7 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="ProjectManagerModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Users_ID" ColumnName="Users_ID" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
@@ -328,7 +328,7 @@
               <ScalarProperty Name="Board_ID" ColumnName="ID_Board" />
             </EndProperty>
             <EndProperty Name="User">
-              <ScalarProperty Name="Users_ID" ColumnName="ID_User" />
+              <ScalarProperty Name="User_ID" ColumnName="ID_User" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

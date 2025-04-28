@@ -1,363 +1,118 @@
 ﻿using System;
-using System.IO;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Newtonsoft.Json;
-using Project_Manager.Data;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
-using System.Linq;
-using System.Collections.Generic;
+using System.Windows.Input;
+using Project_Manager.Data; // Ваши модели данных
 
 namespace Project_Manager.UserControls
 {
     public partial class MyBoardsControl : UserControl
     {
-        private string boardsFolderPath;
-        private HashSet<string> _favoriteBoards = new HashSet<string>(); 
-        private string _favoritesFilePath;
-
+        // Коллекция досок, которая будет привязана к DataGrid
+        public ObservableCollection<Board> Boards { get; set; }
 
         public MyBoardsControl()
         {
             InitializeComponent();
 
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            boardsFolderPath = Path.Combine(baseDirectory, "Data", "Files");
-            _favoritesFilePath = Path.Combine(boardsFolderPath, "favorites.json");
+            // Инициализация коллекции досок
+            Boards = new ObservableCollection<Board>();
+            // Привязка коллекции к DataGrid
+            BoardsDataGrid.ItemsSource = Boards;
 
-            LoadFavorites(); 
-            LoadSavedBoards();
+            // Загрузка существующих досок из базы данных
+            LoadBoards();
         }
-        
-        //Загрузка досок
-
-        private void LoadSavedBoards()
-        {
-            if (!Directory.Exists(boardsFolderPath))
-            {
-                Directory.CreateDirectory(boardsFolderPath);
-            }
-
-            // Получаем все файлы досок, исключая favorites.json
-            string[] boardFiles = Directory.GetFiles(boardsFolderPath, "*.json").Where(file => !file.EndsWith("favorites.json", StringComparison.OrdinalIgnoreCase)).ToArray();
-
-            MyBoards.Children.Clear(); 
-
-            // Сортируем доски: избранные вверху
-            var sortedBoardFiles = boardFiles.OrderByDescending(file => _favoriteBoards.Contains(file));
-
-            foreach (string boardFile in sortedBoardFiles)
-            {
-                AddBoardUI(boardFile);
-            }
-        }
-
-        private void LoadFavorites()
-        {
-            if (File.Exists(_favoritesFilePath))
-            {
-                string json = File.ReadAllText(_favoritesFilePath);
-                _favoriteBoards = JsonConvert.DeserializeObject<HashSet<string>>(json) ?? new HashSet<string>();
-            }
-        }
-
-
-        //Создания интерфейса через код
-        private void AddBoardUI(string boardFile)
-        {
-
-            Border boardBorder = new Border
-            {
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#f9f6f2")),
-                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#646f77")),
-                BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(10),
-                Margin = new Thickness(5)
-            };
-
-            Grid boardGrid = new Grid();
-
-            ColumnDefinition col1 = new ColumnDefinition { Width = GridLength.Auto }; // Для звездочки
-            ColumnDefinition col2 = new ColumnDefinition { Width = GridLength.Auto }; // Для TextBox
-            ColumnDefinition col3 = new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }; // Для пустого пространства
-            ColumnDefinition col4 = new ColumnDefinition { Width = GridLength.Auto }; // Для кнопок
-
-            boardGrid.ColumnDefinitions.Add(col1);
-            boardGrid.ColumnDefinitions.Add(col2);
-            boardGrid.ColumnDefinitions.Add(col3);
-            boardGrid.ColumnDefinitions.Add(col4);
-
-            
-            Button favoriteButton = new Button
-            {
-                Content = new TextBlock { Text = "⭐", FontSize = 16 },
-                Background = Brushes.Transparent,
-                BorderThickness = new Thickness(0),
-                Padding = new Thickness(5),
-                VerticalAlignment = VerticalAlignment.Center,
-                Foreground = Brushes.Gray // По умолчанию звездочка серая
-            };
-            
-            UpdateFavoriteButton(favoriteButton, boardFile);
-            
-            favoriteButton.Click += (sender, e) => FavoriteButton_Click(sender, e, boardFile);
-
-            TextBox boardNameTextBox = new TextBox
-            {
-                Text = Path.GetFileNameWithoutExtension(boardFile),
-                Width = Double.NaN,
-                Margin = new Thickness(5),
-                VerticalAlignment = VerticalAlignment.Center,
-                MaxLength = 100
-            };
-           
-            StackPanel buttonsPanel = new StackPanel { Orientation = Orientation.Horizontal };
-           
-            Button boardButton = new Button
-            {
-                Content = "Открыть",
-                Style = (Style)FindResource("BtnMain"),
-                Width = 100,
-                Margin = new Thickness(5)
-            };
-           
-            Button saveButton = new Button
-            {
-                Content = "Сохранить",
-                Style = (Style)FindResource("BtnMain"),
-                Width = 100,
-                Margin = new Thickness(5)
-            };
-          
-            Button deleteButton = new Button
-            {
-                Content = "Удалить",
-                Style = (Style)FindResource("BtnMain"),
-                Width = 100,
-                Margin = new Thickness(5)
-            };
-          
-            boardButton.Click += (sender, e) => BoardButton_Click(sender, e, boardFile);
-            saveButton.Click += (sender, e) => SaveBoardNameButton_Click(sender, e, boardFile, boardNameTextBox.Text);
-            deleteButton.Click += (sender, e) => DeleteBoardButton_Click(sender, e, boardFile, boardBorder);
-         
-            buttonsPanel.Children.Add(boardButton);
-            buttonsPanel.Children.Add(saveButton);
-            buttonsPanel.Children.Add(deleteButton);
-          
-            Grid.SetColumn(favoriteButton, 0);
-            Grid.SetColumn(boardNameTextBox, 1);
-            Grid.SetColumn(buttonsPanel, 3);
-
-            boardGrid.Children.Add(favoriteButton);
-            boardGrid.Children.Add(boardNameTextBox);
-            boardGrid.Children.Add(buttonsPanel);
-          
-            boardBorder.Child = boardGrid;
-          
-            MyBoards.Children.Add(boardBorder);
-        }
-
-        // Кнопочки
         private void AddBoardButton_Click(object sender, RoutedEventArgs e)
         {
-         
-            BoardData newBoardData = new BoardData
+            string boardName = "Новая доска"; // Можно добавить логику для получения имени доски
+
+            // Получаем максимальный Id из базы данных, чтобы создать новый с максимальным Id + 1
+            int newId = 1;
+            using (var context = new ProjectManager_Entities())  // Здесь ApplicationDbContext — это контекст вашего DbContext
             {
-                Catalogs = new ObservableCollection<Catalog>()
+                var maxId = context.Board.Max(b => (int?)b.Board_ID) ?? 0; // Получаем максимальный Id, если нет, то используем 0
+                newId = maxId + 1;
+            }
+
+            // Создаем объект новой доски с новым Id
+            Board newBoard = new Board
+            {
+                Board_ID = newId,
+                Title = boardName,
+                CreatedAt = DateTime.Now
             };
 
-            BoardControl newBoardControl = CreateBoardControlFromData(newBoardData);
-            
-            string newFileName = GenerateUniqueFileName("Доска", ".json");
-            string newFilePath = System.IO.Path.Combine(boardsFolderPath, newFileName);
+            // Добавляем новую доску в контекст данных
+            using (var context = new ProjectManager_Entities())
+            {
+                context.Board.Add(newBoard);
+                context.SaveChanges();
+            }
 
-            AddBoardUI(newFilePath);
+            // Обновляем UI после добавления доски
+            RefreshBoardList();
         }
 
-        private void BoardButton_Click(object sender, RoutedEventArgs e, string boardFile)
+        private void LoadBoards()
         {
-            try
+            using (var context = new ProjectManager_Entities())
             {
-                // 1. Читаем данные из файла
-                BoardData boardData;
-                using (StreamReader sr = new StreamReader(boardFile))
+                var boardsList = context.Board.ToList();
+                foreach (var board in boardsList)
                 {
-                    string jsonString = sr.ReadToEnd();
-                    boardData = JsonConvert.DeserializeObject<BoardData>(jsonString);
+                    Boards.Add(board); // Добавление каждой доски в коллекцию
                 }
+            }
+        }
 
-                if (boardData == null)
-                {
-                    MessageBox.Show($"Файл {boardFile} поврежден или содержит неверные данные.");
-                    return;
-                }
+        private void RefreshBoardList()
+        {
+            using (var context = new ProjectManager_Entities())
+            {
+                // Получаем все доски
+                var boards = context.Board.ToList();
 
-                // 2. Создаем BoardControl
-                BoardControl boardControl = new BoardControl();
-                boardControl.CurrentFilePath = boardFile;
-                boardControl.Catalogs = new ObservableCollection<Catalog>(boardData.Catalogs);
+                // Привязываем данные к DataGrid
+                BoardsDataGrid.ItemsSource = boards;
+            }
+        }
 
-                // 3. Находим ContentControl и MainWindow
-                ContentControl contentControl = FindVisualParent<ContentControl>(this);
-                MainWindow mainWindow = FindVisualParent<MainWindow>(this);
+        // Обработчик правой кнопки мыши для открытия доски
+        private void BoardsDataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var selectedBoard = (Board)BoardsDataGrid.SelectedItem;
+            if (selectedBoard != null)
+            {
+                // Создаем новый BoardControl с выбранной доской
+                var boardControl = new BoardControl(selectedBoard);
 
-                // 4. Устанавливаем заголовок и контент
+                // Присваиваем BoardControl в MainContent
+                var mainWindow = Application.Current.MainWindow as MainWindow;
                 if (mainWindow != null)
                 {
-                     mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(boardFile);
+                    mainWindow.MainContent.Content = boardControl;
                 }
-                if (contentControl != null)
+            }
+        }
+
+
+
+        // Обработчик изменений в DataGrid
+        private void BoardsDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            // Получаем редактируемую строку
+            var editedBoard = e.Row.Item as Board;
+            if (editedBoard != null)
+            {
+                // Сохраняем изменения только для Title (остальные поля игнорируем)
+                using (var context = new ProjectManager_Entities())
                 {
-                    contentControl.Content = boardControl;
-                    mainWindow.SaveButton.Visibility = Visibility.Visible;
+                    context.Entry(editedBoard).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
                 }
-                else
-                {
-                    MessageBox.Show("Не удалось найти ContentControl.");
-                }
-            }
-            catch (FileNotFoundException)
-            {
-                MessageBox.Show($"Файл {boardFile} не найден.");
-            }
-            catch (JsonException ex)
-            {
-                MessageBox.Show($"Ошибка при чтении JSON из файла {boardFile}: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Неизвестная ошибка при открытии файла: {ex.Message}");
-            }
-        }
-
-        private void SaveBoardNameButton_Click(object sender, RoutedEventArgs e, string filePath, string newName)
-        {
-            try
-            {
-                // 1. Формируем новый путь
-                string directory = System.IO.Path.GetDirectoryName(filePath);
-                string extension = System.IO.Path.GetExtension(filePath);
-                string newFilePath = System.IO.Path.Combine(directory, newName + extension);
-
-                // 2. Переименовываем файл
-                File.Move(filePath, newFilePath);
-
-                // 3. Обновляем UI
-                MyBoards.Children.Clear();
-                LoadSavedBoards();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при сохранении имени файла: {ex.Message}");
-            }
-        }
-
-        private void DeleteBoardButton_Click(object sender, RoutedEventArgs e, string filePath, Border boardBorder)
-        {
-            try
-            {
-                File.Delete(filePath);
-
-                MyBoards.Children.Remove(boardBorder);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при удалении файла: {ex.Message}");
-            }
-        }
-
-        private void FavoriteButton_Click(object sender, RoutedEventArgs e, string boardFile)
-        {
-            Button favoriteButton = (Button)sender;
-
-            if (_favoriteBoards.Contains(boardFile))
-            {
-                // Если доска уже в избранном, удаляем её
-                _favoriteBoards.Remove(boardFile);
-            }
-            else
-            {
-                // Если доска не в избранном, добавляем её
-                _favoriteBoards.Add(boardFile);
-            }
-
-
-            UpdateFavoriteButton(favoriteButton, boardFile);
-            SaveFavorites();
-            LoadSavedBoards();
-        }
-
-        private void UpdateFavoriteButton(Button favoriteButton, string boardFile)
-        {
-            if (_favoriteBoards.Contains(boardFile))
-            {
-                favoriteButton.Foreground = Brushes.Gold;
-            }
-            else
-            {
-                favoriteButton.Foreground = Brushes.Gray;
-            }
-        }
-
-        //
-
-        private void SaveFavorites()
-        {
-            string json = JsonConvert.SerializeObject(_favoriteBoards, Formatting.Indented);
-            File.WriteAllText(_favoritesFilePath, json);
-        }
-        
-
-        private BoardControl CreateBoardControlFromData(BoardData boardData)
-        {
-            BoardControl boardControl = new BoardControl();
-
-
-            if (boardData != null && boardData.Catalogs != null)
-            {
-                boardControl.Catalogs = new ObservableCollection<Catalog>(boardData.Catalogs);
-            }
-            else
-            {
-                MessageBox.Show("Данные доски не загружены корректно.");
-            }
-
-            return boardControl;
-        }
-
-        private string GenerateUniqueFileName(string baseName, string extension)
-        {
-            int counter = 1;
-            string fileName;
-
-            do
-            {
-                fileName = $"{baseName}{counter}{extension}";
-                counter++;
-            }
-            while (File.Exists(System.IO.Path.Combine(boardsFolderPath, fileName)));
-
-            return fileName;
-        }
-
-        // Вспомогательный метод для поиска родительского элемента определенного типа в визуальном дереве
-        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            DependencyObject parentObject = System.Windows.Media.VisualTreeHelper.GetParent(child);
-
-            if (parentObject == null)
-                return null;
-
-            T parent = parentObject as T;
-            if (parent != null)
-            {
-                return parent;
-            }
-            else
-            {
-                return FindVisualParent<T>(parentObject);
             }
         }
     }

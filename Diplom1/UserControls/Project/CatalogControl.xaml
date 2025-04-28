@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Project_Manager.UserControls.СatalogControl"
+﻿<UserControl x:Class="Project_Manager.UserControls.CatalogControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,35 +7,24 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid MaxWidth="250" MinWidth="200">
+    <Grid>
+        <!-- Стеклянный элемент, который будет отображать каталоги -->
+        <ListView x:Name="CatalogsListView" HorizontalAlignment="Left" VerticalAlignment="Top" Width="600" Height="300">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Catalog Name" DisplayMemberBinding="{Binding Title}" Width="200"/>
+                    <GridViewColumn Header="Card Count" DisplayMemberBinding="{Binding Cards.Count}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
-        <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="10" Margin="10" Background="#d9d6d2" AllowDrop="True" VerticalAlignment="Top" 
-                DragEnter="CatalogBorder_DragEnter"
-                DragOver="CatalogBorder_DragOver"
-                Drop="CatalogBorder_Drop" >
-            <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Disabled">
-                <StackPanel Name="CatalogStackPanel">
-                    <Border Name="CatalogTextBoxBorder" Background="Transparent" AllowDrop="True" HorizontalAlignment="Center"
-                            PreviewMouseLeftButtonDown="TransparentBorder_PreviewMouseLeftButtonDown" PreviewMouseMove="TransparentBorder_PreviewMouseMove" >
-                        <TextBox x:Name="CatalogNameTextBox" Text="{Binding Title}"  IsReadOnly="True" Margin="10 20 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                    </Border>
+        <!-- Панель для добавления нового каталога -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,320,0,0">
+            <TextBox x:Name="NewCatalogTextBox" Width="250" LostFocus="NewCatalogTextBox_LostFocus" HorizontalAlignment="Left" Margin="0,0,5,0"/>
+            <Button x:Name="AddCatalogButton" Content="Add Catalog" Click="AddCatalogButton_Click" HorizontalAlignment="Left"/>
+        </StackPanel>
 
-                    <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <local:CardControl/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <Button x:Name="AddCardButton" Content="+ Добавить карточку" Click="AddCardButton_Click" Style="{StaticResource BtnMain}" />
-
-                </StackPanel>
-            </ScrollViewer>
-
-        </Border>
-
-        <Button Name="MenuButton" Content="⋮" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#646f77"  FontSize="20" Style="{StaticResource BtnMain}" Margin="7.5"/>
-
+        <!-- Панель для перетаскивания элементов -->
+        <Border x:Name="CatalogBorder" Background="LightGray" AllowDrop="True" DragEnter="CatalogBorder_DragEnter" Drop="CatalogBorder_Drop" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Width="600" Height="300"/>
     </Grid>
 </UserControl>

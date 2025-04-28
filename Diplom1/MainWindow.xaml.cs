@@ -43,7 +43,7 @@ namespace Project_Manager
         public MainWindow()
         {
             InitializeComponent();
-            MainContent.Content = new BoardControl();
+            MainContent.Content = new MyBoardsControl();
             DataContext = this;
 
         }
@@ -97,7 +97,7 @@ namespace Project_Manager
         private void BoardBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            MainContent.Content = new BoardControl();
+            //MainContent.Content = new BoardControl();
             UpdateTitleBasedOnContent();
         }
 

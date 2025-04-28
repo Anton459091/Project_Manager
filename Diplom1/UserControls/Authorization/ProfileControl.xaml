@@ -46,7 +46,7 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Border  Background="#f9f6f2" BorderBrush="#646f77" BorderThickness="1" CornerRadius="10" Margin="5" Padding="10" Cursor="Hand">
-                                            <TextBlock Text="{Binding Name}" FontSize="16" Foreground="#030303" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+                                            <TextBlock Text="{Binding Name}" FontSize="16" Foreground="#030303"/>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

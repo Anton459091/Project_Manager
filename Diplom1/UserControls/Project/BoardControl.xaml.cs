@@ -1,43 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using Microsoft.Win32;
-using Project_Manager.Data;
-using Project_Manager.UserControls;
-using Project_Manager.UserControls.Controls;
+using System.Data.Entity;
+using Project_Manager.Data; // Для контекста и сущностей
 
 namespace Project_Manager.UserControls
 {
-    /// <summary>
-    /// Логика взаимодействия для BoardControl.xaml
-    /// </summary>
     public partial class BoardControl : UserControl
     {
-        
-        private bool _enterKeyPressed = false;    
-        public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>();
+        private bool _enterKeyPressed = false;
+        private ProjectManager_Entities _context = new ProjectManager_Entities();
+        public Board CurrentBoard { get; set; }
         public string CurrentFilePath { get; set; }
 
-        public BoardControl()
+        public BoardControl(Board board )
         {
             InitializeComponent();
-            DataContext = this;
+            CurrentBoard = board;
+            DataContext = CurrentBoard;
+            LoadData();
         }
+
+        private void LoadData()
+        {
+            // Загружаем данные каталога с карточками из базы данных
+            var catalogs = _context.Catalog.Include(c => c.Card).ToList();
+            CatalogItemsControl.ItemsSource = catalogs; // Привязываем данные к контролу отображения
+        }
+
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
             AddСatalogButton.Visibility = Visibility.Collapsed;
@@ -48,12 +40,17 @@ namespace Project_Manager.UserControls
             BoardStackPanel.Children.Add(textBox);
             textBox.Focus();
         }
+
         private void AddСatalogControl(string catalogName)
         {
-            Catalogs.Add(new Catalog { Title = catalogName, Cards = new ObservableCollection<Card>() });
+            var catalog = new Catalog { Title = catalogName };
+            _context.Catalog.Add(catalog);
+            _context.SaveChanges();
+
+            // После добавления нового каталога обновляем UI
+            LoadData(); // Повторно загружаем данные из базы данных
         }
 
-        // Фокусировка
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -69,6 +66,7 @@ namespace Project_Manager.UserControls
                 e.Handled = true;
             }
         }
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
@@ -81,19 +79,17 @@ namespace Project_Manager.UserControls
             AddСatalogButton.Visibility = Visibility.Visible;
         }
 
-        //Сохранение
-
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S) // Ctrl + S
             {
-
+                // Сохранение всех изменений в базе данных
+                _context.SaveChanges();
             }
         }
 
-        //Drag and Drop
-
-        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition, Catalog catalog) // index-1 < item > index+1
+        // Для работы с перетаскиванием элементов
+        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition, Catalog catalog)
         {
             int index = 0;
             for (int i = 0; i < itemsControl.Items.Count; i++)
@@ -105,10 +101,9 @@ namespace Project_Manager.UserControls
 
                     if (position.X < itemCenter)
                     {
-                        
                         if (catalog == itemsControl.Items[i])
                         {
-                            return -1; // Запретить перенос на самого себя
+                            return -1;
                         }
                         index = i;
                         break;
@@ -143,7 +138,7 @@ namespace Project_Manager.UserControls
             if (e.Data.GetDataPresent(typeof(Catalog)))
             {
                 Catalog catalog = (Catalog)e.Data.GetData(typeof(Catalog));
-                ObservableCollection<Catalog> catalogs = Catalogs;
+                var catalogs = _context.Catalog.ToList(); // Загрузка всех каталогов из БД
                 int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog);
 
                 if (catalog != null && catalogs != null && index != -1)
@@ -165,26 +160,9 @@ namespace Project_Manager.UserControls
                     }
 
                     catalogs.Insert(index, catalog);
+                    _context.SaveChanges(); // Обновление БД после изменения порядка
+                    LoadData(); // Обновляем UI
                 }
-            }
-        }
-
-        // Вспомогательный метод для поиска родительского элемента определенного типа в визуальном дереве
-        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
-        {
-            DependencyObject parentObject = System.Windows.Media.VisualTreeHelper.GetParent(child);
-
-            if (parentObject == null)
-                return null;
-
-            T parent = parentObject as T;
-            if (parent != null)
-            {
-                return parent;
-            }
-            else
-            {
-                return FindVisualParent<T>(parentObject);
             }
         }
     }

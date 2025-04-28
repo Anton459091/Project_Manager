@@ -6,31 +6,29 @@
              xmlns:local="clr-namespace:Project_Manager.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid >
-
+    <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            
-            <StackPanel >
+            <StackPanel>
+                <Border BorderBrush="#646f77" BorderThickness="1" CornerRadius="10" Margin="15" Width="auto" Height="auto" VerticalAlignment="Top" Background="#d9d6d2">
+                    <StackPanel>
+                        <!-- DataGrid для отображения досок -->
+                        <DataGrid x:Name="BoardsDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False" Margin="10" SelectionMode="Single" Height="auto" FontSize="18" FontFamily="Lucida Sans Unicode"
+                                  CellEditEnding="BoardsDataGrid_CellEditEnding"  MouseRightButtonDown="BoardsDataGrid_MouseRightButtonDown">
+                            <DataGrid.Columns>
+                                <!-- Только Title редактируемый -->
+                                <DataGridTextColumn Header="Название доски" Binding="{Binding Title}" Width="4*"/>
+                                <DataGridTextColumn Header="Дата создания" Binding="{Binding DateCreated}" IsReadOnly="True" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
 
-                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="10" Margin="15"  Width="auto" Height="auto" VerticalAlignment="Top" Grid.Row="1" Background="#d9d6d2">
-                    
-                    <StackPanel Height="auto" Width="auto">
-
-                        <StackPanel x:Name="MyBoards" Height="auto" Width="auto" Margin="10" VerticalAlignment="Top"/>
-                        
-                        <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="15" Margin="15" Background="#f9f6f2" Width="auto" Height="auto" HorizontalAlignment="Left">
+                        <Border BorderBrush="#151514" BorderThickness="0.5" CornerRadius="15" Margin="15" Background="#f9f6f2" Width="auto" Height="auto" HorizontalAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <Button Content=" + Добавить Доску" Margin="15" FontSize="15" HorizontalAlignment="Left" Style="{StaticResource BtnMain}" Click="AddBoardButton_Click"/>
                             </StackPanel>
                         </Border>
-                        
                     </StackPanel>
-
                 </Border>
-
             </StackPanel>
-
         </ScrollViewer>
-
     </Grid>
 </UserControl>

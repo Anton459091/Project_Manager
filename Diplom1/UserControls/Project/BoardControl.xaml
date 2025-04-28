@@ -17,7 +17,7 @@
                     
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:СatalogControl />
+                            <local:CatalogControl/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
 
