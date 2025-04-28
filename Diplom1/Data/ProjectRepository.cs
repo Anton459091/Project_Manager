@@ -5,7 +5,7 @@ using Project_Manager.Data;
 
 public static class ProjectRepository
 {
-    private static readonly ProjectManagerEntities _dbContext = new ProjectManagerEntities();
+    private static readonly ProjectManager_Entities _dbContext = new ProjectManager_Entities();
 
     public static User LoadUser(string login)
     {
@@ -14,7 +14,7 @@ public static class ProjectRepository
 
     public static void SaveUser(User user)
     {
-        using (var db = new ProjectManagerEntities())
+        using (var db = new ProjectManager_Entities())
         {
 
             int? maxId = db.User.Max(u => (int?)u.Users_ID);
@@ -52,7 +52,7 @@ public static class ProjectRepository
 
     public static bool UserExists(string login)
     {
-        using (var db = new ProjectManagerEntities())
+        using (var db = new ProjectManager_Entities())
         {
             return db.User.Any(u => u.Login == login);
         }
@@ -60,7 +60,7 @@ public static class ProjectRepository
 
     public static User GetUser(string login)
     {
-        using (var db = new ProjectManagerEntities())
+        using (var db = new ProjectManager_Entities())
         {
             return db.User.FirstOrDefault(u => u.Login == login);
         }

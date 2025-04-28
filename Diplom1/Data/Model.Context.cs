@@ -13,10 +13,10 @@ namespace Project_Manager.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ProjectManagerEntities : DbContext
+    public partial class ProjectManager_Entities : DbContext
     {
-        public ProjectManagerEntities()
-            : base("name=ProjectManagerEntities")
+        public ProjectManager_Entities()
+            : base("name=ProjectManager_Entities")
         {
         }
     

@@ -4,13 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище ProjectManagerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище ProjectManagerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Board">
           <Key>
-            <PropertyRef Name="Boards_ID" />
+            <PropertyRef Name="Board_ID" />
           </Key>
-          <Property Name="Boards_ID" Type="int" Nullable="false" />
-          <Property Name="Catalog_ID" Type="int" Nullable="false" />
+          <Property Name="Board_ID" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="CreatedAt" Type="datetime" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
@@ -20,6 +19,7 @@
             <PropertyRef Name="Cards_ID" />
           </Key>
           <Property Name="Cards_ID" Type="int" Nullable="false" />
+          <Property Name="Catalog_ID" Type="int" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
@@ -29,7 +29,7 @@
             <PropertyRef Name="Catalog_ID" />
           </Key>
           <Property Name="Catalog_ID" Type="int" Nullable="false" />
-          <Property Name="Cards_ID" Type="int" Nullable="false" />
+          <Property Name="Board_ID" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Position" Type="int" Nullable="false" />
         </EntityType>
@@ -52,33 +52,33 @@
         </EntityType>
         <EntityType Name="UserBoard">
           <Key>
-            <PropertyRef Name="ID_Users" />
-            <PropertyRef Name="ID_Boards" />
+            <PropertyRef Name="ID_User" />
+            <PropertyRef Name="ID_Board" />
           </Key>
-          <Property Name="ID_Users" Type="int" Nullable="false" />
-          <Property Name="ID_Boards" Type="int" Nullable="false" />
+          <Property Name="ID_User" Type="int" Nullable="false" />
+          <Property Name="ID_Board" Type="int" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Board_Catalog">
+        <Association Name="FK_Card_Catalog">
           <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
-          <End Role="Board" Type="Self.Board" Multiplicity="*" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Catalog">
               <PropertyRef Name="Catalog_ID" />
             </Principal>
-            <Dependent Role="Board">
+            <Dependent Role="Card">
               <PropertyRef Name="Catalog_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Catalog_Card">
-          <End Role="Card" Type="Self.Card" Multiplicity="1" />
+        <Association Name="FK_Catalog_Board1">
+          <End Role="Board" Type="Self.Board" Multiplicity="1" />
           <End Role="Catalog" Type="Self.Catalog" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Card">
-              <PropertyRef Name="Cards_ID" />
+            <Principal Role="Board">
+              <PropertyRef Name="Board_ID" />
             </Principal>
             <Dependent Role="Catalog">
-              <PropertyRef Name="Cards_ID" />
+              <PropertyRef Name="Board_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -99,10 +99,10 @@
           <End Role="UserBoard" Type="Self.UserBoard" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Board">
-              <PropertyRef Name="Boards_ID" />
+              <PropertyRef Name="Board_ID" />
             </Principal>
             <Dependent Role="UserBoard">
-              <PropertyRef Name="ID_Boards" />
+              <PropertyRef Name="ID_Board" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -114,7 +114,7 @@
               <PropertyRef Name="Users_ID" />
             </Principal>
             <Dependent Role="UserBoard">
-              <PropertyRef Name="ID_Users" />
+              <PropertyRef Name="ID_User" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -125,12 +125,12 @@
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserBoard" EntityType="Self.UserBoard" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Board_Catalog" Association="Self.FK_Board_Catalog">
+          <AssociationSet Name="FK_Card_Catalog" Association="Self.FK_Card_Catalog">
             <End Role="Catalog" EntitySet="Catalog" />
-            <End Role="Board" EntitySet="Board" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Catalog_Card" Association="Self.FK_Catalog_Card">
             <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Catalog_Board1" Association="Self.FK_Catalog_Board1">
+            <End Role="Board" EntitySet="Board" />
             <End Role="Catalog" EntitySet="Catalog" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
@@ -146,73 +146,51 @@
             <End Role="UserBoard" EntitySet="UserBoard" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ProjectManagerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="ProjectManagerEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Board" EntityType="ProjectManagerModel.Board" />
-          <EntitySet Name="Card" EntityType="ProjectManagerModel.Card" />
-          <EntitySet Name="Catalog" EntityType="ProjectManagerModel.Catalog" />
-          <EntitySet Name="Role" EntityType="ProjectManagerModel.Role" />
-          <EntitySet Name="User" EntityType="ProjectManagerModel.User" />
-          <AssociationSet Name="FK_Board_Catalog" Association="ProjectManagerModel.FK_Board_Catalog">
-            <End Role="Catalog" EntitySet="Catalog" />
-            <End Role="Board" EntitySet="Board" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Catalog_Card" Association="ProjectManagerModel.FK_Catalog_Card">
-            <End Role="Card" EntitySet="Card" />
-            <End Role="Catalog" EntitySet="Catalog" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Role" Association="ProjectManagerModel.FK_User_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="UserBoard" Association="ProjectManagerModel.UserBoard">
-            <End Role="Board" EntitySet="Board" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-        </EntityContainer>
         <EntityType Name="Board">
           <Key>
-            <PropertyRef Name="Boards_ID" />
+            <PropertyRef Name="Board_ID" />
           </Key>
-          <Property Name="Boards_ID" Type="Int32" Nullable="false" />
-          <Property Name="Catalog_ID" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Board_ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CreatedAt" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Position" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Catalog" Relationship="ProjectManagerModel.FK_Board_Catalog" FromRole="Board" ToRole="Catalog" />
-          <NavigationProperty Name="User" Relationship="ProjectManagerModel.UserBoard" FromRole="Board" ToRole="User" />
+          <NavigationProperty Name="Catalog" Relationship="Self.FK_Catalog_Board1" FromRole="Board" ToRole="Catalog" />
+          <NavigationProperty Name="User" Relationship="Self.UserBoard" FromRole="Board" ToRole="User" />
         </EntityType>
         <EntityType Name="Card">
           <Key>
-            <PropertyRef Name="Cards_ID" />
+            <PropertyRef Name="Card_ID" />
           </Key>
-          <Property Name="Cards_ID" Type="Int32" Nullable="false" />
+          <Property Name="Card_ID" Type="Int32" Nullable="false" />
+          <Property Name="Catalog_ID" Type="Int32" Nullable="false" />
           <Property Name="Position" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Catalog" Relationship="ProjectManagerModel.FK_Catalog_Card" FromRole="Card" ToRole="Catalog" />
+          <NavigationProperty Name="Catalog" Relationship="Self.FK_Card_Catalog" FromRole="Card" ToRole="Catalog" />
         </EntityType>
         <EntityType Name="Catalog">
           <Key>
             <PropertyRef Name="Catalog_ID" />
           </Key>
           <Property Name="Catalog_ID" Type="Int32" Nullable="false" />
-          <Property Name="Cards_ID" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Board_ID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Position" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Board" Relationship="ProjectManagerModel.FK_Board_Catalog" FromRole="Catalog" ToRole="Board" />
-          <NavigationProperty Name="Card" Relationship="ProjectManagerModel.FK_Catalog_Card" FromRole="Catalog" ToRole="Card" />
+          <NavigationProperty Name="Board" Relationship="Self.FK_Catalog_Board1" FromRole="Catalog" ToRole="Board" />
+          <NavigationProperty Name="Card" Relationship="Self.FK_Card_Catalog" FromRole="Catalog" ToRole="Card" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
             <PropertyRef Name="Role_ID" />
           </Key>
           <Property Name="Role_ID" Type="Int32" Nullable="false" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="ProjectManagerModel.FK_User_Role" FromRole="Role" ToRole="User" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -220,39 +198,39 @@
           </Key>
           <Property Name="Users_ID" Type="Int32" Nullable="false" />
           <Property Name="Role" Type="Int32" Nullable="false" />
-          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PhotoPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Role1" Relationship="ProjectManagerModel.FK_User_Role" FromRole="User" ToRole="Role" />
-          <NavigationProperty Name="Board" Relationship="ProjectManagerModel.UserBoard" FromRole="User" ToRole="Board" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Role1" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Board" Relationship="Self.UserBoard" FromRole="User" ToRole="Board" />
         </EntityType>
-        <Association Name="FK_Board_Catalog">
-          <End Type="ProjectManagerModel.Catalog" Role="Catalog" Multiplicity="1" />
-          <End Type="ProjectManagerModel.Board" Role="Board" Multiplicity="*" />
+        <Association Name="FK_Catalog_Board1">
+          <End Role="Board" Type="Self.Board" Multiplicity="1" />
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Board">
+              <PropertyRef Name="Board_ID" />
+            </Principal>
+            <Dependent Role="Catalog">
+              <PropertyRef Name="Board_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Catalog">
+          <End Role="Catalog" Type="Self.Catalog" Multiplicity="1" />
+          <End Role="Card" Type="Self.Card" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Catalog">
               <PropertyRef Name="Catalog_ID" />
             </Principal>
-            <Dependent Role="Board">
+            <Dependent Role="Card">
               <PropertyRef Name="Catalog_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Catalog_Card">
-          <End Type="ProjectManagerModel.Card" Role="Card" Multiplicity="1" />
-          <End Type="ProjectManagerModel.Catalog" Role="Catalog" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Card">
-              <PropertyRef Name="Cards_ID" />
-            </Principal>
-            <Dependent Role="Catalog">
-              <PropertyRef Name="Cards_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Role">
-          <End Type="ProjectManagerModel.Role" Role="Role" Multiplicity="1" />
-          <End Type="ProjectManagerModel.User" Role="User" Multiplicity="*" />
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Role">
               <PropertyRef Name="Role_ID" />
@@ -263,71 +241,94 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="UserBoard">
-          <End Type="ProjectManagerModel.Board" Role="Board" Multiplicity="*" />
-          <End Type="ProjectManagerModel.User" Role="User" Multiplicity="*" />
+          <End Role="Board" Type="Self.Board" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
         </Association>
+        <EntityContainer Name="ProjectManager_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Board" EntityType="Self.Board" />
+          <EntitySet Name="Card" EntityType="Self.Card" />
+          <EntitySet Name="Catalog" EntityType="Self.Catalog" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Catalog_Board1" Association="Self.FK_Catalog_Board1">
+            <End Role="Board" EntitySet="Board" />
+            <End Role="Catalog" EntitySet="Catalog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Catalog" Association="Self.FK_Card_Catalog">
+            <End Role="Catalog" EntitySet="Catalog" />
+            <End Role="Card" EntitySet="Card" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="UserBoard" Association="Self.UserBoard">
+            <End Role="Board" EntitySet="Board" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище ProjectManagerModelContainer" CdmEntityContainer="ProjectManagerEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище ProjectManagerModelContainer" CdmEntityContainer="ProjectManager_Entities">
           <EntitySetMapping Name="Board">
             <EntityTypeMapping TypeName="ProjectManagerModel.Board">
               <MappingFragment StoreEntitySet="Board">
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Board_ID" ColumnName="Board_ID" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Catalog_ID" ColumnName="Catalog_ID" />
-                <ScalarProperty Name="Boards_ID" ColumnName="Boards_ID" />
+                <ScalarProperty Name="CreatedAt" ColumnName="CreatedAt" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Card">
             <EntityTypeMapping TypeName="ProjectManagerModel.Card">
               <MappingFragment StoreEntitySet="Card">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Card_ID" ColumnName="Cards_ID" />
+                <ScalarProperty Name="Catalog_ID" ColumnName="Catalog_ID" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="Cards_ID" ColumnName="Cards_ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Catalog">
             <EntityTypeMapping TypeName="ProjectManagerModel.Catalog">
               <MappingFragment StoreEntitySet="Catalog">
-                <ScalarProperty Name="Position" ColumnName="Position" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Cards_ID" ColumnName="Cards_ID" />
                 <ScalarProperty Name="Catalog_ID" ColumnName="Catalog_ID" />
+                <ScalarProperty Name="Board_ID" ColumnName="Board_ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Role">
             <EntityTypeMapping TypeName="ProjectManagerModel.Role">
               <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
                 <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="ProjectManagerModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Role" ColumnName="Role" />
                 <ScalarProperty Name="Users_ID" ColumnName="Users_ID" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="UserBoard" TypeName="ProjectManagerModel.UserBoard" StoreEntitySet="UserBoard">
-            <EndProperty Name="User">
-              <ScalarProperty Name="Users_ID" ColumnName="ID_Users" />
-            </EndProperty>
             <EndProperty Name="Board">
-              <ScalarProperty Name="Boards_ID" ColumnName="ID_Boards" />
+              <ScalarProperty Name="Board_ID" ColumnName="ID_Board" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="Users_ID" ColumnName="ID_User" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Project_Manager.Data
 {
 
-    
+
     public partial class User
     {
 
@@ -16,13 +16,13 @@ namespace Project_Manager.Data
         {
             this.Board = new HashSet<Board>();
         }
-    
+
         public int Users_ID { get; set; }
         public int Role { get; set; }
         public string Login { get; set; }
         public string PhotoPath { get; set; }
         public string PasswordHash { get; set; }
-    
+
         public virtual Role Role1 { get; set; }
 
         public virtual ICollection<Board> Board { get; set; }
