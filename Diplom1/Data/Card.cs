@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project_Manager.Data
 {
@@ -11,7 +15,6 @@ namespace Project_Manager.Data
     
     public partial class Card
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Card()
         {
             this.Catalog = new HashSet<Catalog>();
@@ -22,7 +25,6 @@ namespace Project_Manager.Data
         public string Title { get; set; }
         public string Description { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Catalog> Catalog { get; set; }
+        public virtual ICollection<Catalog> Catalog { get; set; } = new ObservableCollection<Catalog>();
     }
 }

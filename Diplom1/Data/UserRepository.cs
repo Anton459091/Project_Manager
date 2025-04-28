@@ -3,7 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using Project_Manager.Data;
 
-public static class ProjectRepository
+public static class UserRepository
 {
     private static readonly ProjectManagerEntities _dbContext = new ProjectManagerEntities();
 
@@ -33,7 +33,7 @@ public static class ProjectRepository
             if (role == null)
             {
   
-                role = new Role { Role_ID = 1, RoleName = "Пользователь" };
+                role = new Role { Role_ID = 1, RoleName = "Admin" };
                 db.Role.Add(role);
                 db.SaveChanges();  
             }

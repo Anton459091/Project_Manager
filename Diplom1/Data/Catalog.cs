@@ -12,7 +12,6 @@ namespace Project_Manager.Data
     
     public partial class Catalog
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Catalog()
         {
             this.Board = new HashSet<Board>();
@@ -20,12 +19,12 @@ namespace Project_Manager.Data
     
         public int Catalog_ID { get; set; }
         public int Cards_ID { get; set; }
-        public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
         public string Title { get; set; }
         public int Position { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Board> Board { get; set; }
+
+        public virtual ICollection<Board> Board { get; set; } = new ObservableCollection<Board>();
+
+        public ObservableCollection<Card> Cards { get; set; } = new ObservableCollection<Card>();
         public virtual Card Card { get; set; }
     }
 }

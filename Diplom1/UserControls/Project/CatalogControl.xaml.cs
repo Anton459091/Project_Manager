@@ -156,7 +156,7 @@ namespace Project_Manager.UserControls
             {
                 Card card = (Card)e.Data.GetData(typeof(Card));
                 Catalog targetCatalog = (Catalog)DataContext; 
-                ObservableCollection<Card> cards = targetCatalog.Cards; 
+                ObservableCollection<Card> cards = (ObservableCollection<Card>)targetCatalog.Cards; 
 
                 var boardControl = FindVisualParent<BoardControl>(this);
 
