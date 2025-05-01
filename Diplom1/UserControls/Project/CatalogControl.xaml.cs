@@ -55,7 +55,7 @@ namespace Project_Manager.UserControls
         {
             Catalog catalog = (Catalog)DataContext;
             Card card = new Card { Title = cardsName, Description = "" };
-            catalog.Cards.Add(card);
+            catalog.Card.Add(card);
         }
 
         // Фокусировка
@@ -156,7 +156,7 @@ namespace Project_Manager.UserControls
             {
                 Card card = (Card)e.Data.GetData(typeof(Card));
                 Catalog targetCatalog = (Catalog)DataContext; 
-                ObservableCollection<Card> cards = (ObservableCollection<Card>)targetCatalog.Cards; 
+                ObservableCollection<Card> cards = (ObservableCollection<Card>)targetCatalog.Card; 
 
                 var boardControl = FindVisualParent<BoardControl>(this);
 
@@ -164,9 +164,9 @@ namespace Project_Manager.UserControls
                 {
                     foreach (Catalog catalog in boardControl.Catalogs)
                     {
-                        if (catalog != targetCatalog && catalog.Cards.Contains(card))
+                        if (catalog != targetCatalog && catalog.Card.Contains(card))
                         {
-                            catalog.Cards.Remove(card);
+                            catalog.Card.Remove(card);
                             break;
                         }
                     }

@@ -7,27 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Project_Manager.Data
+namespace Project_Manager.Data.DataBase
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class Card
+    
+    public partial class Role
     {
-        [Key]
-        public int Card_ID { get; set; }
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public int Position { get; set; }
-
-        // Внешний ключ для связи с Catalog
-        public int Catalog_ID { get; set; }
-
-        // Навигационное свойство, которое указывает на Catalog
-        public virtual Catalog Catalog { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Role()
+        {
+            this.User = new HashSet<User>();
+        }
+    
+        public int Role_ID { get; set; }
+        public string RoleName { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> User { get; set; }
     }
-
 }

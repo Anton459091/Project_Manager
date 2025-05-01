@@ -1,14 +1,15 @@
 using Project_Manager.Data;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System;
+using System.Data.Entity;
 
 public partial class Board
 {
     public Board()
     {
-        Catalogs = new HashSet<Catalog>();
-        Users = new HashSet<User>();
+        this.Catalog = new HashSet<Catalog>();
+        this.User = new HashSet<User>();
     }
 
     [Key]
@@ -18,10 +19,6 @@ public partial class Board
     public DateTime CreatedAt { get; set; }
     public int Position { get; set; }
 
-
-    public virtual User User { get; set; }
-    public virtual Catalog Catalog { get; set; }
-
-    public virtual ICollection<Catalog> Catalogs { get; set; }
-    public virtual ICollection<User> Users { get; set; }
+    public virtual ICollection<Catalog> Catalog { get; set; }
+    public virtual ICollection<User> User { get; set; }
 }

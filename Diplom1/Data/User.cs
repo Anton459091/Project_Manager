@@ -17,7 +17,7 @@ namespace Project_Manager.Data
             this.Board = new HashSet<Board>();
         }
 
-        public int Users_ID { get; set; }
+        public int User_ID { get; set; }
         public int Role { get; set; }
         public string Login { get; set; }
         public string PhotoPath { get; set; }

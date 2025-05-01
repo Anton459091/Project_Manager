@@ -17,15 +17,15 @@ public static class ProjectRepository
         using (var db = new ProjectManager_Entities())
         {
 
-            int? maxId = db.User.Max(u => (int?)u.Users_ID);
+            int? maxId = db.User.Max(u => (int?)u.User_ID);
 
             if (maxId == null)
             {
-                user.Users_ID = 1;  
+                user.User_ID = 1;  
             }
             else
             {
-                user.Users_ID = maxId.Value + 1;  
+                user.User_ID = maxId.Value + 1;  
             }
 
 

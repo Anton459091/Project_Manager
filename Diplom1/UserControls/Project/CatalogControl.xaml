@@ -20,7 +20,7 @@
                         <TextBox x:Name="CatalogNameTextBox" Text="{Binding Title}"  IsReadOnly="True" Margin="10 20 20 10" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                     </Border>
 
-                    <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Cards}" VerticalAlignment="Top" HorizontalAlignment="Center">
+                    <ItemsControl Name="CardItemsControl" ItemsSource="{Binding Card}" VerticalAlignment="Top" HorizontalAlignment="Center">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <local:CardControl/>

@@ -7,27 +7,19 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Project_Manager.Data
+namespace Project_Manager.Data.DataBase
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Card
     {
-        [Key]
         public int Card_ID { get; set; }
-        public string Title { get; set; }
-
-        public string Description { get; set; }
-
-        public int Position { get; set; }
-
-        // Внешний ключ для связи с Catalog
         public int Catalog_ID { get; set; }
-
-        // Навигационное свойство, которое указывает на Catalog
+        public int Position { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+    
         public virtual Catalog Catalog { get; set; }
     }
-
 }
