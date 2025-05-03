@@ -6,17 +6,18 @@
              xmlns:local="clr-namespace:Project_Manager.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid >
+    <Grid MinWidth="180" MaxWidth="250">
 
-        <Border BorderBrush="#151514" BorderThickness="1"  CornerRadius="10" Margin="5" Background="#f9f6f2" Padding="10" MinWidth="180">
+        <Border Name="CardBorder" BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="10" Margin="10 5" Background="#f9f6f2" Padding="10" MinWidth="180" AllowDrop="True"
+                PreviewMouseLeftButtonDown="CardBorder_PreviewMouseLeftButtonDown" PreviewMouseMove="CardBorder_PreviewMouseMove">
             <StackPanel Name="CardStackPanel">
-                <TextBox Name="TitleTextBox" Text="{Binding Title}" FontSize="15" Margin="5 10"/>
-                <TextBox Name="DescriptionTextBox" Text="{Binding Description}" FontSize="15" Margin="5 10"/>
+                <TextBox Name="TitleTextBox" Text="{Binding Title}" FontSize="15" Margin="5 10" VerticalAlignment="Center"/>
+                <TextBox Name="DescriptionTextBox" Text="{Binding Description}" FontSize="15"  Margin="5 10" VerticalAlignment="Center" />
             </StackPanel>
             
         </Border>
 
-        <Button Name="MenuButton" Content="⋮" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#646f77" Margin="5" FontSize="20" Style="{StaticResource BtnMain}"/>
+        <Button Name="MenuButton" Content="⋮" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="#646f77" Margin="7.5" FontSize="20" Style="{StaticResource BtnMain}"/>
 
     </Grid>
 </UserControl>

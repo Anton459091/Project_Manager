@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,9 +15,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 using Microsoft.Win32;
 using Project_Manager.Data;
-using Project_Manager.Models;
 using Project_Manager.UserControls;
 using Project_Manager.UserControls.Controls;
 
@@ -26,14 +28,15 @@ namespace Project_Manager.UserControls
     /// </summary>
     public partial class BoardControl : UserControl
     {
-        private bool _enterKeyPressed = false;
-        public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>(); // Коллекция Catalog
+        
+        private bool _enterKeyPressed = false;    
+        public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>();
+        public string CurrentFilePath { get; set; }
 
         public BoardControl()
         {
             InitializeComponent();
             DataContext = this;
-
         }
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
@@ -45,7 +48,12 @@ namespace Project_Manager.UserControls
             BoardStackPanel.Children.Add(textBox);
             textBox.Focus();
         }
+        private void AddСatalogControl(string catalogName)
+        {
+            Catalogs.Add(new Catalog { Title = catalogName, Card = new ObservableCollection<Card>() });
+        }
 
+        // Фокусировка
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -72,41 +80,91 @@ namespace Project_Manager.UserControls
             BoardStackPanel.Children.Remove(textBox);
             AddСatalogButton.Visibility = Visibility.Visible;
         }
-        private void AddСatalogControl(string catalogName)
+
+        //Сохранение
+
+        public void SaveProject()
         {
-            Catalogs.Add(new Catalog { Name = catalogName, Cards = new ObservableCollection<Card>() });
-        }
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
-            if (saveFileDialog.ShowDialog() == true)
+            if (string.IsNullOrEmpty(CurrentFilePath))
             {
-                DataManager.SaveData(this, saveFileDialog.FileName);
-                MessageBox.Show("Данные сохранены!");
+                SaveAs();
+            }
+            else
+            {
+                Save(CurrentFilePath);
             }
         }
 
-        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        private void SaveAs()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
-            if (openFileDialog.ShowDialog() == true)
+            MainWindow mainWindow = FindVisualParent<MainWindow>(this);
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                BoardData loadedData = DataManager.LoadData(openFileDialog.FileName);
-                if (loadedData != null)
+                Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*",
+                InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Data", "Files") // Устанавливаем начальную директорию
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                Save(saveFileDialog.FileName);
+                mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(saveFileDialog.FileName);
+            }
+
+        }
+
+        private void Save(string filePath)
+        {
+            try
+            {
+                DataManager.SaveData(this, filePath);
+                CurrentFilePath = filePath;
+                Console.WriteLine($"Data saved to {filePath}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}");
+            }
+        }
+
+        private void UserControl_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.S) // Ctrl + S
+            {
+                SaveProject();
+                e.Handled = true;
+            }
+        }
+
+        //Drag and Drop
+
+        private int GetDropIndex(ItemsControl itemsControl, Point dropPosition, Catalog catalog) // index-1 < item > index+1
+        {
+            int index = 0;
+            for (int i = 0; i < itemsControl.Items.Count; i++)
+            {
+                if (itemsControl.ItemContainerGenerator.ContainerFromIndex(i) is UIElement itemContainer && itemContainer is FrameworkElement item)
                 {
-                    Catalogs.Clear(); // Очищаем текущую коллекцию
-                    if (loadedData.Catalogs != null)
+                    Point position = dropPosition;
+                    double itemCenter = item.TranslatePoint(new Point(item.ActualWidth / 2, item.ActualHeight / 2), itemsControl).X;
+
+                    if (position.X < itemCenter)
                     {
-                        foreach (var catalog in loadedData.Catalogs)
+                        
+                        if (catalog == itemsControl.Items[i])
                         {
-                            Catalogs.Add(catalog); // Заполняем коллекцию загруженными данными
+                            return -1; // Запретить перенос на самого себя
                         }
+                        index = i;
+                        break;
                     }
-                    MessageBox.Show("Данные загружены!");
+                    else
+                    {
+                        index = i + 1;
+                    }
                 }
             }
+            return index;
         }
 
         private void CatalogItemsControl_DragEnter(object sender, DragEventArgs e)
@@ -131,32 +189,48 @@ namespace Project_Manager.UserControls
             {
                 Catalog catalog = (Catalog)e.Data.GetData(typeof(Catalog));
                 ObservableCollection<Catalog> catalogs = Catalogs;
-                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl));
+                int index = GetDropIndex(CatalogItemsControl, e.GetPosition(CatalogItemsControl), catalog);
 
-                if (catalog != null && catalogs != null)
+                if (catalog != null && catalogs != null && index != -1)
                 {
+                    int oldIndex = catalogs.IndexOf(catalog);
+
+                    if (oldIndex == -1) return;
+
                     catalogs.Remove(catalog);
+
+                    if (index > oldIndex)
+                    {
+                        index--;
+                    }
+
+                    if (index > catalogs.Count)
+                    {
+                        index = catalogs.Count;
+                    }
+
                     catalogs.Insert(index, catalog);
                 }
             }
         }
 
-        private int GetDropIndex(ItemsControl target, Point dropPoint)
+        // Вспомогательный метод для поиска родительского элемента определенного типа в визуальном дереве
+        private static T FindVisualParent<T>(DependencyObject child) where T : DependencyObject
         {
-            for (int i = 0; i < target.Items.Count; i++)
+            DependencyObject parentObject = System.Windows.Media.VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null)
+                return null;
+
+            T parent = parentObject as T;
+            if (parent != null)
             {
-                UIElement element = target.ItemContainerGenerator.ContainerFromIndex(i) as UIElement;
-                if (element == null) continue;
-
-                Rect rect = new Rect(element.TranslatePoint(new Point(0, 0), target), element.RenderSize);
-                if (rect.Contains(dropPoint))
-                {
-                    return i;
-                }
+                return parent;
             }
-
-            return target.Items.Count;
+            else
+            {
+                return FindVisualParent<T>(parentObject);
+            }
         }
-
     }
 }

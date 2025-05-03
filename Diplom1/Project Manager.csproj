@@ -131,29 +131,29 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserBoard.cs" />
-    <Compile Include="UserControls\Authorization\EditWindow.xaml.cs">
+    <Compile Include="UserControls\Profile\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Authorization\LoginWindow.xaml.cs">
+    <Compile Include="UserControls\Profile\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Authorization\RegistrationWindow.xaml.cs">
+    <Compile Include="UserControls\Profile\RegistrationWindow.xaml.cs">
       <DependentUpon>RegistrationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Project\BoardControl.xaml.cs">
+    <Compile Include="UserControls\Board\BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Project\CardControl.xaml.cs">
+    <Compile Include="UserControls\Board\CardControl.xaml.cs">
       <DependentUpon>CardControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ContextMenuManager.cs" />
-    <Compile Include="UserControls\Project\CatalogControl.xaml.cs">
+    <Compile Include="UserControls\Board\CatalogControl.xaml.cs">
       <DependentUpon>CatalogControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Boards\MyBoardsControl.xaml.cs">
+    <Compile Include="UserControls\MyBoards\MyBoardsControl.xaml.cs">
       <DependentUpon>MyBoardsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Authorization\ProfileControl.xaml.cs">
+    <Compile Include="UserControls\Profile\ProfileControl.xaml.cs">
       <DependentUpon>ProfileControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -168,35 +168,35 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UserControls\Authorization\EditWindow.xaml">
+    <Page Include="UserControls\Profile\EditWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Authorization\LoginWindow.xaml">
+    <Page Include="UserControls\Profile\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Authorization\RegistrationWindow.xaml">
+    <Page Include="UserControls\Profile\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Project\BoardControl.xaml">
+    <Page Include="UserControls\Board\BoardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Project\CardControl.xaml">
+    <Page Include="UserControls\Board\CardControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Project\CatalogControl.xaml">
+    <Page Include="UserControls\Board\CatalogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Boards\MyBoardsControl.xaml">
+    <Page Include="UserControls\MyBoards\MyBoardsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Authorization\ProfileControl.xaml">
+    <Page Include="UserControls\Profile\ProfileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,6 +256,9 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data\Files\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

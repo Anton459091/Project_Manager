@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Project_Manager.UserControls.Authorization"
         mc:Ignorable="d"
-        Title="EditWindow"  MinHeight="750" MinWidth="450" Height="750" Width="450">
+        Title="EditWindow"  MinHeight="750" MinWidth="450" Height="750" Width="450"
+        Icon="\Resources\icon.ico">
     <Grid Margin="10">
         <StackPanel>
 

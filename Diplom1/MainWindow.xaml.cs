@@ -136,7 +136,10 @@ namespace Project_Manager
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (MainContent.Content is BoardControl boardControl)
+            {
+                boardControl.SaveProject();
+            }
         }
 
     }
