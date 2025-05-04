@@ -29,7 +29,7 @@ namespace Project_Manager
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private bool isPanelOpen = true;
-        private string _projectTitle = "Название проекта";
+        private string _projectTitle = "Мои доски";
 
         public string ProjectTitle
         {
@@ -43,7 +43,7 @@ namespace Project_Manager
         public MainWindow()
         {
             InitializeComponent();
-            MainContent.Content = new BoardControl();
+            MainContent.Content = new MyBoardsControl();
             DataContext = this;
 
         }

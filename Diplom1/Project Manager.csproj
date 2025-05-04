@@ -130,7 +130,6 @@
     <Compile Include="Data\User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\UserBoard.cs" />
     <Compile Include="UserControls\Profile\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>

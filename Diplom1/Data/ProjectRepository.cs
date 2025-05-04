@@ -48,8 +48,6 @@ public static class ProjectRepository
     }
 
 
-
-
     public static bool UserExists(string login)
     {
         using (var db = new ProjectManager_Entities())
