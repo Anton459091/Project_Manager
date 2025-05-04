@@ -1,10 +1,10 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+
+
 namespace Project_Manager.Data
 {
-
-
     public partial class Catalog
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,6 +20,6 @@ namespace Project_Manager.Data
     
         public virtual Board Board { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ObservableCollection<Card> Card { get; set; }
+        public virtual ObservableCollection<Card> Card { get; set; }    
     }
 }

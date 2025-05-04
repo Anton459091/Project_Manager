@@ -28,16 +28,29 @@ namespace Project_Manager.UserControls
     /// </summary>
     public partial class BoardControl : UserControl
     {
-        
+        private string _projectTitle;
+
         private bool _enterKeyPressed = false;    
         public ObservableCollection<Catalog> Catalogs { get; set; } = new ObservableCollection<Catalog>();
         public string CurrentFilePath { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
 
         public BoardControl()
         {
             InitializeComponent();
             DataContext = this;
         }
+        public string ProjectTitle
+        {
+            get => _projectTitle;
+            set
+            {
+                _projectTitle = value;
+                OnPropertyChanged(nameof(ProjectTitle));    
+            }
+        }
+
         private void AddСatalogButton_Click(object sender, RoutedEventArgs e)
         {
             AddСatalogButton.Visibility = Visibility.Collapsed;
@@ -117,6 +130,7 @@ namespace Project_Manager.UserControls
         {
             try
             {
+                // Передаем текущий BoardControl и путь для сохранения файла
                 DataManager.SaveData(this, filePath);
                 CurrentFilePath = filePath;
                 Console.WriteLine($"Data saved to {filePath}");
@@ -126,6 +140,7 @@ namespace Project_Manager.UserControls
                 MessageBox.Show($"Ошибка при сохранении файла: {ex.Message}");
             }
         }
+
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
@@ -231,6 +246,10 @@ namespace Project_Manager.UserControls
             {
                 return FindVisualParent<T>(parentObject);
             }
+        }
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
