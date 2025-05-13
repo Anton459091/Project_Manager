@@ -183,11 +183,11 @@ namespace Project_Manager.UserControls
             try
             {
                 // 1. Читаем данные из файла
-                BoardData boardData;
+                Board boardData;
                 using (StreamReader sr = new StreamReader(boardFile))
                 {
                     string jsonString = sr.ReadToEnd();
-                    boardData = JsonConvert.DeserializeObject<BoardData>(jsonString);
+                    boardData = JsonConvert.DeserializeObject<Board>(jsonString); // Десериализуем в объект Board
                 }
 
                 if (boardData == null)
@@ -199,13 +199,24 @@ namespace Project_Manager.UserControls
                 // 2. Создаем BoardControl
                 BoardControl boardControl = new BoardControl();
                 boardControl.CurrentFilePath = boardFile;
-                boardControl.Catalogs = new ObservableCollection<Catalog>(boardData.Catalogs);
+                boardControl.ProjectTitle = boardData.Title; // Заполняем заголовок доски
+                boardControl.Catalogs = new ObservableCollection<Catalog>(boardData.Catalog); // Заполняем каталоги
 
-                // 3. Находим ContentControl и MainWindow
+                // 3. Убедимся, что у каждого каталога есть карточки
+                foreach (var catalog in boardControl.Catalogs)
+                {
+                    foreach (var card in catalog.Card)
+                    {
+                        // Важно: При загрузке карточек также связываем их с каталогом
+                        card.Catalog = catalog; // Это нужно для корректного отображения данных
+                    }
+                }
+
+                // 4. Находим ContentControl и MainWindow
                 ContentControl contentControl = FindVisualParent<ContentControl>(this);
                 MainWindow mainWindow = FindVisualParent<MainWindow>(this);
 
-                // 4. Устанавливаем заголовок и контент
+                // 5. Устанавливаем заголовок и контент
                 if (mainWindow != null)
                 {
                     mainWindow.ProjectTitle = System.IO.Path.GetFileNameWithoutExtension(boardFile);
@@ -233,6 +244,7 @@ namespace Project_Manager.UserControls
                 MessageBox.Show($"Неизвестная ошибка при открытии файла: {ex.Message}");
             }
         }
+
 
         private void SaveBoardNameButton_Click(object sender, RoutedEventArgs e, string filePath, string newName)
         {

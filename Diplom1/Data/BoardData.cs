@@ -62,17 +62,32 @@ namespace Project_Manager.Data
         // Метод для сохранения данных доски в JSON
         public static void SaveData(BoardControl boardControl, string filePath)
         {
-            // Создаем объект BoardData из данных доски
-            BoardData boardData = new BoardData
+            // Создаем объект Board из данных доски
+            Board board = new Board
             {
-                BoardName = boardControl.ProjectTitle,  // Используем ProjectTitle вместо Title
-                Catalogs = new ObservableCollection<Catalog>(boardControl.Catalogs)  // Передаем каталоги
+                Title = boardControl.ProjectTitle,
+                CreatedAt = DateTime.Now,  
+                Position = 0,  
+                Catalog = new ObservableCollection<Catalog>(boardControl.Catalogs.Select(c => new Catalog
+                {
+                    Catalog_ID = c.Catalog_ID != 0 ? c.Catalog_ID : new Random().Next(1, 1000),  
+                    Title = c.Title,  
+                    Position = c.Position,  
+
+                    Card = new ObservableCollection<Card>(c.Card.Select(card => new Card
+                    {
+                        Card_ID = card.Card_ID != 0 ? card.Card_ID : new Random().Next(1, 1000), 
+                        Title = card.Title,  
+                        Description = card.Description, 
+                        Position = card.Position,  
+                        Catalog_ID = c.Catalog_ID 
+                    }).ToList())  
+                }).ToList())  
             };
+            // Сериализуем объект Board в JSON
+            string jsonData = JsonConvert.SerializeObject(board, Formatting.Indented);
 
-            // Используем JsonSerializer для сериализации объекта в строку
-            string jsonData = JsonConvert.SerializeObject(boardData, Formatting.Indented);
-
-            // Сохраняем JSON строку в файл
+            // Сохраняем данные в файл
             File.WriteAllText(filePath, jsonData);
         }
 
