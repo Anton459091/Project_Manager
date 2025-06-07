@@ -162,6 +162,11 @@ namespace Project_Manager.UserControls
         // Кнопочки
         private void AddBoardButton_Click(object sender, RoutedEventArgs e)
         {
+            if (UserSession.LoggedInUserRole == 1)
+            {
+                MessageBox.Show("Недостаточно прав для добавления проекта.");
+                return;
+            }
 
             BoardData newBoardData = new BoardData
             {

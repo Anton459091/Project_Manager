@@ -43,6 +43,12 @@ namespace Project_Manager.UserControls
 
         private void AddCardButton_Click(object sender, RoutedEventArgs e)
         {
+            if (UserSession.LoggedInUserRole == 1)
+            {
+                MessageBox.Show("Недостаточно прав для добавления задачи.");
+                return;
+            }
+
             AddCardButton.Visibility = Visibility.Collapsed;
             TextBox textBox = new TextBox();
             textBox.MinWidth = 170;

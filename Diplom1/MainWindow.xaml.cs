@@ -19,6 +19,7 @@ using System.Windows.Shapes;
 using System.Windows.Media.Animation;
 using System.ComponentModel;
 using Newtonsoft.Json.Linq;
+using Project_Manager.UserControls.Profile;
 
 namespace Project_Manager
 {
@@ -30,6 +31,7 @@ namespace Project_Manager
         public event PropertyChangedEventHandler PropertyChanged;
         private bool isPanelOpen = true;
         private string _projectTitle = "Мои доски";
+
 
         public string ProjectTitle
         {
@@ -61,6 +63,11 @@ namespace Project_Manager
             else if (MainContent.Content is MyBoardsControl)
             {
                 ProjectTitle = "Мои доски";
+                SaveButton.Visibility = Visibility.Collapsed; // Скрыть кнопку
+            }
+            else if (MainContent.Content is AdminControl)
+            {
+                ProjectTitle = "Панель Администратора";
                 SaveButton.Visibility = Visibility.Collapsed; // Скрыть кнопку
             }
             else if (MainContent.Content is BoardControl)
@@ -98,6 +105,14 @@ namespace Project_Manager
         {
 
             MainContent.Content = new BoardControl();
+            UpdateTitleBasedOnContent();
+        }
+
+
+        private void AdminBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+            MainContent.Content = new AdminControl();
             UpdateTitleBasedOnContent();
         }
 

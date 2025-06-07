@@ -26,6 +26,7 @@
                         <Button Height="40" Width="auto" Content="Профиль"  Style="{StaticResource BtnMenu}" Click="ProfileBtn_Click" />
                         <Button Height="40" Width="auto" Content="Мои доски"  Style="{StaticResource BtnMenu}" Click="MyBoardsBtn_Click"/>
                         <Button Height="40" Width="auto" Content="Доска"  Style="{StaticResource BtnMenu}" Click="BoardBtn_Click"/>
+                        <Button Height="40" Width="auto" Content="Админ"  Style="{StaticResource BtnMenu}" Click="AdminBtn_Click"/>
                         
                     </StackPanel>
                     

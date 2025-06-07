@@ -30,42 +30,43 @@ namespace Project_Manager.UserControls.Authorization
                 ProfileImage.Source = new BitmapImage(new System.Uri(AvatarPath));
             }
         }
-private void RegisterButton_Click(object sender, RoutedEventArgs e)
-{
-    string username = UsernameTxtBx.Text;
+    private void RegisterButton_Click(object sender, RoutedEventArgs e)
+    {
+        string username = UsernameTxtBx.Text;
     
-    // Проверка на пустое имя пользователя
-    if (string.IsNullOrWhiteSpace(username))
-    {
-        ShowError("Логин не может быть пустым");
-        return;
-    }
+        // Проверка на пустое имя пользователя
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            ShowError("Логин не может быть пустым");
+            return;
+        }
     
-    if (ProjectRepository.UserExists(username))
-    {
-        ShowError("Пользователь с таким логином уже существует");
-        return;
+        if (ProjectRepository.UserExists(username))
+        {
+            ShowError("Пользователь с таким логином уже существует");
+            return;
+        }
+
+        // Проверка пароля (можно добавить дополнительные проверки)
+        if (string.IsNullOrWhiteSpace(PasswordBox.Password))
+        {
+            ShowError("Пароль не может быть пустым");
+            return;
+        }
+
+        var newUser = new User
+        {
+            Login = username, // Используем очищенное имя пользователя
+            PhotoPath = AvatarPath ?? "/Resources/default_avatar.png"
+        };
+        newUser.SetPassword(PasswordBox.Password);
+
+        ProjectRepository.SaveUser(newUser);
+        UserSession.LoggedInUsername = username; // Сохраняем логин в сессии, как при входе
+
+        DialogResult = true;
+        Close();
     }
-
-    // Проверка пароля (можно добавить дополнительные проверки)
-    if (string.IsNullOrWhiteSpace(PasswordBox.Password))
-    {
-        ShowError("Пароль не может быть пустым");
-        return;
-    }
-
-    var newUser = new User
-    {
-        Login = username, // Используем очищенное имя пользователя
-        PhotoPath = AvatarPath ?? "/Resources/default_avatar.png"
-    };
-    newUser.SetPassword(PasswordBox.Password);
-
-    ProjectRepository.SaveUser(newUser);
-    UserSession.LoggedInUsername = username; // Сохраняем логин в сессии, как при входе
-    DialogResult = true;
-    Close();
-}
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {

@@ -14,6 +14,8 @@ namespace Project_Manager.UserControls
     public static class UserSession
     {
         public static string LoggedInUsername { get; set; }
+        public static int LoggedInUserRole { get; set; }
+
     }
 
     public class BoardItem
@@ -52,7 +54,7 @@ namespace Project_Manager.UserControls
         {
             if (!string.IsNullOrEmpty(UserSession.LoggedInUsername))
             {
-                _currentUser = ProjectRepository.LoadUser(UserSession.LoggedInUsername);
+                _currentUser = ProjectRepository.LoadUserLogin(UserSession.LoggedInUsername);
             }
             else
             {
