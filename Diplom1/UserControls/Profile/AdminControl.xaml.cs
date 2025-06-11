@@ -32,14 +32,6 @@ namespace Project_Manager.UserControls.Profile
         {
             InitializeComponent();
 
-
-            if (UserSession.LoggedInUserRole != 3)
-            {
-                MessageBox.Show("Доступ запрещен. Только администраторы могут просматривать это окно.");
-                this.Visibility = Visibility.Collapsed;
-                return;
-            }
-
             LoadUsersAndRoles();
         }
 

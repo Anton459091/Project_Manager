@@ -112,8 +112,17 @@ namespace Project_Manager
         private void AdminBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            MainContent.Content = new AdminControl();
-            UpdateTitleBasedOnContent();
+            if (UserSession.LoggedInUserRole != 3)
+            {
+                MessageBox.Show("Доступ запрещен. Только администраторы могут просматривать это окно.");
+                return;
+            }
+            else
+            {
+                MainContent.Content = new AdminControl();
+                UpdateTitleBasedOnContent();
+            }
+
         }
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)

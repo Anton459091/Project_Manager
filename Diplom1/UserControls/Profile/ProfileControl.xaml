@@ -36,7 +36,7 @@
      
             <StackPanel Grid.Column="1" Grid.Row="0">
 
-                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Margin="5 10"  Width="auto" Height="auto" VerticalAlignment="Top" Background="#d9d6d2" >
+            <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="15" Margin="5 10"  Width="auto" Height="auto" VerticalAlignment="Top" Background="#e8edf1" >
                     <StackPanel x:Name="MyBoards" Height="auto">
                     
                         <Label Content="Мои Доски" Foreground="#030303" HorizontalAlignment="Center" FontSize="20"/>
@@ -45,7 +45,7 @@
                             <ItemsControl x:Name="BoardsItemsControl">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border  Background="#f9f6f2" BorderBrush="#646f77" BorderThickness="1" CornerRadius="10" Margin="5" Padding="10" Cursor="Hand">
+                                    <Border  Background="#fafbfc" BorderBrush="#646f77" BorderThickness="1" CornerRadius="10" Margin="5" Padding="10" Cursor="Hand">
                                             <TextBlock Text="{Binding Name}" FontSize="16" Foreground="#030303" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
                                         </Border>
                                     </DataTemplate>

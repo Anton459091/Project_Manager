@@ -7,12 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid x:Name="UsersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" Margin="10"
+        <DataGrid x:Name="UsersDataGrid" AutoGenerateColumns="False" CanUserAddRows="False"
                   SelectionMode="Single" SelectionUnit="FullRow"
-                  CellEditEnding="UsersDataGrid_CellEditEnding">
+                  CellEditEnding="UsersDataGrid_CellEditEnding" FontSize="18" Background="#fafbfc">
 
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" IsReadOnly="True" Width="*" />
+                <DataGridTextColumn Header="Логин" Binding="{Binding Login}" IsReadOnly="True" Width="*"/>
                 <DataGridComboBoxColumn Header="Роль" Width="*"
                                         SelectedValueBinding="{Binding RoleId}"
                                         SelectedValuePath="Role_ID"

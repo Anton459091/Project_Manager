@@ -16,7 +16,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0" Background="#151514">
+        <Grid Grid.Column="0" Background="#1a1f29">
             <!-- Меню -->
             <Border x:Name="SidePanel" Width="auto" HorizontalAlignment="Left">
                 <Grid>
@@ -37,7 +37,7 @@
             
         </Grid>
 
-        <Grid Grid.Column="1" Background="#151514">
+        <Grid Grid.Column="1" Background="#252b37">
             <Button x:Name="ToggleButton" Click="ToggleButton_Click" HorizontalAlignment="Left" Margin="0" Width="10" Style="{StaticResource BtnMenu}" />
         </Grid>
 
@@ -49,7 +49,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0" Background="#2c2c2b">
+            <Grid Grid.Row="0" Background="#2f3746">
                 <!-- Верхняя панель -->
                 <StackPanel Orientation="Horizontal">
                     <Label Name="TitleLab" Content="{Binding ProjectTitle}" Width="auto" Margin="20 10" />
@@ -59,7 +59,7 @@
                 
             </Grid>
 
-            <Grid Grid.Row="1" Background="#f9f6f2">
+            <Grid Grid.Row="1" Background="#fafbfc">
                 <!-- Доска -->
                 <ContentControl x:Name="MainContent"/>
             </Grid>

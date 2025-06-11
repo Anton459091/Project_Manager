@@ -12,13 +12,13 @@
             
             <StackPanel >
 
-                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="10" Margin="15"  Width="auto" Height="auto" VerticalAlignment="Top" Grid.Row="1" Background="#d9d6d2">
+                <Border BorderBrush="#646f77" BorderThickness="1"  CornerRadius="10" Margin="15"  Width="auto" Height="auto" VerticalAlignment="Top" Grid.Row="1" Background="#e8edf1">
                     
                     <StackPanel Height="auto" Width="auto">
 
                         <StackPanel x:Name="MyBoards" Height="auto" Width="auto" Margin="10" VerticalAlignment="Top"/>
-                        
-                        <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="15" Margin="15" Background="#f9f6f2" Width="auto" Height="auto" HorizontalAlignment="Left">
+
+                        <Border BorderBrush="#151514" BorderThickness="0.5"  CornerRadius="15" Margin="15" Background="#fafbfc" Width="auto" Height="auto" HorizontalAlignment="Left">
                             <StackPanel Orientation="Horizontal">
                                 <Button Content=" + Добавить Доску" Margin="15" FontSize="15" HorizontalAlignment="Left" Style="{StaticResource BtnMain}" Click="AddBoardButton_Click"/>
                             </StackPanel>

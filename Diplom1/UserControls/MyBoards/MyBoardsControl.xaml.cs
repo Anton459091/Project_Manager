@@ -69,7 +69,7 @@ namespace Project_Manager.UserControls
 
             Border boardBorder = new Border
             {
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#f9f6f2")),
+                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#fafbfc")),
                 BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#646f77")),
                 BorderThickness = new Thickness(1),
                 CornerRadius = new CornerRadius(10),
